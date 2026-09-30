@@ -114,18 +114,18 @@ export default function ScientificMethod() {
     <div className="space-y-6 max-w-5xl mx-auto">
       <ScientificStatusBanner />
 
-      <div className="border-b border-white/5 pb-4">
+      <div className="border-b border-slate-200 pb-4">
         <div className="flex items-center gap-2">
-          <span className="px-2 py-0.5 rounded bg-blue-500/15 text-blue-300 font-mono text-[10px] font-bold border border-blue-500/30">
+          <span className="px-2 py-0.5 rounded bg-blue-50 text-blue-700 font-mono text-[10px] font-bold border border-blue-200">
             SCIENTIFIC WORKFLOW ARCHITECTURE
           </span>
-          <span className="text-xs text-slate-400 font-mono">11-STAGE PIPELINE</span>
+          <span className="text-xs text-slate-500 font-mono">11-STAGE PIPELINE</span>
         </div>
-        <h1 className="text-xl font-bold text-white tracking-wide mt-1 flex items-center gap-2">
-          <Compass className="w-5 h-5 text-blue-400" />
+        <h1 className="text-xl font-bold text-[#0B1F3A] tracking-wide mt-1 flex items-center gap-2">
+          <Compass className="w-5 h-5 text-blue-700" />
           How MEGHANVAYA Works — End-to-End Methodology
         </h1>
-        <p className="text-xs text-slate-400 mt-0.5">
+        <p className="text-xs text-slate-500 mt-0.5">
           Detailed scientific walkthrough from raw NWP ensemble ingestion to district-level probabilistic decision support
         </p>
       </div>
@@ -139,7 +139,7 @@ export default function ScientificMethod() {
             <div 
               key={idx} 
               className={`glass-panel rounded-xl border transition-all overflow-hidden ${
-                isOpen ? 'border-blue-500/40 bg-slate-900/80 shadow-lg' : 'border-white/10 hover:border-white/20'
+                isOpen ? 'border-blue-500/40 bg-white shadow-lg' : 'border-slate-200 hover:border-slate-300'
               }`}
             >
               {/* Stage Header */}
@@ -150,16 +150,16 @@ export default function ScientificMethod() {
                 <div className="flex items-center gap-3 min-w-0">
                   <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 border ${
                     isOpen 
-                      ? 'bg-blue-600/20 border-blue-500/40 text-blue-300' 
-                      : 'bg-black/40 border-white/10 text-slate-400'
+                      ? 'bg-blue-600/20 border-blue-500/40 text-blue-700' 
+                      : 'bg-slate-50 border-slate-200 text-slate-500'
                   }`}>
                     <Icon className="w-4 h-4" />
                   </div>
                   <div className="min-w-0">
-                    <span className="text-[10px] font-mono text-blue-400 font-semibold block uppercase">
+                    <span className="text-[10px] font-mono text-blue-700 font-semibold block uppercase">
                       STAGE {s.step} OF 11
                     </span>
-                    <h3 className="text-sm font-bold text-white truncate">{s.title}</h3>
+                    <h3 className="text-sm font-bold text-[#0B1F3A] truncate">{s.title}</h3>
                   </div>
                 </div>
 
@@ -167,34 +167,34 @@ export default function ScientificMethod() {
                   <span className="text-[10px] text-slate-500 font-mono hidden sm:inline">
                     {isOpen ? 'Collapse' : 'Expand Details'}
                   </span>
-                  {isOpen ? <ChevronDown className="w-4 h-4 text-blue-400" /> : <ChevronRight className="w-4 h-4 text-slate-500" />}
+                  {isOpen ? <ChevronDown className="w-4 h-4 text-blue-700" /> : <ChevronRight className="w-4 h-4 text-slate-500" />}
                 </div>
               </button>
 
               {/* Stage Expanded Details */}
               {isOpen && (
-                <div className="px-4 pb-4 pt-1 border-t border-white/5 space-y-3 text-xs">
+                <div className="px-4 pb-4 pt-1 border-t border-slate-200 space-y-3 text-xs">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
-                    <div className="p-3 rounded-lg bg-black/40 border border-white/5 space-y-1">
-                      <span className="text-[10px] font-mono uppercase font-bold text-slate-400 block">Input Data</span>
-                      <p className="text-slate-300 text-[11px] leading-relaxed">{s.input}</p>
+                    <div className="p-3 rounded-lg bg-slate-50 border border-slate-200 space-y-1">
+                      <span className="text-[10px] font-mono uppercase font-bold text-slate-500 block">Input Data</span>
+                      <p className="text-slate-600 text-[11px] leading-relaxed">{s.input}</p>
                     </div>
 
-                    <div className="p-3 rounded-lg bg-black/40 border border-white/5 space-y-1">
-                      <span className="text-[10px] font-mono uppercase font-bold text-blue-400 block">Process Algorithm</span>
-                      <p className="text-slate-300 text-[11px] leading-relaxed">{s.process}</p>
+                    <div className="p-3 rounded-lg bg-slate-50 border border-slate-200 space-y-1">
+                      <span className="text-[10px] font-mono uppercase font-bold text-blue-700 block">Process Algorithm</span>
+                      <p className="text-slate-600 text-[11px] leading-relaxed">{s.process}</p>
                     </div>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <div className="p-3 rounded-lg bg-black/40 border border-white/5 space-y-1">
-                      <span className="text-[10px] font-mono uppercase font-bold text-emerald-400 block">Output Product</span>
-                      <p className="text-slate-300 text-[11px] leading-relaxed">{s.output}</p>
+                    <div className="p-3 rounded-lg bg-slate-50 border border-slate-200 space-y-1">
+                      <span className="text-[10px] font-mono uppercase font-bold text-emerald-700 block">Output Product</span>
+                      <p className="text-slate-600 text-[11px] leading-relaxed">{s.output}</p>
                     </div>
 
-                    <div className="p-3 rounded-lg bg-blue-500/10 border border-blue-500/20 space-y-1">
-                      <span className="text-[10px] font-mono uppercase font-bold text-cyan-300 block">Why It Matters</span>
-                      <p className="text-slate-200 text-[11px] leading-relaxed font-medium">{s.whyItMatters}</p>
+                    <div className="p-3 rounded-lg bg-blue-50 border border-blue-200 space-y-1">
+                      <span className="text-[10px] font-mono uppercase font-bold text-blue-700 block">Why It Matters</span>
+                      <p className="text-slate-700 text-[11px] leading-relaxed font-medium">{s.whyItMatters}</p>
                     </div>
                   </div>
                 </div>

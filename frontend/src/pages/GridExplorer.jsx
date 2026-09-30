@@ -49,11 +49,11 @@ export default function GridExplorer() {
 
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-xl font-bold text-white tracking-wide flex items-center gap-2">
-            <Grid className="w-5 h-5 text-cyan-400" />
+          <h1 className="text-xl font-bold text-[#0B1F3A] tracking-wide flex items-center gap-2">
+            <Grid className="w-5 h-5 text-blue-600" />
             National 0.25° Geospatial Grid
           </h1>
-          <p className="text-xs text-slate-400 mt-0.5">
+          <p className="text-xs text-slate-500 mt-0.5">
             4,964 discrete grid cells co-registered with IMD ground truth observations across India
           </p>
         </div>
@@ -92,10 +92,10 @@ export default function GridExplorer() {
         />
       </div>
 
-      <div className="glass-panel p-5 rounded-xl border border-white/10 space-y-4 shadow-xl">
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 pb-3">
-          <h3 className="text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center gap-2">
-            <Activity className="w-4 h-4 text-cyan-400" />
+      <div className="glass-panel p-5 rounded-xl border border-slate-200 space-y-4 shadow-xl">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 pb-3">
+          <h3 className="text-xs font-bold uppercase tracking-wider text-slate-600 flex items-center gap-2">
+            <Activity className="w-4 h-4 text-blue-600" />
             Spatial Grid Cell Inspection (Subsampled View)
           </h3>
           <input 
@@ -103,13 +103,13 @@ export default function GridExplorer() {
             placeholder="Filter by state or district..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="bg-slate-900 border border-white/10 rounded-lg px-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500"
+            className="bg-white border border-slate-200 rounded-lg px-3 py-1.5 text-xs text-[#0B1F3A] placeholder-slate-500 focus:outline-none focus:border-cyan-500"
           />
         </div>
 
         <div className="overflow-x-auto max-h-[500px] overflow-y-auto custom-scrollbar">
-          <table className="w-full text-left text-xs text-slate-300">
-            <thead className="bg-white/5 text-[10px] uppercase font-mono text-slate-400 sticky top-0 backdrop-blur-md">
+          <table className="w-full text-left text-xs text-slate-600">
+            <thead className="bg-slate-50 text-[10px] uppercase font-mono text-slate-500 sticky top-0 ">
               <tr>
                 <th className="p-2.5">Coordinate</th>
                 <th className="p-2.5">Nearest District</th>
@@ -123,15 +123,15 @@ export default function GridExplorer() {
             </thead>
             <tbody className="divide-y divide-white/5 font-mono">
               {filtered.slice(0, 100).map((pt, i) => (
-                <tr key={i} className="hover:bg-white/5 transition-colors">
-                  <td className="p-2.5 text-slate-400">{pt.lat}°N, {pt.lon}°E</td>
-                  <td className="p-2.5 font-bold text-white">{pt.district}</td>
-                  <td className="p-2.5 text-slate-300">{pt.state}</td>
-                  <td className="p-2.5 text-right text-slate-300">{pt.raw} mm</td>
-                  <td className="p-2.5 text-right text-cyan-300 font-bold">{pt.calibrated} mm</td>
-                  <td className="p-2.5 text-right text-indigo-300">{pt.p90} mm</td>
-                  <td className="p-2.5 text-right text-amber-300">{Math.round(pt.pop * 100)}%</td>
-                  <td className="p-2.5 text-right text-emerald-400">{pt.observed} mm</td>
+                <tr key={i} className="hover:bg-slate-50 transition-colors">
+                  <td className="p-2.5 text-slate-500">{pt.lat}°N, {pt.lon}°E</td>
+                  <td className="p-2.5 font-bold text-[#0B1F3A]">{pt.district}</td>
+                  <td className="p-2.5 text-slate-600">{pt.state}</td>
+                  <td className="p-2.5 text-right text-slate-600">{pt.raw} mm</td>
+                  <td className="p-2.5 text-right text-blue-700 font-bold">{pt.calibrated} mm</td>
+                  <td className="p-2.5 text-right text-indigo-700">{pt.p90} mm</td>
+                  <td className="p-2.5 text-right text-amber-700">{Math.round(pt.pop * 100)}%</td>
+                  <td className="p-2.5 text-right text-emerald-700">{pt.observed} mm</td>
                 </tr>
               ))}
             </tbody>

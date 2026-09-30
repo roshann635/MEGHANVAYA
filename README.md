@@ -13,6 +13,8 @@ MEGHANVAYA is a national-scale meteorological decision-support platform designed
 
 ## 1. Core Architecture & Scientific Innovations
 
+> **⚠️ NOTE ON ML ARCHITECTURE:** The active scientific post-processing engine running this pilot is the **CSGD-EMOS + ECC** pipeline implemented in `scripts/true_emos_pipeline.py`. The files located in the `ml/` directory (e.g., XGBoost classifiers) represent the Phase 2 production roadmap and are currently placeholders/scaffolds not executing in the live pilot.
+
 1. **Soft Monsoon Weather Regime Gating:** Evaluates continuous logistic mixture weights ($w_{active}, w_{break}$) based on large-scale synoptic conditions, eliminating artificial hard boundary artifacts.
 2. **Censored Shifted Gamma (CSGD-EMOS):** Assigns explicit probability mass to zero rainfall ($P(Y=0) = F(\delta; k, \theta)$) via a left-censoring barrier at shift parameter $\delta$, preventing unphysical negative rainfall without arbitrary clipping.
 3. **Continuous Probability of Precipitation (PoP):** Direct CDF tail evaluation across standard IMD categories ($P \ge 2.5\text{ mm}$, $P \ge 15.6\text{ mm}$, $P \ge 64.5\text{ mm}$, $P \ge 115.6\text{ mm}$).

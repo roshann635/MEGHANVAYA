@@ -1,6 +1,8 @@
 # MODEL CARD: MEGHANVAYA POST-PROCESSING ENGINE
-**MEGHANVAYA — SIH 2026 | Problem Statement 26080**  
+**MEGHANVAYA — Problem Statement 26080**  
 **Audit Date:** September 30, 2026  
+
+> **Complete method inventory & architecture diagrams:** See [`MODEL_ARCHITECTURE_DEFINITIVE.md`](file:///d:/MEGHANVAYA/docs/MODEL_ARCHITECTURE_DEFINITIVE.md)
 
 ---
 

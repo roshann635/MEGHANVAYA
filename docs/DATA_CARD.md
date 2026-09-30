@@ -1,5 +1,5 @@
 # DATA CARD: MEGHANVAYA PILOT DATASET
-**MEGHANVAYA — SIH 2026 | Problem Statement 26080**  
+**MEGHANVAYA — Problem Statement 26080**  
 **Audit Date:** September 30, 2026  
 
 ---

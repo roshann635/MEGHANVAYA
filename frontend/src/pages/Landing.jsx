@@ -3,175 +3,324 @@ import { Link } from 'react-router-dom';
 import { 
   CloudRain, ShieldCheck, Compass, ArrowRight, Activity, 
   Wind, Layers, Percent, HelpCircle, AlertOctagon, Landmark, 
-  Database, GitBranch, Cpu, CheckCircle2, FlaskConical, AlertTriangle 
+  Database, GitBranch, Cpu, CheckCircle2, FlaskConical, AlertTriangle,
+  Lock, ExternalLink, BarChart3, MapPin, Users, KeyRound, PlayCircle
 } from 'lucide-react';
 
 export default function Landing() {
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-200 antialiased selection:bg-cyan-500 selection:text-slate-950 relative overflow-hidden">
-      {/* Background Ambient Lighting */}
-      <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-cyan-900/15 blur-[160px] pointer-events-none"></div>
-      <div className="absolute top-[20%] right-[-10%] w-[45%] h-[45%] rounded-full bg-blue-900/15 blur-[160px] pointer-events-none"></div>
-      <div className="absolute bottom-[-10%] left-[20%] w-[50%] h-[50%] rounded-full bg-indigo-900/15 blur-[160px] pointer-events-none"></div>
+    <div className="min-h-screen bg-[#FAF9F6] text-[#172B4D] antialiased selection:bg-blue-600 selection:text-white relative overflow-hidden">
+      
+      {/* ====== PAIMANA TOP GOVERNMENT BAR ====== */}
+      <div className="bg-[#0B1F3A] text-slate-300 text-[11px] px-6 py-2 flex items-center justify-between">
+        <div className="flex items-center gap-2 font-medium">
+          <span className="text-white font-semibold">IN</span>
+          <span className="text-slate-400">|</span>
+          <span>भारत सरकार | Government of India</span>
+          <span className="text-slate-500">•</span>
+          <span>Ministry of Earth Sciences (MoES) / India Meteorological Department (IMD)</span>
+        </div>
+        <div className="flex items-center gap-3">
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 text-[10px] font-bold">
+            <CheckCircle2 className="w-3 h-3" />
+            Verified Scientific Snapshot: June 2004 Pilot
+          </span>
+          <span className="text-slate-400 text-[10px] font-semibold">Operational Standards Ready</span>
+        </div>
+      </div>
 
-      {/* Top Navigation */}
-      <nav className="border-b border-white/5 bg-slate-950/70 backdrop-blur-md sticky top-0 z-50">
+      {/* ====== WHITE HEADER NAV BAR (PAIMANA-style) ====== */}
+      <nav className="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-cyan-600 to-blue-600 flex items-center justify-center border border-cyan-400/30 shadow-[0_0_12px_rgba(6,182,212,0.4)]">
-              <CloudRain className="w-4 h-4 text-white" />
+          <Link to="/" className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#0B1F3A] to-[#1e3a5f] flex items-center justify-center shadow-md">
+              <CloudRain className="w-5 h-5 text-white" />
             </div>
             <div>
-              <div className="font-bold text-white text-sm tracking-widest flex items-center gap-2">
+              <div className="font-extrabold text-[#0B1F3A] text-sm tracking-wide flex items-center gap-2">
                 MEGHANVAYA
-                <span className="text-[10px] px-1.5 py-0.2 rounded bg-cyan-500/20 text-cyan-300 font-mono border border-cyan-500/30">SIH 2026</span>
+                <span className="text-[9px] px-1.5 py-0.5 rounded bg-blue-50 text-blue-700 font-mono border border-blue-200 font-bold">DECISION SUPPORT</span>
               </div>
-              <div className="text-[10px] text-slate-400 font-medium">PS 26080 • Meteorological Decision Support</div>
+              <div className="text-[10px] text-slate-500 font-medium">REGIME-AWARE AI POST-PROCESSING PLATFORM • IMD / NCMRWF</div>
             </div>
+          </Link>
+
+          {/* Navigation Tabs */}
+          <div className="hidden lg:flex items-center gap-1">
+            {[
+              { label: 'Forecast Operations', to: '/forecast', icon: BarChart3 },
+              { label: 'Officer Outlook', to: '/outlook', icon: Landmark },
+              { label: 'Public Weather', to: '/general', icon: CloudRain },
+              { label: 'System Admin', to: '/admin', icon: ShieldCheck },
+              { label: 'Methodology', to: '/methodology' },
+              { label: 'Evaluation Demo', to: '/demo', icon: PlayCircle }
+            ].map(tab => (
+              <Link 
+                key={tab.label}
+                to={tab.to}
+                className="px-3 py-2 rounded-lg text-xs font-semibold text-slate-600 hover:text-[#0B1F3A] hover:bg-slate-50 transition-colors flex items-center gap-1"
+              >
+                {tab.icon && <tab.icon className="w-3.5 h-3.5 inline text-blue-600" />}
+                {tab.label}
+              </Link>
+            ))}
           </div>
 
-          <div className="flex items-center gap-4">
-            <Link 
-              to="/login"
-              className="text-xs font-semibold text-slate-300 hover:text-white transition-colors"
-            >
-              Sign In
-            </Link>
+          {/* Officer Sign In / Evaluation Access Button */}
+          <div className="flex items-center gap-2">
             <Link
-              to="/forecast"
-              className="flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-cyan-600 to-blue-600 hover:opacity-95 text-white font-bold text-xs tracking-wider shadow-[0_0_15px_rgba(6,182,212,0.3)] transition-all"
+              to="/login"
+              className="flex items-center gap-2 px-4 py-2 rounded-lg bg-[#0B1528] hover:bg-[#1e293b] text-white font-bold text-xs tracking-wide transition-all shadow-md"
             >
-              <span>ENTER FORECAST CENTRE</span>
-              <ArrowRight className="w-3.5 h-3.5" />
+              <Lock className="w-3.5 h-3.5" />
+              <span>Sign In / Select Role</span>
             </Link>
           </div>
         </div>
       </nav>
 
-      {/* Hero Section */}
-      <section className="pt-20 pb-16 px-6 max-w-5xl mx-auto text-center space-y-6">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-xs font-mono font-medium">
-          <FlaskConical className="w-3.5 h-3.5 text-cyan-400" />
-          <span>7-Cycle June 2004 Chronological Pilot Platform</span>
-        </div>
+      {/* ====== HERO SECTION (PAIMANA-style split layout) ====== */}
+      <section className="max-w-7xl mx-auto px-6 pt-10 pb-12">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+          {/* Left: Title + CTA */}
+          <div className="lg:col-span-7 space-y-5">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-blue-800 text-xs font-semibold">
+              <FlaskConical className="w-3.5 h-3.5 text-blue-600" />
+              <span>Empirical Post-Processing & Probabilistic Monsoon Early Warning</span>
+            </div>
 
-        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-[1.15]">
-          REGIME-AWARE AI POST-PROCESSING OF MONSOON RAINFALL FORECASTS
-        </h1>
+            <h1 className="text-3xl sm:text-4xl lg:text-[2.6rem] font-extrabold text-[#0B1F3A] tracking-tight leading-[1.18]">
+              Regime-Aware Probabilistic Post-Processing for India's Monsoon Rainfall Forecasting
+            </h1>
 
-        <p className="text-base sm:text-lg text-slate-300 max-w-3xl mx-auto leading-relaxed font-normal">
-          Numerical Weather Prediction (NWP) provides the essential physics-based foundation. 
-          <strong> MEGHANVAYA</strong> applies an empirical, regime-aware post-processing layer that corrects systematic bias, 
-          quantifies true predictive uncertainty, computes calibrated threshold exceedance probabilities, and delivers actionable district-level intelligence.
-        </p>
+            <p className="text-sm text-slate-600 leading-relaxed">
+              MEGHANVAYA post-processes existing Numerical Weather Prediction (NWP) ensemble forecasts using 
+              closed-form Censored Shifted Gamma EMOS (<strong className="text-[#0B1F3A]">CSGD-EMOS</strong>), 
+              weather-regime conditioning, and Ensemble Copula Coupling (<strong className="text-[#0B1F3A]">ECC</strong>). 
+              It corrects systematic biases, quantifies predictive uncertainty, computes tail exceedance probabilities, 
+              and translates 0.25° gridded forecasts into actionable district intelligence.
+            </p>
 
-        <div className="pt-4 flex flex-wrap justify-center gap-4">
-          <Link
-            to="/forecast"
-            className="flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 hover:opacity-95 text-white font-bold text-sm tracking-wider shadow-[0_0_20px_rgba(6,182,212,0.4)] transition-all"
-          >
-            <span>ENTER MISSION CONTROL</span>
-            <ArrowRight className="w-4 h-4" />
-          </Link>
-          <Link
-            to="/demo"
-            className="flex items-center gap-2 px-6 py-3 rounded-xl bg-white/5 hover:bg-white/10 text-slate-200 hover:text-white font-bold text-sm border border-white/10 transition-all"
-          >
-            <span>START JUDGE DEMO (3 MIN)</span>
-          </Link>
+            {/* Quick Role Navigation Grid */}
+            <div className="pt-2">
+              <div className="text-[11px] font-bold font-mono uppercase text-slate-400 tracking-wider mb-2">
+                SELECT ROLE-BASED WORKSPACE
+              </div>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+                <Link
+                  to="/admin"
+                  className="p-3 rounded-xl bg-white hover:bg-indigo-50/50 border border-slate-200 hover:border-indigo-300 shadow-sm transition-all group flex flex-col justify-between"
+                >
+                  <div className="flex items-center justify-between mb-1.5">
+                    <ShieldCheck className="w-4 h-4 text-indigo-600" />
+                    <span className="text-[9px] font-mono font-bold text-indigo-600 bg-indigo-50 px-1 py-0.5 rounded">ADMIN</span>
+                  </div>
+                  <div className="font-bold text-[#0B1F3A] group-hover:text-indigo-700 text-xs">Administrator</div>
+                  <div className="text-[10px] text-slate-500">System Command</div>
+                </Link>
+
+                <Link
+                  to="/forecast"
+                  className="p-3 rounded-xl bg-white hover:bg-blue-50/50 border border-slate-200 hover:border-blue-300 shadow-sm transition-all group flex flex-col justify-between"
+                >
+                  <div className="flex items-center justify-between mb-1.5">
+                    <Activity className="w-4 h-4 text-blue-600" />
+                    <span className="text-[9px] font-mono font-bold text-blue-600 bg-blue-50 px-1 py-0.5 rounded">SCIENTIFIC</span>
+                  </div>
+                  <div className="font-bold text-[#0B1F3A] group-hover:text-blue-700 text-xs">Meteorologist</div>
+                  <div className="text-[10px] text-slate-500">Forecast Centre</div>
+                </Link>
+
+                <Link
+                  to="/outlook"
+                  className="p-3 rounded-xl bg-white hover:bg-emerald-50/50 border border-slate-200 hover:border-emerald-300 shadow-sm transition-all group flex flex-col justify-between"
+                >
+                  <div className="flex items-center justify-between mb-1.5">
+                    <Landmark className="w-4 h-4 text-emerald-600" />
+                    <span className="text-[9px] font-mono font-bold text-emerald-600 bg-emerald-50 px-1 py-0.5 rounded">OFFICER</span>
+                  </div>
+                  <div className="font-bold text-[#0B1F3A] group-hover:text-emerald-700 text-xs">Govt Officer</div>
+                  <div className="text-[10px] text-slate-500">Decision Support</div>
+                </Link>
+
+                <Link
+                  to="/general"
+                  className="p-3 rounded-xl bg-white hover:bg-sky-50/50 border border-slate-200 hover:border-sky-300 shadow-sm transition-all group flex flex-col justify-between"
+                >
+                  <div className="flex items-center justify-between mb-1.5">
+                    <Users className="w-4 h-4 text-sky-600" />
+                    <span className="text-[9px] font-mono font-bold text-sky-600 bg-sky-50 px-1 py-0.5 rounded">PUBLIC</span>
+                  </div>
+                  <div className="font-bold text-[#0B1F3A] group-hover:text-sky-700 text-xs">General User</div>
+                  <div className="text-[10px] text-slate-500">Weather Guidance</div>
+                </Link>
+              </div>
+            </div>
+
+            {/* Primary Action Buttons */}
+            <div className="flex flex-wrap gap-3 pt-2">
+              <Link
+                to="/forecast"
+                className="flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[#0B1528] hover:bg-[#1e293b] text-white font-bold text-xs tracking-wide transition-all shadow-md"
+              >
+                <span>Enter Forecast Centre</span>
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+              <Link
+                to="/login"
+                className="flex items-center gap-2 px-5 py-2.5 rounded-lg bg-white hover:bg-slate-50 text-[#0B1F3A] font-bold text-xs border border-slate-300 transition-all shadow-sm"
+              >
+                <KeyRound className="w-3.5 h-3.5 text-blue-600" />
+                <span>1-Click Role Access</span>
+              </Link>
+              <Link
+                to="/demo"
+                className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-800 font-bold text-xs border border-blue-200 transition-all"
+              >
+                <PlayCircle className="w-3.5 h-3.5 text-blue-600" />
+                <span>Evaluation Tour (2-4 min)</span>
+              </Link>
+            </div>
+
+            {/* Trust Badges */}
+            <div className="flex flex-wrap items-center gap-4 pt-2 text-xs text-slate-500">
+              <span className="flex items-center gap-1.5">
+                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+                Chronological Pilot (34,748 Records)
+              </span>
+              <span className="flex items-center gap-1.5">
+                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+                20.04% Relative Brier Gain
+              </span>
+              <span className="flex items-center gap-1.5">
+                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+                74 Monitored Districts
+              </span>
+            </div>
+          </div>
+
+          {/* Right: Studio Showcase Card */}
+          <div className="lg:col-span-5 relative">
+            <div className="bg-white rounded-2xl overflow-hidden shadow-lg border border-slate-200">
+              {/* Preview Header with monitored stat */}
+              <div className="p-4 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700 text-[11px] font-bold">
+                  <Activity className="w-3 h-3 text-emerald-600" />
+                  Pilot Grid: 4,964 Co-located Cells
+                </span>
+                <span className="text-[10px] font-mono text-slate-400">JUNE 2004 BENCHMARK</span>
+              </div>
+
+              {/* Preview Content */}
+              <div className="p-5 space-y-4 text-xs">
+                <div className="p-3.5 rounded-xl bg-blue-50/60 border border-blue-100 space-y-1">
+                  <div className="text-[10px] font-bold font-mono uppercase text-blue-700">CORE STATISTICAL GAIN</div>
+                  <div className="text-2xl font-extrabold font-mono text-[#0B1F3A]">20.04%</div>
+                  <div className="text-slate-600 text-[11px]">
+                    Relative Brier-Score Improvement over native 5-member raw GEFS ensemble on locked chronological test cycles (June 6–7, 2004).
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-3 text-left">
+                  <div className="p-3 bg-slate-50 rounded-lg border border-slate-200">
+                    <div className="text-[10px] font-bold text-slate-400 font-mono uppercase">RAW NWP RMSE</div>
+                    <div className="text-base font-extrabold text-slate-700 font-mono">10.43 mm</div>
+                  </div>
+                  <div className="p-3 bg-emerald-50 rounded-lg border border-emerald-200">
+                    <div className="text-[10px] font-bold text-emerald-700 font-mono uppercase">ECC POST-PROCESSED</div>
+                    <div className="text-base font-extrabold text-emerald-800 font-mono">10.06 mm</div>
+                  </div>
+                </div>
+
+                <div className="pt-2 border-t border-slate-200 flex items-center justify-between text-[11px] text-slate-500">
+                  <span>Ensemble Members: c00, p01, p02, p03, p04</span>
+                  <Link to="/verification" className="text-blue-700 font-bold hover:underline">
+                    View Verification →
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* Honest Scientific Boundaries Banner */}
-      <section className="max-w-6xl mx-auto px-6 mb-16">
-        <div className="p-5 rounded-2xl bg-amber-500/10 border border-amber-500/30 backdrop-blur-md">
-          <div className="flex items-center gap-3 mb-2">
-            <AlertTriangle className="w-5 h-5 text-amber-400 shrink-0" />
-            <h3 className="text-xs font-bold uppercase tracking-wider text-amber-300">
+      {/* ====== OFFICIAL DATA SNAPSHOT BAR ====== */}
+      <section className="border-t border-slate-200 bg-white">
+        <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between text-xs">
+          <div className="flex items-center gap-2 text-slate-600 font-semibold">
+            <Database className="w-3.5 h-3.5 text-blue-600" />
+            <span className="uppercase tracking-wider">OFFICIAL PILOT SNAPSHOT · JUNE 2004 (7 CYCLES)</span>
+          </div>
+          <span className="text-slate-500 text-[11px]">Source: NOAA GEFSv12 Reforecast + IMD 0.25° Gridded Observations</span>
+        </div>
+      </section>
+
+      {/* ====== Honest Scientific Boundaries Banner ====== */}
+      <section className="max-w-7xl mx-auto px-6 py-8">
+        <div className="p-5 rounded-xl bg-amber-50 border border-amber-200 shadow-sm">
+          <div className="flex items-center gap-3 mb-3">
+            <div className="w-8 h-8 rounded-lg bg-amber-100 border border-amber-300 flex items-center justify-center">
+              <AlertTriangle className="w-4 h-4 text-amber-700" />
+            </div>
+            <h3 className="text-xs font-bold uppercase tracking-wider text-amber-800 font-mono">
               Evaluation Boundary & Honest Scientific Limitations
             </h3>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs text-slate-300 pt-2 border-t border-white/5">
-            <div>
-              <span className="font-semibold text-white block mb-0.5">Chronological Pilot Scope</span>
-              7 cycles (June 2–8, 2004). Train: June 2–4. Locked Out-of-Sample Test: June 6–7.
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs text-slate-700 pt-3 border-t border-amber-200">
+            <div className="p-3 bg-white rounded-lg border border-amber-100">
+              <span className="font-bold text-[#0B1F3A] block mb-0.5">Chronological Pilot Scope</span>
+              7 cycles (June 2–8, 2004). Train: June 2–4. Validation: June 5. Locked Out-of-Sample Test: June 6–7.
             </div>
-            <div>
-              <span className="font-semibold text-white block mb-0.5">Correlated Spatial Cells</span>
-              ~14,892 test grid points across India are spatially auto-correlated and not independent statistical cases.
+            <div className="p-3 bg-white rounded-lg border border-amber-100">
+              <span className="font-bold text-[#0B1F3A] block mb-0.5">Correlated Spatial Cells</span>
+              9,928 test grid points across India are spatially auto-correlated and not independent statistical cases (2 temporal cycles).
             </div>
-            <div>
-              <span className="font-semibold text-white block mb-0.5">Regime Conditioning</span>
+            <div className="p-3 bg-white rounded-lg border border-amber-100">
+              <span className="font-bold text-[#0B1F3A] block mb-0.5">Regime Conditioning</span>
               Pilot 2-regime model uses rainfall-derived transition with circularity risk; full synoptic clustering is planned for operational scaling.
             </div>
           </div>
         </div>
       </section>
 
-      {/* The Problem vs The Approach */}
-      <section className="max-w-6xl mx-auto px-6 py-12 space-y-12 border-t border-white/5">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
-          <div className="glass-panel p-6 rounded-2xl border border-white/10 space-y-4">
-            <span className="text-xs font-bold uppercase tracking-wider text-rose-400 font-mono">THE METEOROLOGICAL CHALLENGE</span>
-            <h2 className="text-xl font-bold text-white">Why Raw NWP Models Fail Extreme Monsoon Forecasts</h2>
-            <ul className="space-y-2.5 text-xs text-slate-300 leading-relaxed list-disc list-inside">
-              <li><strong>Topographic Distortion:</strong> Coarse NWP grid cells under-resolve steep Western Ghats orography, leading to severe localized rainfall displacement.</li>
-              <li><strong>Dry-Zone Wet Biases:</strong> Global ensembles frequently predict spurious light drizzle across peninsular rain-shadow zones.</li>
-              <li><strong>Uncalibrated Spread:</strong> Raw ensemble spread is consistently under-dispersive, failing to encapsulate true observational variance.</li>
-              <li><strong>Uncertainty Absence:</strong> Deterministic single-value forecasts provide zero probabilistic guidance for disaster mitigation.</li>
+      {/* ====== The Problem vs The Approach ====== */}
+      <section className="max-w-7xl mx-auto px-6 py-8 space-y-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+          <div className="p-6 rounded-xl bg-white border border-slate-200 shadow-sm space-y-4">
+            <span className="text-xs font-bold uppercase tracking-wider text-red-700 font-mono">THE METEOROLOGICAL CHALLENGE</span>
+            <h2 className="text-lg font-bold text-[#0B1F3A]">Why Raw NWP Models Require Post-Processing</h2>
+            <ul className="space-y-2.5 text-xs text-slate-600 leading-relaxed list-disc list-inside">
+              <li><strong className="text-[#0B1F3A]">Topographic Distortion:</strong> Coarse NWP grid cells under-resolve steep Western Ghats orography, leading to severe localized rainfall displacement.</li>
+              <li><strong className="text-[#0B1F3A]">Dry-Zone Wet Biases:</strong> Global ensembles frequently predict spurious light drizzle across peninsular rain-shadow zones.</li>
+              <li><strong className="text-[#0B1F3A]">Under-Dispersive Spread:</strong> Raw ensemble spread fails to encapsulate true observational variance.</li>
+              <li><strong className="text-[#0B1F3A]">Deterministic Limitations:</strong> Single-value forecasts lack calibrated exceedance probabilities needed for disaster response.</li>
             </ul>
           </div>
 
-          <div className="glass-panel p-6 rounded-2xl border border-cyan-500/20 space-y-4">
-            <span className="text-xs font-bold uppercase tracking-wider text-cyan-400 font-mono">THE MEGHANVAYA SOLUTION</span>
-            <h2 className="text-xl font-bold text-white">Regime-Aware CSGD-EMOS with Copula Rank Coupling</h2>
-            <ul className="space-y-2.5 text-xs text-slate-300 leading-relaxed list-disc list-inside">
-              <li><strong>Soft Regime Gating:</strong> Smooth transition across synoptic circulation regimes (Active vs Break) to dynamically condition statistical links.</li>
-              <li><strong>Censored Shifted Gamma (CSGD):</strong> Explicit point mass at zero precipitation without unphysical clipping or negative rainfall.</li>
-              <li><strong>True Predictive Intervals:</strong> Delivers 90% predictive intervals $[P_{10}, P_{90}]$ combining ensemble spread and parametric variance.</li>
-              <li><strong>Ensemble Copula Coupling (ECC):</strong> Restores raw multi-member rank correlation structures to preserve realistic storm fronts.</li>
+          <div className="p-6 rounded-xl bg-white border-2 border-blue-200 shadow-sm space-y-4">
+            <span className="text-xs font-bold uppercase tracking-wider text-blue-700 font-mono">THE MEGHANVAYA SOLUTION</span>
+            <h2 className="text-lg font-bold text-[#0B1F3A]">Regime-Aware CSGD-EMOS with Copula Rank Coupling</h2>
+            <ul className="space-y-2.5 text-xs text-slate-600 leading-relaxed list-disc list-inside">
+              <li><strong className="text-[#0B1F3A]">Soft Regime Gating:</strong> Smooth transition across synoptic circulation regimes (Active vs Break) to condition link functions.</li>
+              <li><strong className="text-[#0B1F3A]">Censored Shifted Gamma (CSGD):</strong> Explicit point mass at zero precipitation without clipping or negative rain.</li>
+              <li><strong className="text-[#0B1F3A]">True Predictive Intervals:</strong> Delivers 90% predictive intervals [P₁₀, P₉₀] combining ensemble spread and parametric variance.</li>
+              <li><strong className="text-[#0B1F3A]">Ensemble Copula Coupling (ECC):</strong> Restores raw multi-member rank correlation structures to preserve spatial storm fronts.</li>
             </ul>
           </div>
         </div>
       </section>
 
-      {/* Verified Benchmarks */}
-      <section className="max-w-6xl mx-auto px-6 py-12 border-t border-white/5 space-y-6 text-center">
-        <span className="text-xs font-bold uppercase tracking-widest text-emerald-400 font-mono">
-          OUT-OF-SAMPLE VERIFICATION BENCHMARKS (JUNE 6–7, 2004)
-        </span>
-        <h2 className="text-2xl font-bold text-white">Demonstrated Statistical Skill Gains</h2>
-
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-4 text-left">
-          <div className="glass-panel p-5 rounded-xl border border-white/10 space-y-1">
-            <div className="text-xs text-slate-400 uppercase font-mono font-bold">Relative Brier Improvement</div>
-            <div className="text-3xl font-extrabold font-mono text-emerald-400">20.04%</div>
-            <div className="text-[11px] text-slate-400 pt-1">Relative improvement in Brier score over native 5-member ensemble baseline (0.2351 → 0.1880)</div>
-          </div>
-          <div className="glass-panel p-5 rounded-xl border border-white/10 space-y-1">
-            <div className="text-xs text-slate-400 uppercase font-mono font-bold">Root Mean Squared Error (RMSE)</div>
-            <div className="text-3xl font-extrabold font-mono text-cyan-400">10.06 mm</div>
-            <div className="text-[11px] text-slate-400 pt-1">ECC reduced error from raw NWP 10.43 mm (-3.5% error reduction)</div>
-          </div>
-          <div className="glass-panel p-5 rounded-xl border border-white/10 space-y-1">
-            <div className="text-xs text-slate-400 uppercase font-mono font-bold">Spatial Grid Completeness</div>
-            <div className="text-3xl font-extrabold font-mono text-indigo-400">100.0%</div>
-            <div className="text-[11px] text-slate-400 pt-1">34,748 co-registered records across 4,964 cells without missing values</div>
-          </div>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="border-t border-white/5 bg-slate-950/80 py-8 px-6 text-xs text-slate-500">
+      {/* ====== Footer ====== */}
+      <footer className="border-t border-slate-200 bg-[#0B1F3A] py-8 px-6 text-xs text-slate-400">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
-            <span className="font-bold text-slate-400">MEGHANVAYA</span>
-            <span>•</span>
-            <span>SIH 2026 Problem Statement 26080</span>
-            <span>•</span>
-            <span>Research & Decision-Support Prototype</span>
+            <span className="font-bold text-white">MEGHANVAYA</span>
+            <span className="text-slate-500">•</span>
+            <span>Ministry of Earth Sciences / IMD Gridded Post-Processing</span>
+            <span className="text-slate-500">•</span>
+            <span>Research & Decision-Support Platform</span>
           </div>
-          <div className="text-[11px]">
+          <div className="text-[11px] text-slate-500">
             Official meteorological warnings remain under the statutory authority of authorized national agencies.
           </div>
         </div>

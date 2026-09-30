@@ -1,5 +1,5 @@
 # SCIENTIFIC FOUNDATIONS & LITERATURE POSITIONING
-**MEGHANVAYA — SIH 2026 | Problem Statement 26080**  
+**MEGHANVAYA — Problem Statement 26080**  
 **Audit Date:** September 30, 2026  
 
 ---
@@ -44,7 +44,7 @@ Statistical and machine-learning post-processing of Numerical Weather Prediction
 
 ## 3. Distinguishing Architecture vs. Current Pilot vs. Future Work
 
-To ensure absolute scientific honesty during SIH 2026 evaluation, the system clearly separates three tiers:
+To ensure absolute scientific honesty during SIH evaluation, the system clearly separates three tiers:
 
 ### A. Existing Research (What We Stand On)
 - Parametric EMOS (Gneiting et al., 2005)

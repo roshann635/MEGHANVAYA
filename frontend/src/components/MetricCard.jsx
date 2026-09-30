@@ -11,39 +11,41 @@ export default function MetricCard({
   variant = 'default' 
 }) {
   const borderColors = {
-    default: 'border-white/10 hover:border-blue-500/30',
-    blue: 'border-blue-500/30 bg-blue-500/5',
-    emerald: 'border-emerald-500/30 bg-emerald-500/5',
-    amber: 'border-amber-500/30 bg-amber-500/5',
-    rose: 'border-rose-500/30 bg-rose-500/5',
-    cyan: 'border-cyan-500/30 bg-cyan-500/5'
+    default: 'border-t-blue-600',
+    blue: 'border-t-blue-600',
+    emerald: 'border-t-emerald-600',
+    amber: 'border-t-amber-600',
+    rose: 'border-t-red-600',
+    cyan: 'border-t-sky-600',
+    indigo: 'border-t-indigo-600',
+    purple: 'border-t-purple-600'
   };
 
   return (
-    <div className={`glass-card p-4 rounded-xl border transition-all duration-300 ${borderColors[variant] || borderColors.default} relative overflow-hidden group`}>
+    <div className={`bg-white p-4 rounded-xl border border-slate-200 border-t-4 ${borderColors[variant] || borderColors.default} shadow-sm transition-all duration-300 hover:shadow-md relative overflow-hidden group`}>
       <div className="flex items-center justify-between mb-2">
-        <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 group-hover:text-slate-300 transition-colors">
+        <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500 group-hover:text-slate-700 transition-colors">
           {title}
         </span>
-        {Icon && <Icon className="w-4 h-4 text-slate-400 group-hover:text-blue-400 transition-colors" />}
+        {Icon && <Icon className="w-4 h-4 text-slate-400 group-hover:text-blue-600 transition-colors" />}
       </div>
 
       <div className="flex items-baseline gap-1.5 my-1">
-        <span className="text-2xl font-bold font-mono tracking-tight text-white">
+        <span className="text-2xl font-bold font-mono tracking-tight text-[#0B1F3A]">
           {value}
         </span>
-        {unit && <span className="text-xs font-medium text-slate-400 font-mono">{unit}</span>}
+        {unit && <span className="text-xs font-medium text-slate-500 font-mono">{unit}</span>}
       </div>
 
-      <div className="flex items-center justify-between mt-2 pt-2 border-t border-white/5 text-[11px]">
-        <span className="text-slate-400 truncate">{subtext}</span>
+      <div className="flex items-center justify-between mt-2 pt-2 border-t border-slate-100 text-[11px]">
+        <span className="text-slate-500 truncate">{subtext}</span>
         {badge && (
-          <span className="px-1.5 py-0.5 rounded text-[10px] font-mono font-medium bg-white/10 text-slate-300 shrink-0 ml-1">
+          <span className="px-1.5 py-0.5 rounded text-[10px] font-mono font-medium bg-slate-100 text-slate-600 shrink-0 ml-1">
             {badge}
           </span>
         )}
         {delta && (
-          <span className={`font-mono font-medium ${delta.startsWith('-') ? 'text-emerald-400' : 'text-blue-400'}`}>
+          <span className={`font-mono font-medium ${delta.startsWith('-') ? 'text-emerald-700' : 'text-blue-700'}`}>
             {delta}
           </span>
         )}

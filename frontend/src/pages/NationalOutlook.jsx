@@ -88,19 +88,19 @@ export default function NationalOutlook() {
       <ScientificStatusBanner />
 
       {/* Header Context Strip */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-white/5 pb-4">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-slate-200 pb-4">
         <div>
           <div className="flex items-center gap-2">
-            <span className="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-300 font-mono text-[10px] font-bold border border-emerald-500/30">
+            <span className="px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 font-mono text-[10px] font-bold border border-emerald-200">
               GOVERNMENT DECISION SUPPORT
             </span>
-            <span className="text-xs text-slate-400 font-mono">STATUTORY ADVISORY PROTOCOL</span>
+            <span className="text-xs text-slate-500 font-mono">STATUTORY ADVISORY PROTOCOL</span>
           </div>
-          <h1 className="text-xl font-bold text-white tracking-wide mt-1 flex items-center gap-2">
-            <Landmark className="w-5 h-5 text-emerald-400" />
+          <h1 className="text-xl font-bold text-[#0B1F3A] tracking-wide mt-1 flex items-center gap-2">
+            <Landmark className="w-5 h-5 text-emerald-700" />
             National Rainfall Outlook & Risk Guidance
           </h1>
-          <p className="text-xs text-slate-400 mt-0.5">
+          <p className="text-xs text-slate-500 mt-0.5">
             Operational priority screening for district administration, relief commissioners, and water resource authorities
           </p>
         </div>
@@ -108,9 +108,9 @@ export default function NationalOutlook() {
         <div className="flex items-center gap-3">
           <button
             onClick={exportCSV}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-slate-200 border border-white/10 text-xs font-semibold transition-all shadow-sm"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200 text-xs font-semibold transition-all shadow-sm"
           >
-            <Download className="w-3.5 h-3.5 text-emerald-400" />
+            <Download className="w-3.5 h-3.5 text-emerald-700" />
             <span>Export District Briefing (CSV)</span>
           </button>
         </div>
@@ -160,21 +160,21 @@ export default function NationalOutlook() {
       {/* Main Decision Layout: Risk Map + Priority Queue */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Left: India Risk Map */}
-        <div className="lg:col-span-5 glass-panel p-5 rounded-xl border border-white/10 flex flex-col h-[560px]">
-          <div className="flex items-center justify-between border-b border-white/10 pb-3 mb-3">
+        <div className="lg:col-span-5 glass-panel p-5 rounded-xl border border-slate-200 flex flex-col h-[560px]">
+          <div className="flex items-center justify-between border-b border-slate-200 pb-3 mb-3">
             <div>
-              <h3 className="text-xs font-bold uppercase tracking-wider text-slate-200 flex items-center gap-2">
-                <ShieldAlert className="w-4 h-4 text-emerald-400" />
+              <h3 className="text-xs font-bold uppercase tracking-wider text-slate-700 flex items-center gap-2">
+                <ShieldAlert className="w-4 h-4 text-emerald-700" />
                 Spatial Risk Footprint (Cycle: {activeCycle})
               </h3>
-              <p className="text-[10px] text-slate-400 mt-0.5">Continuous CSGD probability of precipitation exceedance</p>
+              <p className="text-[10px] text-slate-500 mt-0.5">Continuous CSGD probability of precipitation exceedance</p>
             </div>
-            <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-300 border border-emerald-500/20">
+            <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200">
               LEAD: 24h
             </span>
           </div>
 
-          <div className="flex-1 w-full min-h-0 rounded-lg overflow-hidden border border-white/5 relative">
+          <div className="flex-1 w-full min-h-0 rounded-lg overflow-hidden border border-slate-200 relative">
             <MapView 
               validTime={activeCycle}
               activeLayer="heavy_prob"
@@ -182,32 +182,32 @@ export default function NationalOutlook() {
             />
           </div>
 
-          <div className="mt-3 pt-3 border-t border-white/5 flex items-center justify-between text-[11px] text-slate-400">
+          <div className="mt-3 pt-3 border-t border-slate-200 flex items-center justify-between text-[11px] text-slate-500">
             <span>Color scale: Blue (&lt;20%) → Amber (20-50%) → Red (&gt;50%)</span>
             <span className="font-mono text-slate-500">Source: GEFSv12 5-M Reforecast</span>
           </div>
         </div>
 
         {/* Right: Priority Districts Action Queue */}
-        <div className="lg:col-span-7 glass-panel p-5 rounded-xl border border-white/10 flex flex-col h-[560px]">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-white/10 pb-3 mb-3 gap-2">
+        <div className="lg:col-span-7 glass-panel p-5 rounded-xl border border-slate-200 flex flex-col h-[560px]">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-slate-200 pb-3 mb-3 gap-2">
             <div>
-              <h3 className="text-xs font-bold uppercase tracking-wider text-slate-200 flex items-center gap-2">
-                <AlertTriangle className="w-4 h-4 text-amber-400" />
+              <h3 className="text-xs font-bold uppercase tracking-wider text-slate-700 flex items-center gap-2">
+                <AlertTriangle className="w-4 h-4 text-amber-700" />
                 Priority District Action Queue
               </h3>
-              <p className="text-[10px] text-slate-400">Ranked decision support for disaster relief deployment</p>
+              <p className="text-[10px] text-slate-500">Ranked decision support for disaster relief deployment</p>
             </div>
 
             {/* Sorting & Filter Controls */}
             <div className="flex items-center gap-2 text-xs">
-              <span className="text-[11px] text-slate-400 flex items-center gap-1">
+              <span className="text-[11px] text-slate-500 flex items-center gap-1">
                 <ArrowUpDown className="w-3 h-3" /> Sort:
               </span>
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="bg-black/40 border border-white/10 text-slate-200 text-xs rounded px-2 py-1 outline-none font-mono"
+                className="bg-slate-50 border border-slate-200 text-slate-700 text-xs rounded px-2 py-1 outline-none font-mono"
               >
                 <option value="heavy_prob">Highest P(Heavy ≥64.5mm)</option>
                 <option value="p90">Highest P90 Rainfall</option>
@@ -218,7 +218,7 @@ export default function NationalOutlook() {
           </div>
 
           {/* Operational Priority Table */}
-          <div className="flex-1 overflow-y-auto custom-scrollbar border border-white/5 rounded-lg bg-black/20">
+          <div className="flex-1 overflow-y-auto custom-scrollbar border border-slate-200 rounded-lg bg-slate-50/50">
             <table className="w-full text-left border-collapse gov-table">
               <thead>
                 <tr>
@@ -235,23 +235,23 @@ export default function NationalOutlook() {
                   const isHigh = (d.heavy_rain_prob || 0) >= 0.35;
                   const isMedium = (d.heavy_rain_prob || 0) >= 0.15;
                   return (
-                    <tr key={idx} className="hover:bg-white/5 transition-colors">
-                      <td className="text-center font-bold text-slate-400">{idx + 1}</td>
+                    <tr key={idx} className="hover:bg-slate-50 transition-colors">
+                      <td className="text-center font-bold text-slate-500">{idx + 1}</td>
                       <td>
-                        <div className="font-sans font-semibold text-white">{d.district}</div>
-                        <div className="text-[10px] text-slate-400 font-sans">{d.state}</div>
+                        <div className="font-sans font-semibold text-[#0B1F3A]">{d.district}</div>
+                        <div className="text-[10px] text-slate-500 font-sans">{d.state}</div>
                       </td>
-                      <td className="text-right text-slate-300 font-medium">
+                      <td className="text-right text-slate-600 font-medium">
                         {d.p50_rainfall} <span className="text-[10px] text-slate-500">mm</span>
                       </td>
-                      <td className="text-right text-cyan-300 font-bold">
+                      <td className="text-right text-blue-700 font-bold">
                         {d.p90_rainfall} <span className="text-[10px] text-slate-500">mm</span>
                       </td>
                       <td className="text-right font-bold">
                         <span className={`px-1.5 py-0.5 rounded text-[11px] ${
-                          isHigh ? 'bg-red-500/20 text-red-300 border border-red-500/30' :
-                          isMedium ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30' :
-                          'bg-emerald-500/10 text-emerald-400'
+                          isHigh ? 'bg-red-50 text-red-300 border border-red-200' :
+                          isMedium ? 'bg-amber-50 text-amber-700 border border-amber-200' :
+                          'bg-emerald-50 text-emerald-700'
                         }`}>
                           {(d.heavy_rain_prob * 100).toFixed(0)}%
                         </span>
@@ -259,10 +259,10 @@ export default function NationalOutlook() {
                       <td className="text-center">
                         <span className={`inline-block px-2 py-0.5 rounded text-[10px] font-bold tracking-wider ${
                           d.risk_guidance === 'WARNING' || isHigh
-                            ? 'bg-red-500/20 text-red-300 border border-red-500/40'
+                            ? 'bg-red-50 text-red-300 border border-red-500/40'
                             : d.risk_guidance === 'ALERT' || isMedium
-                            ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40'
-                            : 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
+                            ? 'bg-amber-50 text-amber-700 border border-amber-500/40'
+                            : 'bg-emerald-50 text-emerald-700 border border-emerald-200'
                         }`}>
                           {d.risk_guidance || (isHigh ? 'WARNING' : isMedium ? 'ALERT' : 'WATCH')}
                         </span>
@@ -275,9 +275,9 @@ export default function NationalOutlook() {
           </div>
 
           {/* Table Guidance Notice */}
-          <div className="mt-3 pt-2 border-t border-white/5 flex items-center justify-between text-[11px] text-slate-400">
+          <div className="mt-3 pt-2 border-t border-slate-200 flex items-center justify-between text-[11px] text-slate-500">
             <span>Showing top 15 priority districts for cycle {activeCycle}. Full pilot covers 74 monitored representative districts.</span>
-            <span className="font-semibold text-amber-400/90 flex items-center gap-1">
+            <span className="font-semibold text-amber-700/90 flex items-center gap-1">
               <CheckCircle className="w-3.5 h-3.5" /> Decision Support Only
             </span>
           </div>
@@ -285,39 +285,39 @@ export default function NationalOutlook() {
       </div>
 
       {/* Regional Briefing Summary Panel */}
-      <div className="glass-panel p-5 rounded-xl border border-white/10 space-y-4">
-        <h3 className="text-xs font-bold uppercase tracking-wider text-slate-200 border-b border-white/10 pb-3 flex items-center gap-2">
-          <Building2 className="w-4 h-4 text-emerald-400" />
+      <div className="glass-panel p-5 rounded-xl border border-slate-200 space-y-4">
+        <h3 className="text-xs font-bold uppercase tracking-wider text-slate-700 border-b border-slate-200 pb-3 flex items-center gap-2">
+          <Building2 className="w-4 h-4 text-emerald-700" />
           Synoptic Regional Vulnerability Synthesis
         </h3>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
-          <div className="p-3.5 rounded-lg bg-black/40 border border-white/5 space-y-1.5">
+          <div className="p-3.5 rounded-lg bg-slate-50 border border-slate-200 space-y-1.5">
             <div className="flex items-center justify-between">
-              <span className="font-bold text-white">Konkan & Goa Sub-Basin</span>
-              <span className="text-[10px] px-1.5 py-0.2 rounded bg-red-500/20 text-red-300 font-mono">ELEVATED</span>
+              <span className="font-bold text-[#0B1F3A]">Konkan & Goa Sub-Basin</span>
+              <span className="text-[10px] px-1.5 py-0.2 rounded bg-red-50 text-red-300 font-mono">ELEVATED</span>
             </div>
-            <p className="text-slate-300 text-[11px] leading-relaxed">
+            <p className="text-slate-600 text-[11px] leading-relaxed">
               Western Ghats orographic gating indicates intense coastal precipitation. Ratnagiri and Sindhudurg exhibit P90 exceedances up to 84.2 mm with 55% heavy rain probability.
             </p>
           </div>
 
-          <div className="p-3.5 rounded-lg bg-black/40 border border-white/5 space-y-1.5">
+          <div className="p-3.5 rounded-lg bg-slate-50 border border-slate-200 space-y-1.5">
             <div className="flex items-center justify-between">
-              <span className="font-bold text-white">Central India & Vidarbha</span>
-              <span className="text-[10px] px-1.5 py-0.2 rounded bg-amber-500/20 text-amber-300 font-mono">MODERATE</span>
+              <span className="font-bold text-[#0B1F3A]">Central India & Vidarbha</span>
+              <span className="text-[10px] px-1.5 py-0.2 rounded bg-amber-50 text-amber-700 font-mono">MODERATE</span>
             </div>
-            <p className="text-slate-300 text-[11px] leading-relaxed">
+            <p className="text-slate-600 text-[11px] leading-relaxed">
               Active monsoon trough propagation produces moderate widespread rainfall (P50: 12-25 mm). Heavy rain tail probability is concentrated in river basin headwaters.
             </p>
           </div>
 
-          <div className="p-3.5 rounded-lg bg-black/40 border border-white/5 space-y-1.5">
+          <div className="p-3.5 rounded-lg bg-slate-50 border border-slate-200 space-y-1.5">
             <div className="flex items-center justify-between">
-              <span className="font-bold text-white">Peninsular Rain-Shadow</span>
-              <span className="text-[10px] px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-300 font-mono">NORMAL</span>
+              <span className="font-bold text-[#0B1F3A]">Peninsular Rain-Shadow</span>
+              <span className="text-[10px] px-1.5 py-0.2 rounded bg-emerald-50 text-emerald-700 font-mono">NORMAL</span>
             </div>
-            <p className="text-slate-300 text-[11px] leading-relaxed">
+            <p className="text-slate-600 text-[11px] leading-relaxed">
               Interior Karnataka and Rayalaseema display strong break-conditioned zero-mass censoring with low precipitation probability (&lt;15%) and negligible flood hazard.
             </p>
           </div>

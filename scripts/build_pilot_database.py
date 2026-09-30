@@ -366,7 +366,7 @@ def run_complete_data_generation():
                 "mae": round(mae_emos, 2),
                 "bias": round(bias_emos, 2),
                 "brier_score": round(brier_emos, 4),
-                "brier_skill_score": round(bss, 4)
+                "relative_brier_improvement": round(bss, 4)
             },
             "ecc": {
                 "rmse": round(rmse_ecc, 2),

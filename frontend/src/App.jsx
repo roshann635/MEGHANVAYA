@@ -42,12 +42,13 @@ export default function App() {
       <BrowserRouter>
         <Routes>
           {/* Public Landing & Authentication */}
+          <Route path="/" element={<Landing />} />
           <Route path="/landing" element={<Landing />} />
           <Route path="/login" element={<Login />} />
 
           {/* Authenticated Workspace */}
           <Route element={<MainLayout />}>
-            <Route path="/" element={<Dashboard />} />
+            <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/forecast" element={<ForecastOperations />} />
             
             {/* Government Officer Experience */}
@@ -90,7 +91,7 @@ export default function App() {
             <Route path="/scalability" element={<ScalabilityRoadmap />} />
             <Route path="/impact" element={<ImpactPage />} />
             
-            {/* Guided Tour for SIH Evaluation */}
+            {/* Guided Tour for Evaluation Walkthrough */}
             <Route path="/demo" element={<JudgeDemo />} />
           </Route>
 

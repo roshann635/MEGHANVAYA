@@ -1,4 +1,4 @@
-﻿# MODEL STATUS REPORT
+# MODEL STATUS REPORT
 
 ## Status Dictionary
 - **Regime Classifier**: IMPLEMENTED (PENDING REAL DATA for fitting)

@@ -8,6 +8,9 @@ from fastapi.testclient import TestClient
 from backend.main import app
 
 client = TestClient(app)
+res = client.post("/api/v1/auth/login", data={"username": "admin@meghanvaya.in", "password": "demo123"})
+if res.status_code == 200:
+    client.headers.update({"Authorization": f"Bearer {res.json()['access_token']}"})
 
 # -------------------------------------------------------------
 # 1. Scientific & Mathematical Core Tests
@@ -164,14 +167,14 @@ def test_api_verification():
     data = res.json()
     assert data["dataset_scope"] == "7-Cycle June 2004 Chronological Pilot"
     assert "metrics_locked_2day" in data
-    assert data["metrics_locked_2day"]["csgd_emos"]["brier_skill_score"] > 0.15
+    assert data["metrics_locked_2day"]["csgd_emos"]["relative_brier_improvement"] > 0.15
 
 def test_api_reliability():
     res = client.get("/api/v1/forecasts/reliability")
     assert res.status_code == 200
     data = res.json()
     assert len(data["bins"]) == 5
-    assert data["brier_skill_score"] >= 0.20
+    assert data["relative_brier_improvement"] >= 0.20
 
 def test_api_provenance():
     res = client.get("/api/v1/forecasts/provenance/2004-06-06")

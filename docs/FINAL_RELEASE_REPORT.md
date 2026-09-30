@@ -1,5 +1,5 @@
 # FINAL RELEASE REPORT — MEGHANVAYA
-**SIH 2026 | Problem Statement 26080**  
+**Problem Statement 26080**  
 **Regime-Aware AI Post-Processing of Monsoon Rainfall Forecasts**  
 **Audit & Release Timestamp:** September 30, 2026  
 **Final Release Decision:** **READY FOR SIH EVALUATION WITH EXPLICIT PILOT LIMITATIONS**  

@@ -1,5 +1,5 @@
 # REST API SPECIFICATION
-**MEGHANVAYA — SIH 2026 | Problem Statement 26080**  
+**MEGHANVAYA — Problem Statement 26080**  
 **API Base URL:** `/api/v1`  
 **Protocol:** RESTful JSON  
 

@@ -1,4 +1,4 @@
-﻿# ABLATION REPORT
+# ABLATION REPORT
 
 ## Overall Status
 **PENDING REAL DATA**

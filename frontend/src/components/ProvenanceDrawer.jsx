@@ -27,22 +27,22 @@ export default function ProvenanceDrawer({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex justify-end bg-black/60 backdrop-blur-sm transition-all duration-300">
-      <div className="w-full max-w-md h-full bg-slate-900 border-l border-white/10 shadow-2xl flex flex-col overflow-hidden animate-in slide-in-from-right duration-300">
+    <div className="fixed inset-0 z-50 flex justify-end bg-black/30 backdrop-blur-sm transition-all duration-300">
+      <div className="w-full max-w-md h-full bg-white border-l border-slate-200 shadow-2xl flex flex-col overflow-hidden">
         {/* Drawer Header */}
-        <div className="p-5 border-b border-white/10 flex items-center justify-between bg-slate-950/60">
+        <div className="p-5 border-b border-slate-200 flex items-center justify-between bg-slate-50">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-blue-500/20 border border-blue-500/30 flex items-center justify-center">
-              <ShieldCheck className="w-4 h-4 text-blue-400" />
+            <div className="w-8 h-8 rounded-lg bg-blue-50 border border-blue-200 flex items-center justify-center">
+              <ShieldCheck className="w-4 h-4 text-blue-700" />
             </div>
             <div>
-              <h2 className="text-sm font-bold text-white tracking-wide">Forecast Lineage & Provenance</h2>
-              <span className="text-[10px] text-slate-400 font-mono">Traceability & Governance Audit</span>
+              <h2 className="text-sm font-bold text-[#0B1F3A] tracking-wide">Forecast Lineage & Provenance</h2>
+              <span className="text-[10px] text-slate-500 font-mono">Traceability & Governance Audit</span>
             </div>
           </div>
           <button 
             onClick={onClose}
-            className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition-colors"
+            className="p-1.5 rounded-lg text-slate-400 hover:text-slate-800 hover:bg-slate-100 transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
@@ -50,83 +50,83 @@ export default function ProvenanceDrawer({
 
         {/* Drawer Body */}
         <div className="flex-1 overflow-y-auto p-5 space-y-4 text-xs">
-          <div className="p-3 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-between">
-            <span className="text-slate-300 font-medium">Scientific Status</span>
-            <span className="px-2 py-0.5 rounded bg-blue-500/20 text-blue-300 font-mono font-bold text-[10px] border border-blue-500/30">
+          <div className="p-3 rounded-lg bg-blue-50 border border-blue-200 flex items-center justify-between">
+            <span className="text-slate-600 font-medium">Scientific Status</span>
+            <span className="px-2 py-0.5 rounded bg-blue-100 text-blue-800 font-mono font-bold text-[10px] border border-blue-200">
               {data.scientific_status}
             </span>
           </div>
 
           <div className="space-y-2.5">
-            <div className="p-3 rounded-lg bg-black/40 border border-white/5 space-y-2">
+            <div className="p-3 rounded-lg bg-slate-50 border border-slate-200 space-y-2">
               <div className="text-[10px] uppercase font-bold text-slate-500 tracking-wider flex items-center gap-1.5">
-                <FileCheck className="w-3.5 h-3.5 text-blue-400" />
+                <FileCheck className="w-3.5 h-3.5 text-blue-600" />
                 Forecast Identifiers
               </div>
-              <div className="flex justify-between py-1 border-b border-white/5">
-                <span className="text-slate-400">Forecast ID</span>
-                <span className="text-white font-mono font-medium">{data.forecast_id}</span>
+              <div className="flex justify-between py-1 border-b border-slate-100">
+                <span className="text-slate-500">Forecast ID</span>
+                <span className="text-[#0B1F3A] font-mono font-medium">{data.forecast_id}</span>
               </div>
-              <div className="flex justify-between py-1 border-b border-white/5">
-                <span className="text-slate-400">NWP Physics Source</span>
-                <span className="text-white font-mono">{data.nwp_source}</span>
+              <div className="flex justify-between py-1 border-b border-slate-100">
+                <span className="text-slate-500">NWP Physics Source</span>
+                <span className="text-[#0B1F3A] font-mono">{data.nwp_source}</span>
               </div>
               <div className="flex justify-between py-1">
-                <span className="text-slate-400">Ensemble Members</span>
-                <span className="text-cyan-300 font-mono">{data.ensemble_members}</span>
+                <span className="text-slate-500">Ensemble Members</span>
+                <span className="text-blue-700 font-mono">{data.ensemble_members}</span>
               </div>
             </div>
 
-            <div className="p-3 rounded-lg bg-black/40 border border-white/5 space-y-2">
+            <div className="p-3 rounded-lg bg-slate-50 border border-slate-200 space-y-2">
               <div className="text-[10px] uppercase font-bold text-slate-500 tracking-wider flex items-center gap-1.5">
-                <Clock className="w-3.5 h-3.5 text-emerald-400" />
+                <Clock className="w-3.5 h-3.5 text-emerald-600" />
                 Temporal Alignment
               </div>
-              <div className="flex justify-between py-1 border-b border-white/5">
-                <span className="text-slate-400">Issue Timestamp</span>
-                <span className="text-white font-mono">{data.issue_time}</span>
+              <div className="flex justify-between py-1 border-b border-slate-100">
+                <span className="text-slate-500">Issue Timestamp</span>
+                <span className="text-[#0B1F3A] font-mono">{data.issue_time}</span>
               </div>
-              <div className="flex justify-between py-1 border-b border-white/5">
-                <span className="text-slate-400">Valid Timestamp</span>
-                <span className="text-emerald-400 font-mono font-bold">{data.valid_time}</span>
+              <div className="flex justify-between py-1 border-b border-slate-100">
+                <span className="text-slate-500">Valid Timestamp</span>
+                <span className="text-emerald-700 font-mono font-bold">{data.valid_time}</span>
               </div>
               <div className="flex justify-between py-1">
-                <span className="text-slate-400">Lead Window</span>
-                <span className="text-white font-mono">{data.lead_time}</span>
+                <span className="text-slate-500">Lead Window</span>
+                <span className="text-[#0B1F3A] font-mono">{data.lead_time}</span>
               </div>
             </div>
 
-            <div className="p-3 rounded-lg bg-black/40 border border-white/5 space-y-2">
+            <div className="p-3 rounded-lg bg-slate-50 border border-slate-200 space-y-2">
               <div className="text-[10px] uppercase font-bold text-slate-500 tracking-wider flex items-center gap-1.5">
-                <Cpu className="w-3.5 h-3.5 text-indigo-400" />
+                <Cpu className="w-3.5 h-3.5 text-indigo-600" />
                 ML & Spatial Processing
               </div>
-              <div className="flex justify-between py-1 border-b border-white/5">
-                <span className="text-slate-400">Model Pipeline</span>
-                <span className="text-white font-mono font-medium">{data.model}</span>
+              <div className="flex justify-between py-1 border-b border-slate-100">
+                <span className="text-slate-500">Model Pipeline</span>
+                <span className="text-[#0B1F3A] font-mono font-medium">{data.model}</span>
               </div>
-              <div className="flex justify-between py-1 border-b border-white/5">
-                <span className="text-slate-400">Model Version</span>
-                <span className="text-indigo-300 font-mono">{data.model_version}</span>
+              <div className="flex justify-between py-1 border-b border-slate-100">
+                <span className="text-slate-500">Model Version</span>
+                <span className="text-indigo-700 font-mono">{data.model_version}</span>
               </div>
-              <div className="flex justify-between py-1 border-b border-white/5">
-                <span className="text-slate-400">Spatial Grid</span>
-                <span className="text-white font-mono text-[11px]">{data.grid}</span>
+              <div className="flex justify-between py-1 border-b border-slate-100">
+                <span className="text-slate-500">Spatial Grid</span>
+                <span className="text-[#0B1F3A] font-mono text-[11px]">{data.grid}</span>
               </div>
               <div className="flex justify-between py-1">
-                <span className="text-slate-400">Inference Latency</span>
-                <span className="text-emerald-400 font-mono">{data.inference_latency}</span>
+                <span className="text-slate-500">Inference Latency</span>
+                <span className="text-emerald-700 font-mono">{data.inference_latency}</span>
               </div>
             </div>
           </div>
         </div>
 
         {/* Drawer Footer */}
-        <div className="p-4 border-t border-white/10 bg-slate-950/80 flex justify-between items-center text-[11px] text-slate-400">
-          <span>Audit Tag: <span className="font-mono text-slate-300">ISO/IEC-25010</span></span>
+        <div className="p-4 border-t border-slate-200 bg-slate-50 flex justify-between items-center text-[11px] text-slate-500">
+          <span>Audit Tag: <span className="font-mono text-slate-700 font-semibold">ISO/IEC-25010</span></span>
           <button 
             onClick={onClose}
-            className="px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/15 text-white font-medium transition-colors"
+            className="px-3 py-1.5 rounded-lg bg-[#0B1528] hover:bg-[#1e293b] text-white font-medium transition-colors text-xs"
           >
             Close Provenance
           </button>

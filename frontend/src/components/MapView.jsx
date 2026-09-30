@@ -27,7 +27,7 @@ export default function MapView({ validTime, activeLayer = 'heavy_prob', legendT
 
     map.current = new maplibregl.Map({
       container: mapContainer.current,
-      style: 'https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json',
+      style: 'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json',
       center: [78.9629, 20.5937],
       zoom: 3.8,
       interactive: true
@@ -119,7 +119,7 @@ export default function MapView({ validTime, activeLayer = 'heavy_prob', legendT
     <div className="w-full h-full relative">
       <div ref={mapContainer} className="w-full h-full" />
       {loading && (
-        <div className="absolute inset-0 bg-slate-950/60 backdrop-blur-sm flex items-center justify-center text-xs font-mono text-teal-400">
+        <div className="absolute inset-0 bg-white/60  flex items-center justify-center text-xs font-mono text-blue-600">
           <span>Loading Spatial Surface...</span>
         </div>
       )}

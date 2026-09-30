@@ -51,14 +51,14 @@ export default function UncertaintyCentre() {
       <ScientificStatusBanner compact />
 
       {/* Strict Terminology Banner (Section 25, 57) */}
-      <div className="p-4 rounded-xl bg-blue-500/10 border border-blue-500/30 flex items-start gap-3">
-        <Info className="w-5 h-5 text-blue-400 shrink-0 mt-0.5" />
+      <div className="p-4 rounded-xl bg-blue-50 border border-blue-200 flex items-start gap-3">
+        <Info className="w-5 h-5 text-blue-700 shrink-0 mt-0.5" />
         <div className="text-xs space-y-1">
           <div className="flex items-center gap-2">
-            <span className="font-bold text-blue-300 uppercase tracking-wider">SCIENTIFIC TERMINOLOGY AUDIT COMPLIANCE</span>
-            <span className="px-1.5 py-0.2 rounded bg-blue-500/20 text-blue-300 font-mono text-[10px]">PREDICTIVE INTERVAL</span>
+            <span className="font-bold text-blue-700 uppercase tracking-wider">SCIENTIFIC TERMINOLOGY AUDIT COMPLIANCE</span>
+            <span className="px-1.5 py-0.2 rounded bg-blue-50 text-blue-700 font-mono text-[10px]">PREDICTIVE INTERVAL</span>
           </div>
-          <p className="text-slate-300 leading-relaxed">
+          <p className="text-slate-600 leading-relaxed">
             The platform explicitly reports <strong>90% PREDICTIVE INTERVALS</strong> $[P_{10}, P_{90}]$ rather than confidence intervals. 
             A predictive interval quantifies the uncertainty in a future real-world observable rainfall realization, integrating both ensemble spread and parametric stochastic variance.
           </p>
@@ -67,11 +67,11 @@ export default function UncertaintyCentre() {
 
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-xl font-bold text-white tracking-wide flex items-center gap-2">
-            <HelpCircle className="w-5 h-5 text-cyan-400" />
+          <h1 className="text-xl font-bold text-[#0B1F3A] tracking-wide flex items-center gap-2">
+            <HelpCircle className="w-5 h-5 text-blue-600" />
             Forecast Uncertainty & Predictive Intervals
           </h1>
-          <p className="text-xs text-slate-400 mt-0.5">
+          <p className="text-xs text-slate-500 mt-0.5">
             Parametric variance dispersion, ensemble spread calibration, and tail risk quantification
           </p>
         </div>
@@ -116,9 +116,9 @@ export default function UncertaintyCentre() {
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Uncertainty Histogram */}
-        <div className="lg:col-span-7 glass-panel p-5 rounded-xl border border-white/10 flex flex-col h-[400px]">
-          <h3 className="text-xs font-bold uppercase tracking-wider text-slate-300 border-b border-white/10 pb-3 mb-4 flex items-center gap-2">
-            <Activity className="w-4 h-4 text-cyan-400" />
+        <div className="lg:col-span-7 glass-panel p-5 rounded-xl border border-slate-200 flex flex-col h-[400px]">
+          <h3 className="text-xs font-bold uppercase tracking-wider text-slate-600 border-b border-slate-200 pb-3 mb-4 flex items-center gap-2">
+            <Activity className="w-4 h-4 text-blue-600" />
             Spatial Distribution of 90% Predictive Interval Widths
           </h3>
 
@@ -136,30 +136,30 @@ export default function UncertaintyCentre() {
         </div>
 
         {/* Operational Interpretation Guide */}
-        <div className="lg:col-span-5 glass-panel p-5 rounded-xl border border-white/10 flex flex-col justify-between space-y-4">
+        <div className="lg:col-span-5 glass-panel p-5 rounded-xl border border-slate-200 flex flex-col justify-between space-y-4">
           <div>
-            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-300 border-b border-white/10 pb-3 mb-3">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-600 border-b border-slate-200 pb-3 mb-3">
               Operational Decision Protocols Under Uncertainty
             </h3>
             
             <div className="space-y-3 text-xs">
-              <div className="p-3 rounded-lg bg-emerald-500/10 border border-emerald-500/20">
-                <span className="font-bold text-emerald-300 block mb-1">Narrow Predictive Interval (&lt; 10 mm)</span>
-                <p className="text-slate-300 text-[11px]">
+              <div className="p-3 rounded-lg bg-emerald-50 border border-emerald-200">
+                <span className="font-bold text-emerald-700 block mb-1">Narrow Predictive Interval (&lt; 10 mm)</span>
+                <p className="text-slate-600 text-[11px]">
                   High forecast confidence. Raw ensemble members agree closely and CSGD dispersion is tight. Suitable for precision irrigation planning and baseline municipal drainage.
                 </p>
               </div>
 
-              <div className="p-3 rounded-lg bg-amber-500/10 border border-amber-500/20">
-                <span className="font-bold text-amber-300 block mb-1">Moderate Interval (10 - 30 mm)</span>
-                <p className="text-slate-300 text-[11px]">
+              <div className="p-3 rounded-lg bg-amber-50 border border-amber-200">
+                <span className="font-bold text-amber-700 block mb-1">Moderate Interval (10 - 30 mm)</span>
+                <p className="text-slate-600 text-[11px]">
                   Typical synoptic monsoon spread. Convective trigger timing uncertain. Operators should monitor P90 for peak flood gate management while using P50 for expected inflow.
                 </p>
               </div>
 
-              <div className="p-3 rounded-lg bg-rose-500/10 border border-rose-500/20">
-                <span className="font-bold text-rose-300 block mb-1">Wide Interval (&gt; 30 mm)</span>
-                <p className="text-slate-300 text-[11px]">
+              <div className="p-3 rounded-lg bg-red-50 border border-red-200">
+                <span className="font-bold text-red-700 block mb-1">Wide Interval (&gt; 30 mm)</span>
+                <p className="text-slate-600 text-[11px]">
                   Bifurcation or vortex genesis scenario. Large ensemble variance. Emergency disaster response teams should pre-stage resources based on P95 extreme risk bounds.
                 </p>
               </div>

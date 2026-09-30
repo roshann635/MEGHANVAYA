@@ -58,25 +58,25 @@ export default function Admin() {
       <ScientificStatusBanner />
 
       {/* Top Header */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-white/5 pb-4">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-slate-200 pb-4">
         <div>
           <div className="flex items-center gap-2">
-            <span className="px-2 py-0.5 rounded bg-blue-500/15 text-blue-300 font-mono text-[10px] font-bold border border-blue-500/30">
+            <span className="px-2 py-0.5 rounded bg-blue-50 text-blue-700 font-mono text-[10px] font-bold border border-blue-200">
               SYSTEM COMMAND & GOVERNANCE
             </span>
-            <span className="text-xs text-slate-400 font-mono">INFRASTRUCTURE TELEMETRY</span>
+            <span className="text-xs text-slate-500 font-mono">INFRASTRUCTURE TELEMETRY</span>
           </div>
-          <h1 className="text-xl font-bold text-white tracking-wide mt-1 flex items-center gap-2">
-            <ShieldCheck className="w-5 h-5 text-blue-400" />
+          <h1 className="text-xl font-bold text-[#0B1F3A] tracking-wide mt-1 flex items-center gap-2">
+            <ShieldCheck className="w-5 h-5 text-blue-700" />
             System Command & Operational Administration
           </h1>
-          <p className="text-xs text-slate-400 mt-0.5">
+          <p className="text-xs text-slate-500 mt-0.5">
             Role-based access management, pipeline orchestration, model registry audit, and deployment telemetry
           </p>
         </div>
 
         <div className="flex items-center gap-2">
-          <span className="px-2.5 py-1 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-xs font-mono flex items-center gap-1.5">
+          <span className="px-2.5 py-1 rounded bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-mono flex items-center gap-1.5">
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
             CLUSTER STABLE
           </span>
@@ -85,44 +85,44 @@ export default function Admin() {
 
       {/* 5 Top Status Indicators (Requirement 7) */}
       <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 text-xs font-mono">
-        <div className="glass-panel p-3 rounded-lg border border-white/10 flex items-center justify-between">
+        <div className="glass-panel p-3 rounded-lg border border-slate-200 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Server className="w-4 h-4 text-emerald-400" />
-            <span className="text-slate-400">API</span>
+            <Server className="w-4 h-4 text-emerald-700" />
+            <span className="text-slate-500">API</span>
           </div>
-          <span className="text-emerald-300 font-bold">READY (8000)</span>
+          <span className="text-emerald-700 font-bold">READY (8000)</span>
         </div>
 
-        <div className="glass-panel p-3 rounded-lg border border-white/10 flex items-center justify-between">
+        <div className="glass-panel p-3 rounded-lg border border-slate-200 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Database className="w-4 h-4 text-cyan-400" />
-            <span className="text-slate-400">DATABASE</span>
+            <Database className="w-4 h-4 text-blue-600" />
+            <span className="text-slate-500">DATABASE</span>
           </div>
-          <span className="text-cyan-300 font-bold">SQLITE/PG</span>
+          <span className="text-blue-700 font-bold">SQLITE/PG</span>
         </div>
 
-        <div className="glass-panel p-3 rounded-lg border border-white/10 flex items-center justify-between">
+        <div className="glass-panel p-3 rounded-lg border border-slate-200 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Activity className="w-4 h-4 text-purple-400" />
-            <span className="text-slate-400">MODEL</span>
+            <Activity className="w-4 h-4 text-purple-700" />
+            <span className="text-slate-500">MODEL</span>
           </div>
-          <span className="text-purple-300 font-bold">CONVERGED</span>
+          <span className="text-purple-700 font-bold">CONVERGED</span>
         </div>
 
-        <div className="glass-panel p-3 rounded-lg border border-white/10 flex items-center justify-between">
+        <div className="glass-panel p-3 rounded-lg border border-slate-200 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <FileCheck className="w-4 h-4 text-amber-400" />
-            <span className="text-slate-400">DATA</span>
+            <FileCheck className="w-4 h-4 text-amber-700" />
+            <span className="text-slate-500">DATA</span>
           </div>
-          <span className="text-amber-300 font-bold">34,748 RECS</span>
+          <span className="text-amber-700 font-bold">34,748 RECS</span>
         </div>
 
-        <div className="glass-panel p-3 rounded-lg border border-white/10 flex items-center justify-between col-span-2 sm:col-span-1">
+        <div className="glass-panel p-3 rounded-lg border border-slate-200 flex items-center justify-between col-span-2 sm:col-span-1">
           <div className="flex items-center gap-2">
-            <HardDrive className="w-4 h-4 text-blue-400" />
-            <span className="text-slate-400">STORAGE</span>
+            <HardDrive className="w-4 h-4 text-blue-700" />
+            <span className="text-slate-500">STORAGE</span>
           </div>
-          <span className="text-blue-300 font-bold">PARQUET</span>
+          <span className="text-blue-700 font-bold">PARQUET</span>
         </div>
       </div>
 
@@ -159,21 +159,21 @@ export default function Admin() {
       </div>
 
       {/* Authorized Identities Management Table */}
-      <div className="glass-panel p-5 rounded-xl border border-white/10 space-y-4">
-        <div className="flex items-center justify-between border-b border-white/10 pb-3">
+      <div className="glass-panel p-5 rounded-xl border border-slate-200 space-y-4">
+        <div className="flex items-center justify-between border-b border-slate-200 pb-3">
           <div>
-            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-200 flex items-center gap-2">
-              <Users className="w-4 h-4 text-blue-400" />
+            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-700 flex items-center gap-2">
+              <Users className="w-4 h-4 text-blue-700" />
               Role-Based Access Control (RBAC) & Identities
             </h3>
-            <p className="text-[10px] text-slate-400">Configured evaluation credentials with cryptographic token signing</p>
+            <p className="text-[10px] text-slate-500">Configured evaluation credentials with cryptographic token signing</p>
           </div>
-          <span className="text-[10px] font-mono text-slate-400 px-2 py-0.5 rounded bg-white/5 border border-white/5">
+          <span className="text-[10px] font-mono text-slate-500 px-2 py-0.5 rounded bg-slate-50 border border-slate-200">
             JWT EXPIRE: 1440m
           </span>
         </div>
 
-        <div className="overflow-x-auto border border-white/5 rounded-lg bg-black/20">
+        <div className="overflow-x-auto border border-slate-200 rounded-lg bg-slate-50/50">
           <table className="w-full text-left border-collapse gov-table">
             <thead>
               <tr>
@@ -186,29 +186,29 @@ export default function Admin() {
             </thead>
             <tbody className="divide-y divide-white/5 text-xs font-mono">
               {usersList.map((u, idx) => (
-                <tr key={idx} className="hover:bg-white/5 transition-colors">
+                <tr key={idx} className="hover:bg-slate-50 transition-colors">
                   <td>
-                    <div className="font-sans font-semibold text-white">{u.name}</div>
-                    <div className="text-[10px] text-slate-400 font-mono">{u.email}</div>
+                    <div className="font-sans font-semibold text-[#0B1F3A]">{u.name}</div>
+                    <div className="text-[10px] text-slate-500 font-mono">{u.email}</div>
                   </td>
                   <td>
                     <span className={`inline-block px-2 py-0.5 rounded text-[10px] font-bold ${
-                      u.role === 'ADMIN' ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/30' :
-                      u.role === 'METEOROLOGIST' ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/30' :
-                      u.role === 'GOVT_OFFICER' ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30' :
-                      'bg-slate-500/20 text-slate-300 border border-slate-500/30'
+                      u.role === 'ADMIN' ? 'bg-indigo-50 text-indigo-700 border border-indigo-200' :
+                      u.role === 'METEOROLOGIST' ? 'bg-blue-50 text-blue-700 border border-blue-200' :
+                      u.role === 'GOVT_OFFICER' ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' :
+                      'bg-slate-500/20 text-slate-600 border border-slate-500/30'
                     }`}>
                       {u.role}
                     </span>
                   </td>
-                  <td className="text-slate-300 font-sans text-[11px]">{u.tier}</td>
+                  <td className="text-slate-600 font-sans text-[11px]">{u.tier}</td>
                   <td>
-                    <span className="flex items-center gap-1.5 text-emerald-400 text-[11px]">
+                    <span className="flex items-center gap-1.5 text-emerald-700 text-[11px]">
                       <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
                       {u.status}
                     </span>
                   </td>
-                  <td className="text-slate-400 text-[11px] font-sans">{u.lastLogin}</td>
+                  <td className="text-slate-500 text-[11px] font-sans">{u.lastLogin}</td>
                 </tr>
               ))}
             </tbody>
@@ -219,52 +219,52 @@ export default function Admin() {
       {/* Split Panels: Model Governance + System Audit Telemetry */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Model Governance */}
-        <div className="lg:col-span-6 glass-panel p-5 rounded-xl border border-white/10 space-y-3">
-          <h3 className="text-xs font-bold uppercase tracking-wider text-slate-200 border-b border-white/5 pb-3 flex items-center gap-2">
-            <GitBranch className="w-4 h-4 text-purple-400" />
+        <div className="lg:col-span-6 glass-panel p-5 rounded-xl border border-slate-200 space-y-3">
+          <h3 className="text-xs font-bold uppercase tracking-wider text-slate-700 border-b border-slate-200 pb-3 flex items-center gap-2">
+            <GitBranch className="w-4 h-4 text-purple-700" />
             Model Registry & Governance
           </h3>
 
           <div className="space-y-2.5 text-xs font-mono">
-            <div className="p-2.5 rounded bg-black/40 border border-white/5 flex justify-between">
-              <span className="text-slate-400 font-sans">Active Checkpoint:</span>
-              <span className="text-purple-300 font-bold">meghanvaya-csgd-emos-v1.parquet</span>
+            <div className="p-2.5 rounded bg-slate-50 border border-slate-200 flex justify-between">
+              <span className="text-slate-500 font-sans">Active Checkpoint:</span>
+              <span className="text-purple-700 font-bold">meghanvaya-csgd-emos-v1.parquet</span>
             </div>
-            <div className="p-2.5 rounded bg-black/40 border border-white/5 flex justify-between">
-              <span className="text-slate-400 font-sans">Optimization Objective:</span>
-              <span className="text-slate-200">Negative Log-Likelihood (NLL)</span>
+            <div className="p-2.5 rounded bg-slate-50 border border-slate-200 flex justify-between">
+              <span className="text-slate-500 font-sans">Optimization Objective:</span>
+              <span className="text-slate-700">Negative Log-Likelihood (NLL)</span>
             </div>
-            <div className="p-2.5 rounded bg-black/40 border border-white/5 flex justify-between">
-              <span className="text-slate-400 font-sans">Parameter Constraints:</span>
-              <span className="text-emerald-400">Strictly Positive Variance ($\sigma^2 &gt; 0$)</span>
+            <div className="p-2.5 rounded bg-slate-50 border border-slate-200 flex justify-between">
+              <span className="text-slate-500 font-sans">Parameter Constraints:</span>
+              <span className="text-emerald-700">Strictly Positive Variance ($\sigma^2 &gt; 0$)</span>
             </div>
-            <div className="p-2.5 rounded bg-black/40 border border-white/5 flex justify-between">
-              <span className="text-slate-400 font-sans">Coupling Engine:</span>
-              <span className="text-cyan-400">ECC-Q (Schefzik et al., 2013)</span>
+            <div className="p-2.5 rounded bg-slate-50 border border-slate-200 flex justify-between">
+              <span className="text-slate-500 font-sans">Coupling Engine:</span>
+              <span className="text-blue-600">ECC-Q (Schefzik et al., 2013)</span>
             </div>
           </div>
         </div>
 
         {/* System Activity & Security Logs */}
-        <div className="lg:col-span-6 glass-panel p-5 rounded-xl border border-white/10 space-y-3">
-          <h3 className="text-xs font-bold uppercase tracking-wider text-slate-200 border-b border-white/5 pb-3 flex items-center gap-2">
-            <Terminal className="w-4 h-4 text-emerald-400" />
+        <div className="lg:col-span-6 glass-panel p-5 rounded-xl border border-slate-200 space-y-3">
+          <h3 className="text-xs font-bold uppercase tracking-wider text-slate-700 border-b border-slate-200 pb-3 flex items-center gap-2">
+            <Terminal className="w-4 h-4 text-emerald-700" />
             Audit Log Telemetry
           </h3>
 
           <div className="space-y-2 text-xs font-mono">
             {recentLogs.map((log, idx) => (
-              <div key={idx} className="p-2 rounded bg-black/40 border border-white/5 flex items-start gap-2 text-[11px]">
+              <div key={idx} className="p-2 rounded bg-slate-50 border border-slate-200 flex items-start gap-2 text-[11px]">
                 <span className="text-slate-500 shrink-0">{log.time}</span>
                 <span className={`px-1 py-0.2 rounded text-[9px] font-bold shrink-0 ${
-                  log.level === 'AUDIT' ? 'bg-emerald-500/20 text-emerald-300' :
-                  log.level === 'SYSTEM' ? 'bg-cyan-500/20 text-cyan-300' :
-                  log.level === 'DATA' ? 'bg-amber-500/20 text-amber-300' :
-                  'bg-white/5 text-slate-400'
+                  log.level === 'AUDIT' ? 'bg-emerald-50 text-emerald-700' :
+                  log.level === 'SYSTEM' ? 'bg-blue-50 text-blue-700' :
+                  log.level === 'DATA' ? 'bg-amber-50 text-amber-700' :
+                  'bg-slate-50 text-slate-500'
                 }`}>
                   {log.level}
                 </span>
-                <span className="text-slate-300 font-sans truncate">{log.event}</span>
+                <span className="text-slate-600 font-sans truncate">{log.event}</span>
               </div>
             ))}
           </div>

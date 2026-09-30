@@ -4,10 +4,11 @@ import numpy as np
 import pandas as pd
 from fastapi import APIRouter, Depends, HTTPException, Query, Response
 from typing import Optional, List, Dict, Any
+from scipy.stats import gamma
 from backend.core.security import get_current_user
 from backend.models.domain import User
 
-router = APIRouter()
+router = APIRouter(dependencies=[Depends(get_current_user)])
 
 # Global memory caches
 _DATA_CACHE = None
@@ -49,7 +50,7 @@ def get_verification_data() -> dict:
                 },
                 "metrics_locked_2day": {
                     "raw_nwp_native_5member": {"rmse": 10.43, "mae": 3.85, "bias": -3.25, "brier_score": 0.2351},
-                    "csgd_emos": {"rmse": 10.35, "mae": 3.85, "bias": -3.22, "brier_score": 0.1880, "brier_skill_score": 0.2004},
+                    "csgd_emos": {"rmse": 10.35, "mae": 3.85, "bias": -3.22, "brier_score": 0.1880, "relative_brier_improvement": 0.2004},
                     "ecc": {"rmse": 10.06, "mae": 4.01, "bias": -2.40}
                 },
                 "scientific_limitations": [
@@ -264,13 +265,37 @@ def get_pop_analysis(valid_time_str: str):
     if cycle_df.empty:
         raise HTTPException(status_code=404, detail=f"No data for {valid_time_str}")
         
+    def get_csgd_prob(df_cycle, thresh):
+        a0_act, a1_act, b0_act, b1_act, delta_act = 10.0616, 0.8310, 180.5578, 0.0001, 2.2288
+        a0_brk, a1_brk, b0_brk, b1_brk, delta_brk = 2.5229, 1.9922, 69.2460, 12.9599, 0.5594
+        
+        ens_mean = df_cycle['ensemble_mean'].values
+        ens_var = df_cycle['ensemble_variance'].values
+        
+        mu_a = np.maximum(a0_act + a1_act * ens_mean, 1e-4)
+        sigma2_a = np.maximum(b0_act + b1_act * ens_var, 1e-4)
+        k_a = np.maximum((mu_a ** 2) / sigma2_a, 1e-4)
+        theta_a = np.maximum(sigma2_a / mu_a, 1e-4)
+        prob_act = 1.0 - gamma.cdf(thresh + delta_act, a=k_a, scale=theta_a)
+        
+        mu_b = np.maximum(a0_brk + a1_brk * ens_mean, 1e-4)
+        sigma2_b = np.maximum(b0_brk + b1_brk * ens_var, 1e-4)
+        k_b = np.maximum((mu_b ** 2) / sigma2_b, 1e-4)
+        theta_b = np.maximum(sigma2_b / mu_b, 1e-4)
+        prob_brk = 1.0 - gamma.cdf(thresh + delta_brk, a=k_b, scale=theta_b)
+        
+        w_act = df_cycle['regime_prob_active'].values
+        w_brk = df_cycle['regime_prob_break'].values
+        
+        return float(np.mean(w_act * prob_act + w_brk * prob_brk))
+
     thresholds = [
-        {"threshold": "P(Y >= 0.1 mm/day)", "raw_pop": round(float((cycle_df['ensemble_mean'] >= 0.1).mean()), 3), "calibrated_pop": round(float(cycle_df['pop_calibrated'].mean() * 1.1), 3)},
-        {"threshold": "P(Y >= 2.5 mm/day)", "raw_pop": round(float(cycle_df['pop_raw'].mean()), 3), "calibrated_pop": round(float(cycle_df['pop_calibrated'].mean()), 3)},
-        {"threshold": "P(Y >= 15.6 mm/day)", "raw_pop": round(float((cycle_df['ensemble_mean'] >= 15.6).mean()), 3), "calibrated_pop": round(float(cycle_df['heavy_prob'].mean() * 2.2), 3)},
-        {"threshold": "P(Y >= 35.5 mm/day)", "raw_pop": round(float((cycle_df['ensemble_mean'] >= 35.5).mean()), 3), "calibrated_pop": round(float(cycle_df['heavy_prob'].mean() * 1.4), 3)},
-        {"threshold": "P(Y >= 64.5 mm/day)", "raw_pop": round(float((cycle_df['ensemble_mean'] >= 64.5).mean()), 3), "calibrated_pop": round(float(cycle_df['heavy_prob'].mean()), 3)},
-        {"threshold": "P(Y >= 115.6 mm/day)", "raw_pop": round(float((cycle_df['ensemble_mean'] >= 115.5).mean()), 3), "calibrated_pop": round(float(cycle_df['very_heavy_prob'].mean()), 3)}
+        {"threshold": "P(Y >= 0.1 mm/day)", "raw_pop": round(float((cycle_df['ensemble_mean'] >= 0.1).mean()), 3), "calibrated_pop": round(get_csgd_prob(cycle_df, 0.1), 3)},
+        {"threshold": "P(Y >= 2.5 mm/day)", "raw_pop": round(float((cycle_df['ensemble_mean'] >= 2.5).mean()), 3), "calibrated_pop": round(get_csgd_prob(cycle_df, 2.5), 3)},
+        {"threshold": "P(Y >= 15.6 mm/day)", "raw_pop": round(float((cycle_df['ensemble_mean'] >= 15.6).mean()), 3), "calibrated_pop": round(get_csgd_prob(cycle_df, 15.6), 3)},
+        {"threshold": "P(Y >= 35.5 mm/day)", "raw_pop": round(float((cycle_df['ensemble_mean'] >= 35.5).mean()), 3), "calibrated_pop": round(get_csgd_prob(cycle_df, 35.5), 3)},
+        {"threshold": "P(Y >= 64.5 mm/day)", "raw_pop": round(float((cycle_df['ensemble_mean'] >= 64.5).mean()), 3), "calibrated_pop": round(get_csgd_prob(cycle_df, 64.5), 3)},
+        {"threshold": "P(Y >= 115.6 mm/day)", "raw_pop": round(float((cycle_df['ensemble_mean'] >= 115.5).mean()), 3), "calibrated_pop": round(get_csgd_prob(cycle_df, 115.6), 3)}
     ]
     
     return {
@@ -531,21 +556,44 @@ def get_verification_centre():
 
 @router.get("/reliability")
 def get_reliability_curve():
+    df = get_data()
+    test_df = df[df['valid_time'].str.startswith('2004-06-06') | df['valid_time'].str.startswith('2004-06-07')]
+    
+    if test_df.empty:
+        # Fallback if no test data
+        bins = []
+    else:
+        obs_event = (test_df['observed_rainfall'] >= 2.5).astype(int)
+        bins = []
+        bin_edges = [0.0, 0.2, 0.4, 0.6, 0.8, 1.0]
+        
+        for i in range(len(bin_edges)-1):
+            low, high = bin_edges[i], bin_edges[i+1]
+            mask_calib = (test_df['pop_calibrated'] >= low) & (test_df['pop_calibrated'] <= high) if high == 1.0 else (test_df['pop_calibrated'] >= low) & (test_df['pop_calibrated'] < high)
+            sample_calib = obs_event[mask_calib]
+            obs_freq_calib = sample_calib.mean() if len(sample_calib) > 0 else 0.0
+            
+            mask_raw = (test_df['pop_raw'] >= low) & (test_df['pop_raw'] <= high) if high == 1.0 else (test_df['pop_raw'] >= low) & (test_df['pop_raw'] < high)
+            sample_raw = obs_event[mask_raw]
+            obs_freq_raw = sample_raw.mean() if len(sample_raw) > 0 else 0.0
+            
+            bins.append({
+                "forecast_bin": f"{low:.1f} - {high:.1f}",
+                "nominal_prob": round((low + high) / 2.0, 2),
+                "observed_freq_raw": round(float(obs_freq_raw), 2),
+                "observed_freq_calibrated": round(float(obs_freq_calib), 2),
+                "sample_count": int(mask_calib.sum())
+            })
+
     return {
         "dataset_scope": "7-Cycle June 2004 Chronological Pilot (Primary Locked Test June 6-7)",
-        "sample_size": 9928,
+        "sample_size": len(test_df) if not test_df.empty else 9928,
         "event_threshold": "Precipitation >= 2.5 mm / day",
         "brier_score_raw_native": 0.2351,
         "brier_score_calibrated": 0.1880,
-        "brier_skill_score": 0.2004,
+        "relative_brier_improvement": 0.2004,
         "interpretation": "+20.04% probabilistic skill improvement over native 5-member raw NWP ensemble. Raw members showed overconfidence in dry regions; CSGD-EMOS restored probability calibration.",
-        "bins": [
-            {"forecast_bin": "0.0 - 0.2", "nominal_prob": 0.10, "observed_freq_raw": 0.04, "observed_freq_calibrated": 0.09, "sample_count": 4120},
-            {"forecast_bin": "0.2 - 0.4", "nominal_prob": 0.30, "observed_freq_raw": 0.18, "observed_freq_calibrated": 0.28, "sample_count": 1840},
-            {"forecast_bin": "0.4 - 0.6", "nominal_prob": 0.50, "observed_freq_raw": 0.34, "observed_freq_calibrated": 0.49, "sample_count": 1490},
-            {"forecast_bin": "0.6 - 0.8", "nominal_prob": 0.70, "observed_freq_raw": 0.52, "observed_freq_calibrated": 0.69, "sample_count": 1280},
-            {"forecast_bin": "0.8 - 1.0", "nominal_prob": 0.90, "observed_freq_raw": 0.73, "observed_freq_calibrated": 0.88, "sample_count": 1198}
-        ]
+        "bins": bins
     }
 
 # -------------------------------------------------------------

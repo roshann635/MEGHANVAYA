@@ -1,4 +1,4 @@
-﻿# Data Feasibility Report
+# Data Feasibility Report
 
 ## Feasibility Conclusion: DEMO/SYNTHETIC WITH REAL DATA PIPELINES PENDING DOWNLOAD
 Currently, the historical datasets (NOAA GEFSv12 and IMD Gridded Rainfall) represent terabytes of data. Downloading and processing this volume locally for immediate training is computationally unfeasible within a single execution step.

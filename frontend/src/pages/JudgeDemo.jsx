@@ -84,16 +84,16 @@ export default function JudgeDemo() {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <div className="flex items-center gap-2">
-            <span className="px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 font-mono text-[10px] font-bold border border-cyan-500/30">
+            <span className="px-2 py-0.5 rounded bg-blue-50 text-blue-700 font-mono text-[10px] font-bold border border-blue-200">
               EVALUATION WALKTHROUGH
             </span>
-            <span className="text-xs text-slate-400 font-mono">2–4 MINUTE TOUR</span>
+            <span className="text-xs text-slate-500 font-mono">2–4 MINUTE TOUR</span>
           </div>
-          <h1 className="text-xl font-bold text-white tracking-wide mt-1 flex items-center gap-2">
-            <PlayCircle className="w-5 h-5 text-cyan-400" />
-            SIH 2026 Judge Demonstration Journey
+          <h1 className="text-xl font-bold text-[#0B1F3A] tracking-wide mt-1 flex items-center gap-2">
+            <PlayCircle className="w-5 h-5 text-blue-600" />
+            Evaluation Demonstration Journey
           </h1>
-          <p className="text-xs text-slate-400 mt-0.5">
+          <p className="text-xs text-slate-500 mt-0.5">
             Step-by-step walkthrough across the full scientific and decision-support pipeline
           </p>
         </div>
@@ -110,28 +110,28 @@ export default function JudgeDemo() {
               onClick={() => setCurrentStep(idx)}
               className={`p-4 rounded-xl border text-left transition-all cursor-pointer flex flex-col justify-between ${
                 isCurrent 
-                  ? 'bg-cyan-500/15 border-cyan-500/40 shadow-[0_0_15px_rgba(6,182,212,0.2)]' 
-                  : 'glass-panel border-white/10 hover:border-white/20'
+                  ? 'bg-blue-50 border-cyan-500/40 shadow-[0_0_15px_rgba(6,182,212,0.2)]' 
+                  : 'glass-panel border-slate-200 hover:border-slate-300'
               }`}
             >
               <div>
                 <div className="flex items-center justify-between mb-2">
-                  <div className="w-7 h-7 rounded-lg bg-black/40 border border-white/10 flex items-center justify-center text-cyan-400">
+                  <div className="w-7 h-7 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-center text-blue-600">
                     <Icon className="w-3.5 h-3.5" />
                   </div>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5 text-slate-400">
+                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-50 text-slate-500">
                     STEP {idx + 1}
                   </span>
                 </div>
-                <h3 className="text-xs font-bold text-white mb-1">{s.title}</h3>
-                <p className="text-slate-400 text-[11px] leading-relaxed line-clamp-2">{s.summary}</p>
+                <h3 className="text-xs font-bold text-[#0B1F3A] mb-1">{s.title}</h3>
+                <p className="text-slate-500 text-[11px] leading-relaxed line-clamp-2">{s.summary}</p>
               </div>
 
-              <div className="mt-3 pt-2 border-t border-white/5 flex items-center justify-between">
-                <span className="text-[10px] font-mono text-cyan-300 font-semibold truncate">{s.highlight}</span>
+              <div className="mt-3 pt-2 border-t border-slate-200 flex items-center justify-between">
+                <span className="text-[10px] font-mono text-blue-700 font-semibold truncate">{s.highlight}</span>
                 <Link
                   to={s.route}
-                  className="p-1 rounded bg-white/5 hover:bg-white/10 text-cyan-400 hover:text-white transition-colors ml-1 shrink-0"
+                  className="p-1 rounded bg-slate-50 hover:bg-slate-100 text-blue-600 hover:text-[#0B1F3A] transition-colors ml-1 shrink-0"
                   title="Navigate to screen"
                 >
                   <ExternalLink className="w-3.5 h-3.5" />
@@ -143,14 +143,14 @@ export default function JudgeDemo() {
       </div>
 
       {/* Selected Step Spotlight */}
-      <div className="glass-panel p-6 rounded-xl border border-cyan-500/30 shadow-2xl flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+      <div className="glass-panel p-6 rounded-xl border border-blue-200 shadow-2xl flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
         <div className="space-y-2 max-w-2xl">
-          <span className="text-[10px] font-mono uppercase text-cyan-400 font-bold tracking-wider">
+          <span className="text-[10px] font-mono uppercase text-blue-600 font-bold tracking-wider">
             STEP {currentStep + 1} OF {steps.length} SPOTLIGHT
           </span>
-          <h2 className="text-lg font-bold text-white">{steps[currentStep].title}</h2>
-          <p className="text-slate-300 text-xs leading-relaxed">{steps[currentStep].summary}</p>
-          <div className="text-xs font-mono text-emerald-400 font-bold pt-1">
+          <h2 className="text-lg font-bold text-[#0B1F3A]">{steps[currentStep].title}</h2>
+          <p className="text-slate-600 text-xs leading-relaxed">{steps[currentStep].summary}</p>
+          <div className="text-xs font-mono text-emerald-700 font-bold pt-1">
             Key Metric: {steps[currentStep].highlight}
           </div>
         </div>
@@ -159,7 +159,7 @@ export default function JudgeDemo() {
           {currentStep > 0 && (
             <button
               onClick={() => setCurrentStep(currentStep - 1)}
-              className="px-3 py-2 rounded-lg bg-white/5 hover:bg-white/10 text-slate-300 text-xs font-medium transition-colors"
+              className="px-3 py-2 rounded-lg bg-slate-50 hover:bg-slate-100 text-slate-600 text-xs font-medium transition-colors"
             >
               Previous
             </button>
@@ -167,14 +167,14 @@ export default function JudgeDemo() {
           {currentStep < steps.length - 1 && (
             <button
               onClick={() => setCurrentStep(currentStep + 1)}
-              className="px-3 py-2 rounded-lg bg-white/10 hover:bg-white/15 text-white text-xs font-medium transition-colors"
+              className="px-3 py-2 rounded-lg bg-slate-100 hover:bg-slate-100 text-[#0B1F3A] text-xs font-medium transition-colors"
             >
               Next Step
             </button>
           )}
           <Link
             to={steps[currentStep].route}
-            className="flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-cyan-600 to-blue-600 hover:opacity-90 text-white font-bold text-xs shadow-[0_0_15px_rgba(6,182,212,0.3)] transition-all"
+            className="flex items-center gap-2 px-4 py-2 rounded-lg bg-[#0B1528] hover:opacity-90 text-[#0B1F3A] font-bold text-xs shadow-md transition-all"
           >
             <span>Open Live Module</span>
             <ArrowRight className="w-4 h-4" />

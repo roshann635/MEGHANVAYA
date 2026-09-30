@@ -1,5 +1,5 @@
 # PILOT DATA ACCOUNTING & RECORD AUDIT
-**MEGHANVAYA — SIH 2026 | PS 26080**  
+**MEGHANVAYA — PS 26080**  
 **Audit Timestamp:** September 30, 2026  
 **Dataset Lineage:** `data/processed/final_ecc_multicycle.parquet` & `rainfall_2004.nc`  
 

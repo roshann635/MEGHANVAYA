@@ -42,14 +42,14 @@ export default function HeavyRainfall() {
       <ScientificStatusBanner compact />
 
       {/* Official Warning Disclaimer (Section 57, 58) */}
-      <div className="p-4 rounded-xl bg-rose-500/10 border border-rose-500/30 flex items-start gap-3">
-        <ShieldAlert className="w-5 h-5 text-rose-400 shrink-0 mt-0.5" />
+      <div className="p-4 rounded-xl bg-red-50 border border-red-200 flex items-start gap-3">
+        <ShieldAlert className="w-5 h-5 text-red-700 shrink-0 mt-0.5" />
         <div className="text-xs space-y-1">
           <div className="flex items-center gap-2">
-            <span className="font-bold text-rose-300 uppercase tracking-wider">MODEL-DERIVED RISK INDICATOR</span>
-            <span className="px-1.5 py-0.2 rounded bg-rose-500/20 text-rose-300 font-mono text-[10px]">DECISION SUPPORT ONLY</span>
+            <span className="font-bold text-red-700 uppercase tracking-wider">MODEL-DERIVED RISK INDICATOR</span>
+            <span className="px-1.5 py-0.2 rounded bg-red-50 text-red-700 font-mono text-[10px]">DECISION SUPPORT ONLY</span>
           </div>
-          <p className="text-slate-300 leading-relaxed">
+          <p className="text-slate-600 leading-relaxed">
             These metrics represent model-derived probabilistic exceedance risk indicators. 
             They are intended for disaster mitigation planning and do <strong>NOT</strong> constitute official meteorological warnings, 
             which remain under the sole statutory jurisdiction of the India Meteorological Department (IMD).
@@ -59,11 +59,11 @@ export default function HeavyRainfall() {
 
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-xl font-bold text-white tracking-wide flex items-center gap-2">
-            <AlertOctagon className="w-5 h-5 text-rose-400" />
+          <h1 className="text-xl font-bold text-[#0B1F3A] tracking-wide flex items-center gap-2">
+            <AlertOctagon className="w-5 h-5 text-red-700" />
             Heavy Rainfall Intelligence Centre
           </h1>
-          <p className="text-xs text-slate-400 mt-0.5">
+          <p className="text-xs text-slate-500 mt-0.5">
             Parametric CSGD tail risk exceedance: Heavy Rain (≥ 64.5 mm/24h) and Very Heavy Rain (≥ 115.5 mm/24h)
           </p>
         </div>
@@ -99,18 +99,18 @@ export default function HeavyRainfall() {
       </div>
 
       {/* District Vulnerability Table */}
-      <div className="glass-panel p-5 rounded-xl border border-white/10 space-y-4 shadow-xl">
-        <div className="flex items-center justify-between border-b border-white/10 pb-3">
-          <h3 className="text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center gap-2">
-            <Activity className="w-4 h-4 text-rose-400" />
+      <div className="glass-panel p-5 rounded-xl border border-slate-200 space-y-4 shadow-xl">
+        <div className="flex items-center justify-between border-b border-slate-200 pb-3">
+          <h3 className="text-xs font-bold uppercase tracking-wider text-slate-600 flex items-center gap-2">
+            <Activity className="w-4 h-4 text-red-700" />
             Top Vulnerable Districts Ranked by Exceedance Probability
           </h3>
-          <span className="text-[10px] text-slate-400 font-mono">Continuous CSGD CDF Tail Integration</span>
+          <span className="text-[10px] text-slate-500 font-mono">Continuous CSGD CDF Tail Integration</span>
         </div>
 
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs text-slate-300">
-            <thead className="bg-white/5 text-[10px] uppercase font-mono text-slate-400">
+          <table className="w-full text-left text-xs text-slate-600">
+            <thead className="bg-slate-50 text-[10px] uppercase font-mono text-slate-500">
               <tr>
                 <th className="p-3">District</th>
                 <th className="p-3">State</th>
@@ -125,22 +125,22 @@ export default function HeavyRainfall() {
               {heavyData?.high_risk_districts?.map((d, idx) => {
                 const pH = d.heavy_probability;
                 const riskBadge = pH >= 0.4 
-                  ? 'bg-rose-500/20 text-rose-300 border-rose-500/30' 
-                  : (pH >= 0.15 ? 'bg-amber-500/20 text-amber-300 border-amber-500/30' : 'bg-slate-800 text-slate-400 border-white/5');
+                  ? 'bg-red-50 text-red-700 border-red-200' 
+                  : (pH >= 0.15 ? 'bg-amber-50 text-amber-700 border-amber-200' : 'bg-slate-50 text-slate-500 border-slate-200');
                 
                 return (
-                  <tr key={idx} className="hover:bg-white/5 transition-colors">
-                    <td className="p-3 font-bold text-white flex items-center gap-2">
-                      <MapPin className="w-3.5 h-3.5 text-cyan-400" />
+                  <tr key={idx} className="hover:bg-slate-50 transition-colors">
+                    <td className="p-3 font-bold text-[#0B1F3A] flex items-center gap-2">
+                      <MapPin className="w-3.5 h-3.5 text-blue-600" />
                       {d.district}
                     </td>
-                    <td className="p-3 text-slate-400">{d.state}</td>
-                    <td className="p-3 text-right text-cyan-300">{d.p50_mm} mm</td>
-                    <td className="p-3 text-right text-indigo-300">{d.p90_mm} mm</td>
-                    <td className="p-3 text-right text-amber-300 font-bold">
+                    <td className="p-3 text-slate-500">{d.state}</td>
+                    <td className="p-3 text-right text-blue-700">{d.p50_mm} mm</td>
+                    <td className="p-3 text-right text-indigo-700">{d.p90_mm} mm</td>
+                    <td className="p-3 text-right text-amber-700 font-bold">
                       {Math.round(pH * 100)}% ({(pH).toFixed(3)})
                     </td>
-                    <td className="p-3 text-right text-rose-300 font-bold">
+                    <td className="p-3 text-right text-red-700 font-bold">
                       {Math.round(d.very_heavy_probability * 100)}%
                     </td>
                     <td className="p-3 text-center">

@@ -53,11 +53,11 @@ export default function ProbabilityCentre() {
 
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-xl font-bold text-white tracking-wide flex items-center gap-2">
-            <Percent className="w-5 h-5 text-cyan-400" />
+          <h1 className="text-xl font-bold text-[#0B1F3A] tracking-wide flex items-center gap-2">
+            <Percent className="w-5 h-5 text-blue-600" />
             Precipitation Probability (PoP) Centre
           </h1>
-          <p className="text-xs text-slate-400 mt-0.5">
+          <p className="text-xs text-slate-500 mt-0.5">
             Calibrated probability of precipitation exceedance derived from the Censored Shifted Gamma (CSGD) cumulative distribution
           </p>
         </div>
@@ -94,9 +94,9 @@ export default function ProbabilityCentre() {
 
       {/* Threshold Comparison Chart & Table */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        <div className="lg:col-span-7 glass-panel p-5 rounded-xl border border-white/10 flex flex-col h-[420px]">
-          <h3 className="text-xs font-bold uppercase tracking-wider text-slate-300 border-b border-white/10 pb-3 mb-4 flex items-center gap-2">
-            <Activity className="w-4 h-4 text-cyan-400" />
+        <div className="lg:col-span-7 glass-panel p-5 rounded-xl border border-slate-200 flex flex-col h-[420px]">
+          <h3 className="text-xs font-bold uppercase tracking-wider text-slate-600 border-b border-slate-200 pb-3 mb-4 flex items-center gap-2">
+            <Activity className="w-4 h-4 text-blue-600" />
             Probability of Exceedance across IMD Thresholds
           </h3>
 
@@ -115,40 +115,40 @@ export default function ProbabilityCentre() {
           </div>
         </div>
 
-        <div className="lg:col-span-5 glass-panel p-5 rounded-xl border border-white/10 flex flex-col justify-between">
+        <div className="lg:col-span-5 glass-panel p-5 rounded-xl border border-slate-200 flex flex-col justify-between">
           <div>
-            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-300 border-b border-white/10 pb-3 mb-3">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-600 border-b border-slate-200 pb-3 mb-3">
               Standard IMD Rainfall Category Probabilities
             </h3>
 
             <div className="space-y-2.5 text-xs">
               {popData?.thresholds?.map((t, idx) => (
-                <div key={idx} className="p-2.5 rounded-lg bg-black/30 border border-white/5 flex items-center justify-between">
+                <div key={idx} className="p-2.5 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-between">
                   <div>
-                    <span className="font-semibold text-white block">{t.threshold}</span>
+                    <span className="font-semibold text-[#0B1F3A] block">{t.threshold}</span>
                     <span className="text-[10px] text-slate-500">Raw NWP: {Math.round(t.raw_pop * 100)}%</span>
                   </div>
                   <div className="text-right">
-                    <span className="font-mono text-cyan-300 font-bold text-sm block">
+                    <span className="font-mono text-blue-700 font-bold text-sm block">
                       {Math.round(t.calibrated_pop * 100)}%
                     </span>
-                    <span className="text-[10px] text-slate-400 font-mono">Calibrated CSGD</span>
+                    <span className="text-[10px] text-slate-500 font-mono">Calibrated CSGD</span>
                   </div>
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="p-3 rounded-lg bg-black/40 border border-white/5 text-[11px] text-slate-400 mt-4 space-y-1">
-            <span className="text-white font-semibold flex items-center gap-1.5">
-              <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+          <div className="p-3 rounded-lg bg-slate-50 border border-slate-200 text-[11px] text-slate-500 mt-4 space-y-1">
+            <span className="text-[#0B1F3A] font-semibold flex items-center gap-1.5">
+              <ShieldCheck className="w-3.5 h-3.5 text-emerald-700" />
               Mathematical Derivation:
             </span>
             <p>
               Probability is evaluated via $P(R \ge y) = 1 - F_{CSGD}(y + \delta; k, \theta)$. 
               Native ensemble probability uses the fraction of ensemble members exceeding the selected threshold ($N_{hits}/5$). The continuous CSGD CDF eliminates step-function artifacts and quantifies subtle tail risk.
             </p>
-            <p className="text-[10px] text-slate-500 italic pt-1 border-t border-white/5">
+            <p className="text-[10px] text-slate-500 italic pt-1 border-t border-slate-200">
               Standard climatological BSS: not estimated in current pilot.
             </p>
           </div>

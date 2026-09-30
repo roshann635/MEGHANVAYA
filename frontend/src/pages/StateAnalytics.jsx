@@ -73,11 +73,11 @@ export default function StateAnalytics() {
 
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-xl font-bold text-white tracking-wide flex items-center gap-2">
-            <Building2 className="w-5 h-5 text-cyan-400" />
+          <h1 className="text-xl font-bold text-[#0B1F3A] tracking-wide flex items-center gap-2">
+            <Building2 className="w-5 h-5 text-blue-600" />
             State-Level Meteorological Analytics
           </h1>
-          <p className="text-xs text-slate-400 mt-0.5">
+          <p className="text-xs text-slate-500 mt-0.5">
             Regional aggregation, district rainfall distributions, and exceedance vulnerability
           </p>
         </div>
@@ -90,16 +90,16 @@ export default function StateAnalytics() {
       />
 
       {/* State Selector Chips */}
-      <div className="glass-panel p-3 rounded-xl border border-white/10 flex items-center gap-2 overflow-x-auto custom-scrollbar">
-        <span className="text-xs font-bold text-slate-400 uppercase tracking-wider pl-2 pr-1 shrink-0">SELECT STATE:</span>
+      <div className="glass-panel p-3 rounded-xl border border-slate-200 flex items-center gap-2 overflow-x-auto custom-scrollbar">
+        <span className="text-xs font-bold text-slate-500 uppercase tracking-wider pl-2 pr-1 shrink-0">SELECT STATE:</span>
         {states.map(s => (
           <button
             key={s.state}
             onClick={() => setSelectedState(s.state)}
             className={`px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition-all ${
               selectedState === s.state
-                ? 'bg-cyan-500 text-slate-950 font-bold shadow-[0_0_12px_rgba(6,182,212,0.4)]'
-                : 'bg-white/5 text-slate-300 hover:bg-white/10 hover:text-white'
+                ? 'bg-cyan-500 text-slate-950 font-bold shadow-md'
+                : 'bg-slate-50 text-slate-600 hover:bg-slate-100 hover:text-[#0B1F3A]'
             }`}
           >
             {s.state} ({s.district_count} D)
@@ -140,13 +140,13 @@ export default function StateAnalytics() {
       </div>
 
       {/* District Distribution Bar Chart */}
-      <div className="glass-panel p-5 rounded-xl border border-white/10 flex flex-col h-[450px]">
-        <div className="flex items-center justify-between border-b border-white/10 pb-3 mb-4">
-          <h3 className="text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center gap-2">
-            <Activity className="w-4 h-4 text-cyan-400" />
+      <div className="glass-panel p-5 rounded-xl border border-slate-200 flex flex-col h-[450px]">
+        <div className="flex items-center justify-between border-b border-slate-200 pb-3 mb-4">
+          <h3 className="text-xs font-bold uppercase tracking-wider text-slate-600 flex items-center gap-2">
+            <Activity className="w-4 h-4 text-blue-600" />
             District Precipitation Distribution — {selectedState}
           </h3>
-          <span className="text-[10px] text-slate-400 font-mono">{districts.length} Districts Displayed</span>
+          <span className="text-[10px] text-slate-500 font-mono">{districts.length} Districts Displayed</span>
         </div>
 
         <div className="flex-1 w-full min-h-0">
