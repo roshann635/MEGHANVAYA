@@ -1,0 +1,44 @@
+{
+  "datasets": [
+    {
+      "name": "GEFSv12 Historical Reforecast (June 2004)",
+      "source": "NOAA GEFSv12",
+      "temporal_coverage": "2004-06-02 to 2004-06-07",
+      "spatial_coverage": "India Domain (0.25 deg)",
+      "variables": ["APCP (Total Precipitation)"],
+      "file_paths": [
+        "data/raw/GEFS_20040602_00.nc",
+        "data/raw/GEFS_20040603_00.nc",
+        "data/raw/GEFS_20040604_00.nc",
+        "data/raw/GEFS_20040605_00.nc",
+        "data/raw/GEFS_20040606_00.nc",
+        "data/raw/GEFS_20040607_00.nc"
+      ],
+      "record_counts": "6 cycle files",
+      "checksums": "Not tracked in git",
+      "processing_status": "RAW"
+    },
+    {
+      "name": "IMD High Resolution Gridded Daily Rainfall",
+      "source": "India Meteorological Department (IMD)",
+      "temporal_coverage": "June 2004",
+      "spatial_coverage": "India Domain (0.25 deg)",
+      "variables": ["RAINFALL"],
+      "file_paths": ["data/raw/IMD_Rainfall_200406.nc"],
+      "record_counts": "1 month file",
+      "checksums": "Not tracked in git",
+      "processing_status": "RAW"
+    },
+    {
+      "name": "Aligned Forecast-Observation Parquet",
+      "source": "Internal Pilot Processing",
+      "temporal_coverage": "2004-06-02 to 2004-06-07",
+      "spatial_coverage": "India Landmass",
+      "variables": ["ensemble_mean", "ensemble_variance", "observed_rainfall", "pop_raw", "pop_calibrated"],
+      "file_paths": ["data/processed/final_ecc_multicycle.parquet"],
+      "record_counts": 34748,
+      "checksums": "N/A",
+      "processing_status": "PROCESSED"
+    }
+  ]
+}

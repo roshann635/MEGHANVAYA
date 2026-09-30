@@ -1,0 +1,30 @@
+{
+  "models": [
+    {
+      "model_name": "CSGD-EMOS-v1.0-PILOT",
+      "version": "1.0",
+      "type": "Censored Shifted Gamma EMOS",
+      "training_period": "2004-06-02 to 2004-06-04",
+      "validation_period": "2004-06-05",
+      "test_period": "2004-06-06 to 2004-06-07",
+      "input_features": ["ensemble_mean", "ensemble_variance"],
+      "output_variables": ["predictive_cdf", "quantiles", "exceedance_probabilities"],
+      "parameter_file": "data/processed/verification_summary.json",
+      "status": "ACTIVE_PILOT",
+      "scientific_limitations": "Fitted over a limited 7-cycle temporal window. Soft gate uses rainfall heuristic, not synoptic fields."
+    },
+    {
+      "model_name": "ECC-Q-v1.0",
+      "version": "1.0",
+      "type": "Ensemble Copula Coupling (Quantile)",
+      "status": "ACTIVE_PILOT"
+    },
+    {
+      "model_name": "XGBoost-Regime-Classifier",
+      "version": "0.0",
+      "type": "Gradient Boosting Classifier",
+      "status": "SCAFFOLD_PHASE_2",
+      "scientific_limitations": "Currently a placeholder module. Not executed in the live pilot."
+    }
+  ]
+}

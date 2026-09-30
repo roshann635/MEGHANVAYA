@@ -1,29 +1,49 @@
-﻿from pydantic import BaseModel
-from typing import Optional, Dict, Any, List
+from pydantic import BaseModel, EmailStr
+from typing import Optional, List, Dict, Any
 from datetime import datetime
 
-class ForecastResponse(BaseModel):
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+
+class TokenData(BaseModel):
+    email: Optional[str] = None
+    role: Optional[str] = None
+
+class UserCreate(BaseModel):
+    email: EmailStr
+    password: str
+    full_name: str
+    role: str = "GENERAL_USER"
+
+class UserResponse(BaseModel):
     id: int
-    issue_time: datetime
-    valid_time: datetime
-    lead_time: int
-    regime: str
-    regime_confidence: float
+    email: EmailStr
+    full_name: str
+    role: str
+    is_active: bool
+    
+    class Config:
+        from_attributes = True
+
+class ModelVersionSchema(BaseModel):
+    id: str
+    name: str
+    status: str
+    metrics: Dict[str, Any]
+    
+    class Config:
+        from_attributes = True
+
+class ForecastGridPoint(BaseModel):
+    lat: float
+    lon: float
+    raw_nwp: float
     corrected_rainfall: float
-    correction_confidence: float
-    heavy_rain_probability: float
-    status: str
-    metadata: Dict[str, Any]
-
-class ForecastProvenance(BaseModel):
-    forecast_id: int
-    nwp_source: str
-    model_version: str
-    issue_time: datetime
-    dataset_version: str
-    software_version: str
-    approval_state: str
-
-class SystemHealth(BaseModel):
-    status: str
-    mode: str
+    p50: float
+    p90: float
+    p95: float
+    pop: float
+    uncertainty: float
+    heavy_rain_prob: float
+    regime_label: str

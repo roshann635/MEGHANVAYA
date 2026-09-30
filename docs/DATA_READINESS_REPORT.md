@@ -1,4 +1,4 @@
-﻿# Data Readiness Report
+# Data Readiness Report
 
 ## Status: PARTIAL READINESS
 

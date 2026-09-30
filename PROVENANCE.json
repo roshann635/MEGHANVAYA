@@ -1,0 +1,9 @@
+{
+  "source_dataset": "NOAA GEFSv12 and IMD 0.25° Gridded Rainfall",
+  "forecast_issue_date": "June 2004 Chronological Sequence",
+  "ensemble_members": 5,
+  "preprocessing_version": "1.0",
+  "model_version": "CSGD-EMOS-v1.0-PILOT",
+  "pipeline_version": "1.0",
+  "generation_timestamp": "Precomputed (Offline Pilot Generation)"
+}
