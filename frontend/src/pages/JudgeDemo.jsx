@@ -30,8 +30,8 @@ export default function JudgeDemo() {
       title: "3. Probability of Precipitation (PoP)",
       route: "/probability",
       icon: Percent,
-      summary: "Calculates calibrated PoP via the Censored Shifted Gamma CDF at the shift threshold delta, replacing stepped 5-member counting.",
-      highlight: "+20.98% Brier Skill Score improvement over raw NWP"
+      summary: "Calculates calibrated PoP via the Censored Shifted Gamma CDF at the shift threshold delta, replacing stepped 5-member counting. Native ensemble probability uses the fraction of ensemble members exceeding the selected threshold.",
+      highlight: "20.04% Relative Brier Improvement vs Native Ensemble"
     },
     {
       title: "4. Censored Shifted Gamma (CSGD-EMOS)",
@@ -72,8 +72,8 @@ export default function JudgeDemo() {
       title: "9. Chronological Locked Verification",
       route: "/verification",
       icon: Activity,
-      summary: "Evaluation strictly on locked chronological test cycles (June 6–7, 2004) over 9,928 correlated spatial points (2 independent temporal days) with zero temporal or future leakage.",
-      highlight: "Locked Test: BSS +20.04% over Native 5-Member Ensemble"
+      summary: "Evaluation strictly on locked chronological test cycles (June 6–7, 2004) over 9,928 correlated spatial points (2 independent temporal days) with zero temporal or future leakage. Demonstrate the 20.04% relative Brier-score improvement over the native 5-member ensemble baseline.",
+      highlight: "Locked Test: 20.04% Relative Brier Improvement"
     }
   ];
 

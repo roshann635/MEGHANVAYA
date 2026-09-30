@@ -55,7 +55,9 @@ $$P_{raw}(R \ge 2.5) = \frac{1}{5} \sum_{m \in \{c00, p01, p02, p03, p04\}} \mat
 ### Out-of-Sample Verification Metrics (Locked 2-Day Test: June 6–7, $N=9,928$)
 - **Raw NWP Native Brier Score:** **0.2351**
 - **CSGD-EMOS Calibrated Brier Score:** **0.1880**
-- **Brier Skill Score (BSS):** **+0.2004 (+20.04% probabilistic skill gain)**
+- **Relative Brier Improvement vs Native Ensemble:** **20.04%** ($1 - 0.1880 / 0.2351 = 0.2004$)
+  - *Subtitle:* Relative improvement in Brier score over the native 5-member ensemble baseline.
+  - *Standard climatological BSS:* not estimated in current pilot.
 - **Root Mean Squared Error (RMSE):**
   - Raw NWP: **10.43 mm**
   - CSGD-EMOS P50: **10.35 mm**
@@ -68,7 +70,9 @@ $$P_{raw}(R \ge 2.5) = \frac{1}{5} \sum_{m \in \{c00, p01, p02, p03, p04\}} \mat
 ### Combined 3-Day Test Window (June 6–8, $N=14,892$)
 - **Raw NWP Native Brier Score:** **0.2369**
 - **CSGD-EMOS Calibrated Brier Score:** **0.1872**
-- **Brier Skill Score (BSS):** **+0.2098 (+20.98% probabilistic skill gain)**
+- **Relative Brier Improvement vs Native Ensemble:** **20.98%** ($1 - 0.1872 / 0.2369 = 0.2098$)
+  - *Subtitle:* Relative improvement in Brier score over the native 5-member ensemble baseline.
+  - *Standard climatological BSS:* not estimated in current pilot.
 - **Root Mean Squared Error (RMSE):**
   - Raw NWP: **10.95 mm**
   - CSGD-EMOS P50: **10.86 mm**

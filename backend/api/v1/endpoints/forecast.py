@@ -275,7 +275,9 @@ def get_pop_analysis(valid_time_str: str):
     
     return {
         "valid_time": valid_time_str,
-        "calibrated_brier_skill": "+20.04% BSS over native 5-member raw ensemble (Locked Test June 6-7)",
+        "relative_brier_improvement": "20.04%",
+        "relative_brier_improvement_subtitle": "Relative improvement in Brier score over the native 5-member ensemble baseline.",
+        "climatological_bss_status": "Standard climatological BSS: not estimated in current pilot.",
         "thresholds": thresholds,
         "baseline_note": "Evaluated against native 5-member ensemble exceedance (c00, p01..p04 >= threshold / 5). CSGD-EMOS CDF evaluates at threshold + delta."
     }
@@ -687,7 +689,7 @@ def get_pipeline_runs():
         {"stage": "11. Ensemble Copula Coupling", "status": "COMPLETED", "duration_sec": 3.6, "records": 34748, "details": "Restored raw rank order across 5 calibrated quantiles"},
         {"stage": "12. District Aggregation", "status": "COMPLETED", "duration_sec": 1.8, "records": 34748, "details": "Spatial assignment to 74 monitored Indian districts"},
         {"stage": "13. Product Generation", "status": "COMPLETED", "duration_sec": 1.2, "records": 34748, "details": "Multi-layer GeoJSON and tabular deliverables created"},
-        {"stage": "14. Verification & Audit", "status": "COMPLETED", "duration_sec": 2.0, "records": 9928, "details": "Calculated locked 2-day RMSE, MAE, Bias, and Native Brier Skill Score"}
+        {"stage": "14. Verification & Audit", "status": "COMPLETED", "duration_sec": 2.0, "records": 9928, "details": "Calculated locked 2-day RMSE, MAE, Bias, and Relative Brier-Score Improvement vs Raw NWP"}
     ]
     return {
         "pipeline_name": "MEGHANVAYA-PILOT-PIPELINE",

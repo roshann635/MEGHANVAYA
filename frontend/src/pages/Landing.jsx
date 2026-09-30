@@ -144,14 +144,14 @@ export default function Landing() {
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-4 text-left">
           <div className="glass-panel p-5 rounded-xl border border-white/10 space-y-1">
-            <div className="text-xs text-slate-400 uppercase font-mono font-bold">Brier Skill Score (BSS)</div>
-            <div className="text-3xl font-extrabold font-mono text-emerald-400">+20.98%</div>
-            <div className="text-[11px] text-slate-400 pt-1">Probabilistic accuracy improvement over raw NWP ensemble (0.2369 → 0.1872)</div>
+            <div className="text-xs text-slate-400 uppercase font-mono font-bold">Relative Brier Improvement</div>
+            <div className="text-3xl font-extrabold font-mono text-emerald-400">20.04%</div>
+            <div className="text-[11px] text-slate-400 pt-1">Relative improvement in Brier score over native 5-member ensemble baseline (0.2351 → 0.1880)</div>
           </div>
           <div className="glass-panel p-5 rounded-xl border border-white/10 space-y-1">
             <div className="text-xs text-slate-400 uppercase font-mono font-bold">Root Mean Squared Error (RMSE)</div>
-            <div className="text-3xl font-extrabold font-mono text-cyan-400">10.56 mm</div>
-            <div className="text-[11px] text-slate-400 pt-1">ECC reduced error from raw NWP 10.95 mm (-3.6% error reduction)</div>
+            <div className="text-3xl font-extrabold font-mono text-cyan-400">10.06 mm</div>
+            <div className="text-[11px] text-slate-400 pt-1">ECC reduced error from raw NWP 10.43 mm (-3.5% error reduction)</div>
           </div>
           <div className="glass-panel p-5 rounded-xl border border-white/10 space-y-1">
             <div className="text-xs text-slate-400 uppercase font-mono font-bold">Spatial Grid Completeness</div>

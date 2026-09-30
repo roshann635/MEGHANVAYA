@@ -51,13 +51,13 @@ This audit evaluates the transition of MEGHANVAYA from an academic research prot
 
 | Metric | Raw GEFSv12 Ensemble | CSGD-EMOS (Pointwise) | ECC Rank Restored | Improvement |
 | :--- | :--- | :--- | :--- | :--- |
-| **RMSE (mm)** | 10.95 | 10.86 | **10.56** | **-3.6% Error Reduction** |
-| **MAE (mm)** | 3.92 | 3.92 | 4.03 | Parity |
-| **Mean Bias (mm)** | -3.44 | -3.43 | **-2.63** | **+23.5% Bias Correction** |
-| **Brier Score (PoP)** | 0.2369 | **0.1872** | — | **-0.0497 MSE Reduction** |
-| **Brier Skill Score** | 0.00% (Baseline) | **+20.98%** | — | **+20.98% Probabilistic Skill** |
+| **RMSE (mm)** | 10.43 (2-Day) / 10.95 (3-Day) | 10.35 / 10.86 | **10.06** / **10.56** | **-3.5% to -3.6% Error Reduction** |
+| **MAE (mm)** | 3.85 / 3.92 | 3.85 / 3.92 | 3.98 / 4.03 | Parity |
+| **Mean Bias (mm)** | -3.25 / -3.44 | -3.22 / -3.43 | **-2.40** / **-2.63** | **+26.2% Bias Correction** |
+| **Brier Score (PoP)** | 0.2351 / 0.2369 | **0.1880** / **0.1872** | — | **-0.0471 to -0.0497 MSE Reduction** |
+| **Relative Brier Improvement** | Baseline (0.0%) | **20.04%** (Locked) / **20.98%** (Ext) | — | **Improvement vs Native Ensemble Baseline** |
 
-*Evaluation Scope: Chronologically locked test partition (June 6–7, 2004) covering 14,892 correlated spatial points.*
+*Evaluation Scope: Chronologically locked primary test partition (June 6–7, 2004, N=9,928 across 2 independent temporal days) and extended test (June 6–8, 2004, N=14,892). Standard climatological BSS: not estimated in current pilot.*
 
 ---
 

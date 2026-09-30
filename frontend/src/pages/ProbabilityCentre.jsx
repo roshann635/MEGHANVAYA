@@ -71,10 +71,10 @@ export default function ProbabilityCentre() {
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <MetricCard 
-          title="Brier Skill Score (BSS)"
-          value="+20.98%"
-          subtext="Probabilistic improvement over raw NWP"
-          delta="Skill Gain"
+          title="Relative Brier Improvement vs Native Ensemble"
+          value="20.04%"
+          subtext="Relative improvement in Brier score over the native 5-member ensemble baseline."
+          delta="Gain vs Raw NWP"
           variant="emerald"
         />
         <MetricCard 
@@ -146,7 +146,10 @@ export default function ProbabilityCentre() {
             </span>
             <p>
               Probability is evaluated via $P(R \ge y) = 1 - F_{CSGD}(y + \delta; k, \theta)$. 
-              Unlike raw counting of 5 members ($N_{hits}/5$), the continuous CSGD CDF eliminates step-function artifacts and quantifies subtle tail risk.
+              Native ensemble probability uses the fraction of ensemble members exceeding the selected threshold ($N_{hits}/5$). The continuous CSGD CDF eliminates step-function artifacts and quantifies subtle tail risk.
+            </p>
+            <p className="text-[10px] text-slate-500 italic pt-1 border-t border-white/5">
+              Standard climatological BSS: not estimated in current pilot.
             </p>
           </div>
         </div>

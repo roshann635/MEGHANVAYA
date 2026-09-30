@@ -52,10 +52,10 @@ export default function ReliabilityCentre() {
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <MetricCard 
-          title="Brier Skill Score (BSS)"
-          value={`+${((data?.brier_skill_score || 0.2098) * 100).toFixed(2)}%`}
-          subtext="Probabilistic improvement on locked test"
-          delta="Skill Gain"
+          title="Relative Brier Improvement vs Native Ensemble"
+          value="20.04%"
+          subtext="Relative improvement in Brier score over the native 5-member ensemble baseline."
+          delta="Gain vs Raw NWP"
           variant="emerald"
         />
         <MetricCard 
@@ -125,9 +125,10 @@ export default function ReliabilityCentre() {
             </div>
           </div>
 
-          <div className="p-3 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-xs text-slate-300">
+          <div className="p-3 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-xs text-slate-300 space-y-1">
             <span className="font-semibold text-emerald-400 block mb-1">Locked Out-of-Sample Verification:</span>
-            Evaluated on June 6–7, 2004 test cycle comprising 14,892 spatial cell points across peninsular and central India.
+            <p>Evaluated on June 6–7, 2004 test cycle comprising 9,928 spatial cell points (2 independent temporal days).</p>
+            <p className="text-[11px] text-slate-400 italic">Standard climatological BSS: not estimated in current pilot.</p>
           </div>
         </div>
       </div>

@@ -100,10 +100,10 @@ export default function Verification() {
       {/* Primary KPI Row */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <MetricCard 
-          title="Brier Skill Score (BSS)"
-          value={`+${bssVal}%`}
-          subtext="Vs native 5-member raw NWP ensemble"
-          delta="Skill Gain"
+          title="Relative Brier Improvement vs Native Ensemble"
+          value={selectedPartition === '2day' ? "20.04%" : "20.98%"}
+          subtext="Relative improvement in Brier score over the native 5-member ensemble baseline."
+          delta="Gain vs Raw NWP"
           variant="emerald"
         />
         <MetricCard 
@@ -195,8 +195,11 @@ export default function Verification() {
             <span className="font-semibold text-white block">Apples-to-Apples Probabilistic Baseline:</span>
             <p>
               Raw NWP Brier score is evaluated using the native 5-member event exceedance:
-              $P_{raw} = \sum_{m=1}^5 \mathbb{I}(R_m \ge 2.5) / 5$. 
-              CSGD-EMOS CDF evaluation achieves a true probabilistic Brier Skill Score of <strong>+{bssVal}%</strong>.
+              $P_{raw} = \sum_{m=1}^5 \mathbb{I}(R_m \ge 2.5) / 5$. Native ensemble probability uses the fraction of ensemble members exceeding the selected threshold.
+              CSGD-EMOS CDF evaluation achieves a <strong>{selectedPartition === '2day' ? "20.04%" : "20.98%"}</strong> relative Brier-score improvement over the native 5-member ensemble baseline.
+            </p>
+            <p className="text-slate-500 italic pt-1 border-t border-white/5">
+              Standard climatological BSS: not estimated in current pilot.
             </p>
           </div>
         </div>

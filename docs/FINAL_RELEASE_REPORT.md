@@ -58,7 +58,9 @@ Source: `data/processed/final_ecc_multicycle.parquet` & `rainfall_2004.nc`
 ### Primary Locked 2-Day Test (June 6–7, 2004, $N=9,928$)
 - **Raw NWP Native 5-Member Brier Score:** **0.2351**
 - **CSGD-EMOS Calibrated Brier Score:** **0.1880**
-- **Brier Skill Score (BSS):** **+0.2004 (+20.04% probabilistic skill gain)**
+- **Relative Brier Improvement vs Native Ensemble:** **20.04%** ($1 - 0.1880 / 0.2351 = 0.2004$)
+  - *Subtitle:* Relative improvement in Brier score over the native 5-member ensemble baseline.
+  - *Standard climatological BSS:* not estimated in current pilot.
 - **Root Mean Squared Error (RMSE):**
   - Raw NWP: **10.43 mm**
   - CSGD-EMOS P50: **10.35 mm**
@@ -71,7 +73,9 @@ Source: `data/processed/final_ecc_multicycle.parquet` & `rainfall_2004.nc`
 ### Extended 3-Day Test (June 6–8, 2004, $N=14,892$)
 - **Raw NWP Native Brier Score:** **0.2369**
 - **CSGD-EMOS Calibrated Brier Score:** **0.1872**
-- **Brier Skill Score (BSS):** **+0.2098 (+20.98% probabilistic skill gain)**
+- **Relative Brier Improvement vs Native Ensemble:** **20.98%** ($1 - 0.1872 / 0.2369 = 0.2098$)
+  - *Subtitle:* Relative improvement in Brier score over the native 5-member ensemble baseline.
+  - *Standard climatological BSS:* not estimated in current pilot.
 - **Root Mean Squared Error (RMSE):** Raw **10.95 mm** $\rightarrow$ ECC **10.56 mm (-3.6%)**
 
 ---
@@ -120,7 +124,7 @@ Source: `data/processed/final_ecc_multicycle.parquet` & `rainfall_2004.nc`
   2. Mission Control & Forecast Operations (`/forecast`) with multi-layer map switching.
   3. Ensemble Diagnostics (`/ensemble`) reviewing 5 members.
   4. Weather Regime Gating (`/regime`) with the *Pilot Rainfall-Conditioned Regime Gating* badge.
-  5. Probability Centre (`/probability`) displaying +20.04% BSS gain over native ensemble.
+  5. Probability Centre (`/probability`) displaying 20.04% relative Brier improvement over native ensemble baseline.
   6. Uncertainty Centre (`/uncertainty`) reviewing 90% Predictive Intervals.
   7. Heavy Rain Intelligence (`/heavy-rain`) showing model-derived district risk guidance.
   8. ECC Spatial Consistency (`/ecc`) demonstrating rank permutation without smoothing.
