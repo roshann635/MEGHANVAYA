@@ -431,8 +431,12 @@ def get_provenance_data(valid_time_str: str):
         "issue_time": f"{valid_time_str[:10]} 00:00 UTC (-24h)",
         "valid_time": f"{valid_time_str[:10]} 00:00 UTC",
         "lead_window": "24 Hours (Day 1)",
-        "model_engine": "Censored Shifted Gamma EMOS",
+        "temporal_lead": "24 Hours (Day 1)",
+        "model_version": "CSGD-EMOS-v1.0-PILOT",
+        "model_engine": "Censored Shifted Gamma EMOS (CSGD) + ECC",
+        "dataset_version": "GEFSv12-IMD0.25-JUNE2004",
         "dataset_lineage": "GEFSv12 (NWP) + IMD Gridded Rainfall (Obs)",
+        "observation_source": "IMD 0.25° Daily Rainfall Accumulation",
         "observation_truth": "IMD 0.25° Daily Rainfall Accumulation",
         "pipeline_version": "1.0-PILOT",
         "regime_method": "Soft Rainfall-Conditioned Heuristic Gate"
