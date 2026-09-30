@@ -285,8 +285,8 @@ export default function ForecastOperations() {
             </div>
 
             {/* Map Canvas */}
-            <div className="flex-1 w-full rounded-lg overflow-hidden relative border border-slate-200 bg-white">
-              <div ref={mapContainer} className="w-full h-full" />
+            <div className="flex-1 w-full rounded-lg overflow-hidden relative border border-slate-200 bg-white min-h-[400px]">
+              <div ref={mapContainer} className="absolute inset-0" />
 
               {/* Loading Indicator */}
               {loading && (

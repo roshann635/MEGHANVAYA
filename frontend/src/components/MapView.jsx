@@ -116,8 +116,8 @@ export default function MapView({ validTime, activeLayer = 'heavy_prob', legendT
   }, [data, activeLayer]);
 
   return (
-    <div className="w-full h-full relative">
-      <div ref={mapContainer} className="w-full h-full" />
+    <div className="w-full h-full min-h-[400px] relative">
+      <div ref={mapContainer} className="absolute inset-0" />
       {loading && (
         <div className="absolute inset-0 bg-white/60  flex items-center justify-center text-xs font-mono text-blue-600">
           <span>Loading Spatial Surface...</span>
