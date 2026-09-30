@@ -1,0 +1,23 @@
+# Environments
+venv/
+.env
+__pycache__/
+*.pyc
+
+# Data & Models
+data/raw/
+data/processed/
+*.parquet
+*.nc
+*.grib2
+*.idx
+
+# Node
+node_modules/
+dist/
+.vite/
+
+# Ide/System
+.system_generated/
+.gemini/
+.vscode/

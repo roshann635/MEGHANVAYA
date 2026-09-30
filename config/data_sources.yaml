@@ -1,0 +1,13 @@
+﻿sources:
+  - id: ncmrwf_nwp
+    name: "NCMRWF Deterministic NWP"
+    type: FORECAST
+    endpoint: "mock://ncmrwf/nwp"
+  - id: imd_gfs
+    name: "IMD GFS"
+    type: FORECAST
+    endpoint: "mock://imd/gfs"
+  - id: imd_district_rf
+    name: "IMD District Rainfall"
+    type: OBSERVATION
+    endpoint: "mock://imd/obs/district"

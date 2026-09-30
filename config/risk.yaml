@@ -1,0 +1,7 @@
+﻿risk_levels:
+  - id: LOW
+    description: "Normal rainfall expected, low risk."
+  - id: MEDIUM
+    description: "Moderate to heavy rainfall. Localized impact possible."
+  - id: HIGH
+    description: "Heavy to very heavy rainfall. Significant risk."

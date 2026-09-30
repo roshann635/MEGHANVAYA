@@ -1,0 +1,19 @@
+{
+  "pilot_config": {
+    "geography": {
+      "name": "India Bounding Box",
+      "lat_min": 6.5,
+      "lat_max": 38.5,
+      "lon_min": 66.5,
+      "lon_max": 100.0
+    },
+    "season": "JJAS",
+    "lead_times": ["Day 1"],
+    "ensemble_members": 5,
+    "variable": "APCP",
+    "period": {
+      "start_year": 2000,
+      "end_year": 2000
+    }
+  }
+}

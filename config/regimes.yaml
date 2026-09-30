@@ -1,0 +1,9 @@
+﻿synoptic:
+  - Active Monsoon
+  - Break Monsoon
+  - Depression
+  - Western Disturbance
+local:
+  - Coastal
+  - Orographic
+  - Inland
