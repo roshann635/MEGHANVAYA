@@ -44,6 +44,8 @@ export default function Dashboard() {
     });
   }, [activeCycle, token]);
 
+  const [mapLoaded, setMapLoaded] = useState(false);
+
   useEffect(() => {
     if (map.current) return;
     
@@ -122,11 +124,16 @@ export default function Dashboard() {
         map.current.getCanvas().style.cursor = '';
         popup.remove();
       });
+
+      map.current.resize();
+      setMapLoaded(true);
     });
   }, []);
 
   useEffect(() => {
-    if (!map.current || !map.current.isStyleLoaded()) return;
+    if (!map.current || !mapLoaded || !map.current.isStyleLoaded()) return;
+
+    map.current.resize();
     
     const features = cycleData.map(pt => ({
       type: 'Feature',
