@@ -65,15 +65,15 @@ export default function JudgeDemo() {
       title: "8. District-Level Advisory Products",
       route: "/district",
       icon: Landmark,
-      summary: "Aggregates multi-cycle spatial grid to 600+ Indian districts with full provenance hashes, P50, P90, PoP, and automated CSV/JSON exports.",
-      highlight: "Full Lineage Traceability & Provenance Hashes"
+      summary: "Aggregates multi-cycle spatial grid to 74 monitored representative districts (700+ nationwide district geometries in operational schema) with full provenance hashes, P50, P90, PoP, and automated CSV/JSON exports.",
+      highlight: "74 Monitored Districts • Full Provenance Hashes"
     },
     {
       title: "9. Chronological Locked Verification",
       route: "/verification",
       icon: Activity,
-      summary: "Evaluation strictly on locked chronological test cycles (June 6–7, 2004) over 14,892 correlated spatial points with zero temporal or future leakage.",
-      highlight: "Out-of-Sample Verified: BSS +20.98%, Bias -2.63 mm"
+      summary: "Evaluation strictly on locked chronological test cycles (June 6–7, 2004) over 9,928 correlated spatial points (2 independent temporal days) with zero temporal or future leakage.",
+      highlight: "Locked Test: BSS +20.04% over Native 5-Member Ensemble"
     }
   ];
 

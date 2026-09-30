@@ -10,7 +10,7 @@ export default function ScientificStatusBanner({ compact = false }) {
         <div className="flex items-center gap-2">
           <FlaskConical className="w-3.5 h-3.5 text-amber-400 shrink-0" />
           <span className="font-semibold tracking-wide">PILOT SCOPE:</span>
-          <span>7-Cycle June 2004 Chronological Pilot (2 Independent Test Cycles, ~14,892 Correlated Spatial Records)</span>
+          <span>7-Cycle June 2004 Chronological Pilot (2 Independent Days: 9,928 Spatial Records; Extended 3-Day: 14,892 Records)</span>
         </div>
         <button 
           onClick={() => setExpanded(!expanded)} 
@@ -35,7 +35,7 @@ export default function ScientificStatusBanner({ compact = false }) {
               <span className="text-[10px] px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 font-mono border border-amber-500/30">LOCKED TEST</span>
             </div>
             <div className="text-slate-200 text-sm font-semibold mt-0.5">
-              7-Cycle June 2004 Chronological Pilot • 2 Independent Temporal Test Cycles (June 6–7)
+              7-Cycle June 2004 Chronological Pilot • 2 Independent Temporal Test Cycles (June 6–7, 9,928 Correlated Records)
             </div>
           </div>
         </div>
@@ -52,18 +52,18 @@ export default function ScientificStatusBanner({ compact = false }) {
         <div className="mt-4 pt-4 border-t border-white/5 grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
           <div className="p-3 rounded-lg bg-black/40 border border-white/5">
             <div className="text-slate-400 font-medium mb-1">Temporal Test Sample</div>
-            <div className="text-white font-mono text-sm">2 Independent Days</div>
-            <div className="text-slate-400 mt-1">Locked test: June 6–7, 2004. Chronologically strict out-of-sample split.</div>
+            <div className="text-white font-mono text-sm">2 Independent Days (June 6–7)</div>
+            <div className="text-slate-400 mt-1">Train: June 2–4 (14,892 records). Buffer: June 5 (4,964 records). Test: June 6–7 (9,928 records).</div>
           </div>
           <div className="p-3 rounded-lg bg-black/40 border border-white/5">
             <div className="text-slate-400 font-medium mb-1">Spatial Grid Evaluation</div>
-            <div className="text-white font-mono text-sm">~14,892 Correlated Points</div>
-            <div className="text-amber-300/80 mt-1">Not independent cases. Cross-cell spatial auto-correlation acknowledged.</div>
+            <div className="text-white font-mono text-sm">9,928 Correlated Points (2-Day)</div>
+            <div className="text-amber-300/80 mt-1">Spatial grid records are correlated across India and are not equivalent to independent test cases.</div>
           </div>
           <div className="p-3 rounded-lg bg-black/40 border border-white/5">
             <div className="text-slate-400 font-medium mb-1">Regime Conditioning</div>
-            <div className="text-white font-mono text-sm">Pilot Soft Transition</div>
-            <div className="text-slate-400 mt-1">Current 2-regime model uses rainfall threshold transition. Independent synoptic clustering is pending operational phase.</div>
+            <div className="text-white font-mono text-sm">PILOT RAINFALL-CONDITIONED REGIME GATING</div>
+            <div className="text-slate-400 mt-1">Uses rainfall threshold transition with potential circularity risk. Future production: Independent synoptic regime classification (MSLP, u850, v850, PWAT).</div>
           </div>
         </div>
       )}

@@ -46,13 +46,12 @@ export default function WeatherRegime() {
         <AlertTriangle className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
         <div className="text-xs space-y-1">
           <div className="flex items-center gap-2">
-            <span className="font-bold text-amber-300 uppercase tracking-wider">PILOT REGIME CONDITIONING BADGE</span>
+            <span className="font-bold text-amber-300 uppercase tracking-wider">PILOT RAINFALL-CONDITIONED REGIME GATING</span>
             <span className="px-1.5 py-0.2 rounded bg-amber-500/20 text-amber-300 font-mono text-[10px]">CIRCULARITY AUDIT</span>
           </div>
           <p className="text-slate-300 leading-relaxed">
-            The current 2-regime pilot (Active vs Break) conditions CSGD parameters on rainfall magnitude thresholds via continuous logistic transition. 
-            Because this uses rainfall-derived features rather than completely independent synoptic circulation fields, it carries potential circularity risk. 
-            Full multi-regime dynamic synoptic clustering (K-Means / EOF on MSLP + 850hPa winds) is part of the operational roadmap.
+            The current pilot uses rainfall-conditioned regime gating (continuous soft transition between Active and Break states) with potential circularity risk acknowledged. 
+            Future production requirement: Independent synoptic regime classification using forecast-time MSLP, u850, v850, PWAT, geopotential-height and related atmospheric fields.
           </p>
         </div>
       </div>

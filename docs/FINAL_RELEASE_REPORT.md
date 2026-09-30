@@ -1,133 +1,141 @@
 # FINAL RELEASE REPORT — MEGHANVAYA
 **SIH 2026 | Problem Statement 26080**  
-**Autonomous Product Completion & Evaluation Audit**  
-**Release Date:** September 30, 2026  
-**Final Status:** **READY FOR SIH EVALUATION WITH EXPLICIT PILOT LIMITATIONS**  
+**Regime-Aware AI Post-Processing of Monsoon Rainfall Forecasts**  
+**Audit & Release Timestamp:** September 30, 2026  
+**Final Release Decision:** **READY FOR SIH EVALUATION WITH EXPLICIT PILOT LIMITATIONS**  
 
 ---
 
-## 1. PROJECT STATUS
-MEGHANVAYA has been successfully transformed into an end-to-end, government-grade meteorological decision-support system. The platform combines a dark institutional command-centre aesthetic with a mathematically rigorous post-processing engine executing Censored Shifted Gamma EMOS (CSGD-EMOS) and Ensemble Copula Coupling (ECC).
+## A. ENGINEERING STATUS
+- **Frontend Architecture:** React (Vite) utilizing Vanilla JavaScript and JSX. Zero TypeScript dependencies. 
+- **Design System:** Dark institutional foundation with subtle teal/cyan semantic accents, glassmorphic card containers, and responsive grids optimized for 1280x720, 1366x768, 1536x864, and 1920x1080 operational displays.
+- **Geospatial & Visualization Layer:** MapLibre GL engine displaying 4,964 discrete national 0.25° grid points with dynamic circle scaling, layer switching, and interactive tooltips; Recharts powering calibration curves, ensemble distributions, and uncertainty histograms.
+- **Backend Architecture:** FastAPI framework with Python 3.13 scientific computing stack (NumPy, SciPy, Pandas, Xarray, Scikit-learn).
+- **Endpoint Structure:** 22 validated REST API endpoints under `/api/v1/forecasts/*`, `/api/v1/auth/*`, and top-level meteorology aliases.
+- **Resilience:** In-memory caching over Parquet datasets providing sub-50ms query response; automatic SQLite fallback for air-gapped demo reliability.
 
 ---
 
-## 2. ENGINEERING STATUS
-
-### Frontend Status
-- **Framework:** React + Vite (Vanilla JavaScript + JSX). Strictly adheres to the directive's ban on TypeScript.
-- **Styling Architecture:** Tailwind CSS v3 with custom institutional tokens (`index.css`), dense operational typography, subtle teal/cyan accents, and responsive layout grids.
-- **Map & Spatial Engine:** MapLibre GL rendering 4,964 discrete national 0.25° grid points with dynamic multi-layer circle scaling and interactive tooltips.
-- **Visualization:** Recharts powering reliability curves, member comparisons, state bar distributions, and uncertainty histograms.
-- **Build Result:** **PASS**. `npm run build` compiles 2,499 modules into production assets in 607 ms with zero errors.
-
-### Backend Status
-- **Framework:** FastAPI with Python 3.13 scientific stack (NumPy, SciPy, Pandas, Xarray, Scikit-learn).
-- **Architecture:** 22 modular REST API endpoints under `/api/v1/forecasts/*`, `/api/v1/auth/*`, and root meteorology aliases.
-- **Data Cache:** In-memory caching over `final_ecc_multicycle.parquet` ensuring sub-50ms API response latency.
-- **Fallback Resilience:** Automatic SQLite fallback ensuring zero disruption during demos if external PostgreSQL is offline.
-
-### Database Status
-- Dual compatibility with PostgreSQL (production) and SQLite (demonstration/air-gapped environments).
-- Pre-seeded with administrative personas, meteorological analysts, and government officer roles.
+## B. SCIENTIFIC STATUS
+- **Core Engine:** True Censored Shifted Gamma Distribution (CSGD-EMOS) with Negative Log-Likelihood (NLL) optimization via `scipy.optimize.minimize` (L-BFGS-B).
+- **Zero-Precipitation Point Mass:** Explicitly evaluated via $F_{CSGD}(\delta; k, \theta)$ at shift parameter $\delta$, eliminating artificial truncation.
+- **Regime Conditioning:** Continuous soft logistic transition ($w_{active}, w_{break}$) between Active and Break states.
+- **Spatial Consistency:** Ensemble Copula Coupling (ECC-Q) permuting calibrated quantiles according to raw NWP member ranks, preserving physical storm structures without spatial blurring.
+- **Precipitation Probability (PoP):** Direct evaluation of standard IMD exceedance thresholds: $P(Y \ge 2.5\text{ mm/day})$, $P(Y \ge 15.6\text{ mm/day})$, $P(Y \ge 35.5\text{ mm/day})$, $P(Y \ge 64.5\text{ mm/day})$, $P(Y \ge 115.6\text{ mm/day})$, $P(Y \ge 204.5\text{ mm/day})$.
+- **Uncertainty Quantification:** Strict 90% Predictive Interval $[P_{10}, P_{90}]$ combining ensemble spread and parametric CSGD dispersion.
 
 ---
 
-## 3. ML & SCIENTIFIC STATUS
-- **Core Algorithm:** True CSGD-EMOS with negative log-likelihood (NLL) optimization via `scipy.optimize.minimize` (L-BFGS-B).
-- **Zero-Precipitation Handling:** Explicit point mass at zero derived from $F_{CSGD}(\delta; k, \theta)$ without unphysical negative truncations.
-- **Regime Conditioning:** Continuous soft logistic transition weighting ($w_{active}, w_{break}$) between Active and Break monsoon states.
-- **Spatial Consistency:** True Ensemble Copula Coupling (ECC-Q) permuting calibrated CSGD quantiles according to raw NWP member ranks.
-- **Empirical Skill Improvements:**
-  - **Brier Skill Score:** **+20.98%** improvement over raw NWP ensemble (0.2369 → 0.1872).
-  - **Root Mean Squared Error (RMSE):** Reduced from 10.95 mm (Raw) to 10.56 mm (ECC), a -3.6% error reduction.
-  - **Mean Bias:** Reduced from -3.44 mm to -2.63 mm.
+## C. DATA ACCOUNTING (EXACT & RECONCILED)
+Source: `data/processed/final_ecc_multicycle.parquet` & `rainfall_2004.nc`
+
+| Metric / Partition | Exact Reconciled Value | Notes |
+| :--- | :--- | :--- |
+| **Total Pilot Records** | **34,748** | Exactly 7 cycles $\times$ 4,964 cells |
+| **Spatial Cells per Cycle** | **4,964** | Spanning Lat 8.25°N–37.25°N, Lon 68.00°E–97.25°E |
+| **Total Forecast Cycles** | **7** | June 2 to June 8, 2004 |
+| **Training Partition** | **14,892 records** | June 2–4, 2004 (3 cycles $\times$ 4,964 cells) |
+| **Validation Buffer** | **4,964 records** | June 5, 2004 (1 cycle, 24h separation buffer) |
+| **Primary Locked Test** | **9,928 records** | June 6–7, 2004 (**2 independent temporal cycles**) |
+| **Extended 3-Day Test** | **14,892 records** | June 6–8, 2004 (3 cycles $\times$ 4,964 cells) |
+| **Monitored Districts** | **74 representative districts** | Across 19 states in current pilot grid |
+| **Nationwide GIS Districts** | **700+ districts** | Supported in operational schema |
 
 ---
 
-## 4. SECURITY & GOVERNANCE STATUS
-- **Secret Management:** Hardcoded passwords and secret keys eliminated; configured via `.env`.
-- **Role-Based Access Control (RBAC):** Functional token authentication distinguishing ADMIN, METEOROLOGIST, OFFICER, and GENERAL USER.
-- **Audit Logging:** Request tracking with cryptographic provenance hashes (`sha256:4a8f9c1b...`).
-- **Disclaimers:** Ubiquitous statutory disclaimers reminding operators that official meteorological warnings remain the statutory domain of authorized national agencies (IMD).
+## D. MODEL STATUS & CONVERGENCE
+- **Lifecycle Tier:** **PILOT** (Strictly non-operational; decision-support prototype).
+- **Optimization:** L-BFGS-B NLL minimization converged.
+- **Active Monsoon CSGD Parameters:** $a_0 = 10.0616, a_1 = 0.8310, b_0 = 180.5578, b_1 = 0.0001, \delta = 2.2288$
+- **Break Monsoon CSGD Parameters:** $a_0 = 2.5229, a_1 = 1.9922, b_0 = 69.2460, b_1 = 12.9599, \delta = 0.5594$
+- **Variance Positivity:** $\sigma^2 = \max(b_0 + b_1 \sigma^2_{ens}, 10^{-4})$ strictly $> 0$.
+- **Quantile Monotonicity:** $P_{10} \le P_{50} \le P_{90} \le P_{95}$ strictly non-decreasing.
 
 ---
 
-## 5. TEST STATUS
-- **Test Framework:** Pytest with TestClient.
-- **Total Tests:** 17 automated tests in `tests/test_meghanvaya_pipeline.py`.
-- **Coverage Areas:**
-  1. CSGD link function variance positivity ($\sigma^2 > 0$)
-  2. CSGD CDF monotonicity ($F(y_1) \le F(y_2)$)
-  3. Quantile monotonicity ($P_{10} \le P_{50} \le P_{90} \le P_{95}$)
-  4. Probability bounds ($0 \le P \le 1$)
-  5. Soft mixture weight summation ($w_{act} + w_{brk} = 1.0$)
-  6. Heavy rain exceedance monotonicity
-  7. ECC rank preservation
-  8. 34,748 dataset records and spatial coverage
-  9. 9 core backend API endpoints (Summary, Cycle, Ensemble, Regimes, PoP, Heavy Rain, Verification, Reliability, Provenance)
-- **Result:** **17 PASSED, 0 FAILED** in 2.63 seconds.
+## E. VERIFICATION (OUT-OF-SAMPLE BENCHMARKS)
+
+### Primary Locked 2-Day Test (June 6–7, 2004, $N=9,928$)
+- **Raw NWP Native 5-Member Brier Score:** **0.2351**
+- **CSGD-EMOS Calibrated Brier Score:** **0.1880**
+- **Brier Skill Score (BSS):** **+0.2004 (+20.04% probabilistic skill gain)**
+- **Root Mean Squared Error (RMSE):**
+  - Raw NWP: **10.43 mm**
+  - CSGD-EMOS P50: **10.35 mm**
+  - ECC Copula Coupled: **10.06 mm (-3.5% error reduction)**
+- **Mean Bias:**
+  - Raw NWP: **-3.25 mm**
+  - CSGD-EMOS: **-3.22 mm**
+  - ECC: **-2.40 mm (+26.2% bias reduction)**
+
+### Extended 3-Day Test (June 6–8, 2004, $N=14,892$)
+- **Raw NWP Native Brier Score:** **0.2369**
+- **CSGD-EMOS Calibrated Brier Score:** **0.1872**
+- **Brier Skill Score (BSS):** **+0.2098 (+20.98% probabilistic skill gain)**
+- **Root Mean Squared Error (RMSE):** Raw **10.95 mm** $\rightarrow$ ECC **10.56 mm (-3.6%)**
 
 ---
 
-## 6. CURRENT VALIDATION SCOPE & KNOWN LIMITATIONS
+## F. BROWSER TEST EVIDENCE
+- **Automated Route Audit:** All 24 application routes tested via [scripts/verify_routes.py](file:///d:/MEGHANVAYA/scripts/verify_routes.py).
+- **Result:** **24 / 24 routes returned HTTP 200**, mounted the React DOM root, and exhibited clean console logs.
+- **Audit Matrix:** Documented in [docs/ROUTE_VERIFICATION.md](file:///d:/MEGHANVAYA/docs/ROUTE_VERIFICATION.md).
 
-### Validation Scope
+---
+
+## G. BUILD RESULT
+- **Command:** `npm run build`
+- **Output:** Transformed 2,499 modules into production assets in **593 ms**.
+- **Exit Code:** `0` (Success). No critical warnings, no broken syntax.
+
+---
+
+## H. DEPLOYMENT READINESS
+- **Containerization:** Functional `Dockerfile.backend`, `Dockerfile.frontend`, and `docker-compose.yml`.
+- **Environment Isolation:** Secrets removed; runtime configured via `.env`.
+- **Statutory Authority Protection:** Ubiquitous disclaimers affirming that official meteorological warnings remain the statutory domain of authorized national agencies (IMD).
+
+---
+
+## I. CURRENT SCIENTIFIC LIMITATIONS
+1. **Spatial Auto-Correlation:** The 9,928 test records are spatially correlated across India and are not independent degrees of freedom.
+2. **Limited Temporal Sample:** Evaluated on 2 primary independent temporal test days (June 6–7, 2004); multi-year nationwide operational skill is not claimed.
+3. **Globally Pooled Parameterization:** CSGD parameters are globally pooled across India in this pilot phase rather than stratified by agro-climatic or elevation zones.
+4. **Pilot Regime Conditioning:** Gating uses a rainfall-derived transition between Active and Break states; potential circularity risk is explicitly acknowledged.
+
+---
+
+## J. EXACT VALIDATION SCOPE
 - **Experiment:** 7-Cycle June 2004 Chronological Pilot (June 2–8, 2004).
-- **Training Partition:** June 2–4, 2004 (14,892 records).
-- **Locked Test Partition:** June 6–7, 2004 (2 independent temporal days, 14,892 spatial cell points).
-- **Raw NWP Baseline:** NOAA GEFSv12 5-member reforecast (`c00, p01, p02, p03, p04`).
-- **Ground Truth:** IMD 0.25° Gridded Daily Rainfall Analysis (`rainfall_2004.nc`).
-
-### Explicit Scientific Limitations (Honesty Checklist)
-1. **Spatial Correlation:** The ~14,892 test points are spatially correlated and do not constitute independent statistical degrees of freedom.
-2. **Limited Temporal Window:** The pilot test set is restricted to 2 independent temporal days; nationwide operational skill across multiple seasons remains unproven.
-3. **Globally Pooled Parameters:** In this pilot, CSGD parameters are globally pooled across all of India rather than locally or elevation-stratified.
-4. **Circularity Risk in Regime Conditioning:** The pilot uses a rainfall-derived transition between Active and Break states; multi-variable synoptic circulation clustering (MSLP, winds) is part of the operational roadmap.
+- **Ensemble Input:** NOAA GEFSv12 5-member reforecast (`c00, p01..p04`, 0.25° resolution).
+- **Observational Truth:** IMD 0.25° Gridded Daily Rainfall Analysis (`rainfall_2004.nc`).
+- **Temporal Alignment:** 24-hour accumulation valid 03:00 UTC IMD observational day.
 
 ---
 
-## 7. ROUTES IMPLEMENTED & VERIFIED
-1. `/landing` — High-level institutional introduction & architecture
-2. `/login` — Role-based access portal
-3. `/` — Mission Control overview dashboard
-4. `/forecast` — Primary Forecast Operations Centre with interactive map & intelligence panel
-5. `/ensemble` — 5-member raw GEFSv12 diagnostics
-6. `/regime` — Soft mixture regime probabilities & predictor weights
-7. `/probability` — Calibrated PoP exceedance curves
-8. `/uncertainty` — 90% predictive interval distribution
-9. `/heavy-rain` — Threshold exceedance & vulnerable districts ranking
-10. `/ecc` — Spatial copula rank restoration diagnostics
-11. `/grid` — Granular 0.25° grid inspection
-12. `/state` — State-level aggregation & district distributions
-13. `/district` — District profile with automated CSV/JSON exports
-14. `/verification` — Chronological benchmark performance metrics
-15. `/reliability` — Empirical reliability curves & calibration diagrams
-16. `/events` — Pilot meteorological episode reconstructions
-17. `/explainability` — Parametric link function sensitivity analysis
-18. `/provenance` — Audit hashes, NWP sources, and lineage metadata
-19. `/data-quality` — Ingestion completeness & co-registration audits
-20. `/model-health` — Optimization convergence & governance status
-21. `/pipeline` — 14-stage automated execution telemetry
-22. `/reports` — Advisory catalog with export endpoints
-23. `/demo` — Interactive 2–4 minute SIH judge evaluation journey
-24. `/admin` — User access management, audit logs, and system health checks
+## K. EXACT DEMO SCOPE (2–4 MINUTES)
+- **Verified Demonstration Case:** Valid cycle `2004-06-07 00:00 UTC` (Locked Test Day 2).
+- **Interactive Sequence:**
+  1. Login (`/login`) as Demo Admin.
+  2. Mission Control & Forecast Operations (`/forecast`) with multi-layer map switching.
+  3. Ensemble Diagnostics (`/ensemble`) reviewing 5 members.
+  4. Weather Regime Gating (`/regime`) with the *Pilot Rainfall-Conditioned Regime Gating* badge.
+  5. Probability Centre (`/probability`) displaying +20.04% BSS gain over native ensemble.
+  6. Uncertainty Centre (`/uncertainty`) reviewing 90% Predictive Intervals.
+  7. Heavy Rain Intelligence (`/heavy-rain`) showing model-derived district risk guidance.
+  8. ECC Spatial Consistency (`/ecc`) demonstrating rank permutation without smoothing.
+  9. District Explorer (`/district`) inspecting Ratnagiri advisory and executing CSV export.
+  10. Verification Command Centre (`/verification`) & Reliability Curve (`/reliability`).
+  11. Forecast Provenance (`/provenance`) auditing cryptographic lineage.
 
 ---
 
-## 8. EXACT DEMO FLOW (2–4 MINUTES)
-1. **Login (`/login`):** Click "Sign in as Demo Admin".
-2. **Forecast Operations (`/forecast`):** View the national 0.25° grid on the dark map. Toggle layers (CSGD P50, Raw NWP, P90, PoP, Heavy Rain). Click on a coastal cell (e.g. Ratnagiri) to display localized metrics in the intelligence panel.
-3. **Ensemble Explorer (`/ensemble`):** Inspect the 5 individual members (`c00, p01..p04`) and demonstrate how CSGD-EMOS corrects wet bias while ECC restores rank structure.
-4. **Weather Regime (`/regime`):** Point out the soft mixture probabilities (Active vs Break) and highlight the honest *Pilot Regime Conditioning Badge*.
-5. **Precipitation Probability (`/probability`):** Show the +20.98% BSS improvement and examine calibrated PoP across IMD rainfall categories.
-6. **Uncertainty (`/uncertainty`):** Explain the difference between predictive intervals $[P_{10}, P_{90}]$ and confidence intervals.
-7. **Heavy Rain Intelligence (`/heavy-rain`):** Show districts ranked by $P(Rain \ge 64.5mm)$ and point out the "Model-Derived Risk Indicator" disclaimer.
-8. **District Explorer (`/district`):** Select a district (e.g., Ratnagiri or Wayanad), view the full advisory, and click "CSV Export" to download the operational forecast file.
-9. **Verification & Reliability (`/verification` & `/reliability`):** Present the locked test results and the empirical calibration curve aligning to the 45-degree diagonal.
-10. **Provenance (`/provenance`):** Open the Lineage drawer to demonstrate audit hashes and traceability.
+## L. REMAINING LIMITATIONS & ROADMAP
+- Ingestion of multi-year paired reforecast archives (1980–2020) for seasonal multi-decadal calibration.
+- Implementation of independent synoptic circulation regime clustering using forecast-time MSLP, 850 hPa winds ($u, v$), and PWAT fields.
+- Elevation-stratified parameter pooling for Himalayan and Western Ghats complex terrain.
 
 ---
 
-## 9. BLOCKING ISSUES & REMAINING WORK
-- **Blocking Issues:** **NONE**. All modules, routes, build pipelines, and automated test suites pass.
-- **Non-Blocking Future Enhancements:** Ingest multi-year historical archives (1980–2020) and deploy spatial K-Means synoptic circulation clustering.
+## M. FINAL RELEASE DECISION
+**READY FOR SIH EVALUATION WITH EXPLICIT PILOT LIMITATIONS**
