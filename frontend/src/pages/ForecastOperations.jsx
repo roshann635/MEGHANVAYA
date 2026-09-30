@@ -64,6 +64,8 @@ export default function ForecastOperations() {
       });
   }, [activeCycle, token]);
 
+  const [mapLoaded, setMapLoaded] = useState(false);
+
   // 3. Initialize MapLibre
   useEffect(() => {
     if (map.current || !mapContainer.current) return;
@@ -76,7 +78,7 @@ export default function ForecastOperations() {
         zoom: 4.2,
         maxZoom: 10,
         minZoom: 3,
-        pitch: 20,
+        pitch: 0,
         attributionControl: false
       });
 
@@ -95,13 +97,13 @@ export default function ForecastOperations() {
           paint: {
             'circle-radius': [
               'interpolate', ['linear'], ['zoom'],
-              3.5, 3.5,
+              3.5, 4,
               6, 9,
               9, 20
             ],
-            'circle-opacity': 0.85,
+            'circle-opacity': 0.88,
             'circle-stroke-width': 0.5,
-            'circle-stroke-color': 'rgba(255,255,255,0.2)',
+            'circle-stroke-color': 'rgba(255,255,255,0.4)',
             'circle-color': [
               'interpolate', ['linear'], ['get', 'value'],
               0, 'rgba(30, 41, 59, 0.4)',
@@ -129,6 +131,9 @@ export default function ForecastOperations() {
         map.current.on('mouseleave', 'grid-points', () => {
           map.current.getCanvas().style.cursor = '';
         });
+
+        map.current.resize();
+        setMapLoaded(true);
       });
     } catch (e) {
       console.warn("MapLibre init error:", e);
@@ -142,11 +147,13 @@ export default function ForecastOperations() {
     };
   }, []);
 
-  // 4. Update map data and color scales when cycleData or activeLayer changes
+  // 4. Update map data and color scales when cycleData, activeLayer, or mapLoaded changes
   useEffect(() => {
-    if (!map.current || !map.current.isStyleLoaded()) return;
+    if (!map.current || !mapLoaded || !map.current.isStyleLoaded()) return;
     const src = map.current.getSource('forecast-grid');
     if (!src) return;
+
+    map.current.resize();
 
     const features = cycleData.map(pt => {
       let val = pt.calibrated;

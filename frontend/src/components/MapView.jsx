@@ -10,6 +10,7 @@ export default function MapView({ validTime, activeLayer = 'heavy_prob', legendT
   const map = useRef(null);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [mapLoaded, setMapLoaded] = useState(false);
 
   useEffect(() => {
     if (!validTime) return;
@@ -54,6 +55,9 @@ export default function MapView({ validTime, activeLayer = 'heavy_prob', legendT
           'circle-color': '#0d9488'
         }
       });
+
+      map.current.resize();
+      setMapLoaded(true);
     });
 
     return () => {
@@ -64,9 +68,11 @@ export default function MapView({ validTime, activeLayer = 'heavy_prob', legendT
     };
   }, []);
 
-  // Update source and paint properties when data or layer changes
+  // Update source and paint properties when data, layer, or mapLoaded changes
   useEffect(() => {
-    if (!map.current || !map.current.isStyleLoaded() || !map.current.getSource('grid-data')) return;
+    if (!map.current || !mapLoaded || !map.current.isStyleLoaded() || !map.current.getSource('grid-data')) return;
+
+    map.current.resize();
 
     const features = data.map(d => {
       let val = d.calibrated_p50;
