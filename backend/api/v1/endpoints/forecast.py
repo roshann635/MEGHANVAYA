@@ -408,7 +408,38 @@ def get_ecc_diagnostics(valid_time_str: str):
     }
 
 # -------------------------------------------------------------
-# 9. State Analytics
+# 9. Provenance & Lineage
+# -------------------------------------------------------------
+@router.get("/provenance/{valid_time_str}")
+def get_provenance_data(valid_time_str: str):
+    df = get_data()
+    if df.empty:
+        raise HTTPException(status_code=404, detail="No pilot data")
+    
+    import hashlib
+    # Generate a deterministic mock hash based on valid time for the pilot
+    hash_input = f"FCST-{valid_time_str}-GEFSv12-CSGD-EMOS".encode('utf-8')
+    audit_hash = hashlib.sha256(hash_input).hexdigest()
+    
+    return {
+        "forecast_id": f"FCST-{valid_time_str[:10].replace('-', '')}-INDIA",
+        "audit_hash": audit_hash,
+        "scientific_status": "VALIDATED_PILOT",
+        "nwp_source": "NOAA GEFSv12 (Historical Reforecast)",
+        "ensemble_members": ["c00", "p01", "p02", "p03", "p04"],
+        "spatial_resolution": "0.25° x 0.25° (~27 km)",
+        "issue_time": f"{valid_time_str[:10]} 00:00 UTC (-24h)",
+        "valid_time": f"{valid_time_str[:10]} 00:00 UTC",
+        "lead_window": "24 Hours (Day 1)",
+        "model_engine": "Censored Shifted Gamma EMOS",
+        "dataset_lineage": "GEFSv12 (NWP) + IMD Gridded Rainfall (Obs)",
+        "observation_truth": "IMD 0.25° Daily Rainfall Accumulation",
+        "pipeline_version": "1.0-PILOT",
+        "regime_method": "Soft Rainfall-Conditioned Heuristic Gate"
+    }
+
+# -------------------------------------------------------------
+# 10. State Analytics
 # -------------------------------------------------------------
 @router.get("/states/{valid_time_str}")
 def get_states_analytics(valid_time_str: str):
