@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { fetchVerification } from '../lib/api';
 import { useAuth } from '../contexts/AuthContext';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import { ShieldCheck, AlertCircle, TrendingUp, Target } from 'lucide-react';
+import { ShieldCheck, AlertCircle, TrendingUp, Target, Activity } from 'lucide-react';
 
 export default function Verification() {
   const { token } = useAuth();
