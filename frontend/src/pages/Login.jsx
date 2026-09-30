@@ -25,7 +25,7 @@ export default function Login() {
 
   const loginDemo = (role) => {
     setEmail(`${role}@meghanvaya.in`);
-    setPassword('demo123');
+    setPassword('');
   };
 
   return (
