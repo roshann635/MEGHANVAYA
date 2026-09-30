@@ -1,12 +1,25 @@
-import React from 'react';
-import CommandCentre from './components/CommandCentre';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { AuthProvider } from './contexts/AuthContext';
+import MainLayout from './layouts/MainLayout';
+import Login from './pages/Login';
+import Dashboard from './pages/Dashboard';
+import Verification from './pages/Verification';
+import Admin from './pages/Admin';
 
-function App() {
+export default function App() {
   return (
-    <div className="App">
-      <CommandCentre />
-    </div>
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route element={<MainLayout />}>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/verification" element={<Verification />} />
+            <Route path="/admin" element={<Admin />} />
+          </Route>
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
-
-export default App;

@@ -1,0 +1,27 @@
+FROM python:3.10-slim
+
+WORKDIR /app
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    libpq-dev \
+    gcc \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY backend/requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Create models directory and necessary paths
+RUN mkdir -p /app/backend /app/data/processed /app/docs
+ENV PYTHONPATH=/app
+
+# Copy application files
+COPY backend /app/backend
+COPY data /app/data
+COPY docs /app/docs
+
+# Expose port
+EXPOSE 8000
+
+# Start command
+CMD ["uvicorn", "backend.main:app", "--host", "0.0.0.0", "--port", "8000"]
