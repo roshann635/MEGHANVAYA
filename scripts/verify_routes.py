@@ -6,14 +6,15 @@ routes = [
     '/probability', '/uncertainty', '/heavy-rain', '/grid', '/state',
     '/district', '/ecc', '/verification', '/reliability', '/events',
     '/explainability', '/provenance', '/data-quality', '/model-health',
-    '/pipeline', '/reports', '/demo', '/admin'
+    '/pipeline', '/reports', '/demo', '/admin',
+    '/outlook', '/general', '/methodology', '/scalability', '/impact'
 ]
 
-print("=== VERIFYING ALL 24 FRONTEND ROUTES ===")
+print(f"=== VERIFYING ALL {len(routes)} FRONTEND ROUTES ===")
 all_pass = True
 for r in routes:
     try:
-        url = f"http://localhost:5173{r}"
+        url = f"http://127.0.0.1:5173{r}"
         req = urllib.request.urlopen(url, timeout=5)
         code = req.getcode()
         html = req.read().decode('utf-8')
@@ -26,7 +27,7 @@ for r in routes:
         all_pass = False
 
 if all_pass:
-    print("\nALL 24 ROUTES VERIFIED SUCCESSFULLY.")
+    print(f"\nALL {len(routes)} ROUTES VERIFIED SUCCESSFULLY.")
 else:
     print("\nSOME ROUTES FAILED.")
     sys.exit(1)

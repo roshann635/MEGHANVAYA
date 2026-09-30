@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { Navigate } from 'react-router-dom';
 import * as maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { fetchForecastSummary, fetchCycleData } from '../lib/api';
@@ -6,7 +7,12 @@ import { useAuth } from '../contexts/AuthContext';
 import { Layers, Thermometer, CloudRain, ShieldAlert, Map as MapIcon, Database, CheckCircle, Crosshair } from 'lucide-react';
 
 export default function Dashboard() {
-  const { token } = useAuth();
+  const { token, user } = useAuth();
+  
+  if (user?.role === 'ADMIN') return <Navigate to="/admin" replace />;
+  if (user?.role === 'GOVT_OFFICER') return <Navigate to="/outlook" replace />;
+  if (user?.role === 'GENERAL_USER') return <Navigate to="/general" replace />;
+
   const mapContainer = useRef(null);
   const map = useRef(null);
   const [summary, setSummary] = useState(null);

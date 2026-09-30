@@ -1,142 +1,200 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { login } from '../lib/api';
-import { CloudRain, ShieldCheck, Activity, Users, Map } from 'lucide-react';
+import { 
+  CloudRain, ShieldCheck, Activity, Landmark, Users, 
+  ArrowRight, Lock, KeyRound, AlertCircle
+} from 'lucide-react';
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const { loginUser } = useAuth();
   const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(false);
+
+  const handleAuthSuccess = (token, role) => {
+    loginUser(token);
+    // Role-specific landing route
+    if (role === 'ADMIN') navigate('/admin');
+    else if (role === 'METEOROLOGIST') navigate('/forecast');
+    else if (role === 'GOVT_OFFICER') navigate('/outlook');
+    else if (role === 'GENERAL_USER') navigate('/general');
+    else navigate('/');
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
+    setError('');
     try {
-      setError('');
       const data = await login(email, password);
-      loginUser(data.access_token);
-      navigate('/');
+      // Decode or fetch role
+      handleAuthSuccess(data.access_token, 'METEOROLOGIST');
     } catch (err) {
-      setError(err.message || 'Login failed');
+      setError(err.message || 'Invalid credentials');
     } finally {
       setIsLoading(false);
     }
   };
 
-  const loginDemo = (role) => {
-    setEmail(`${role}@meghanvaya.in`);
-    setPassword('');
+  const loginWithProfile = async (targetEmail, role) => {
+    setIsLoading(true);
+    setError('');
+    try {
+      const data = await login(targetEmail, 'demo123');
+      handleAuthSuccess(data.access_token, role);
+    } catch (err) {
+      setError(`Failed to sign in as ${role}: ${err.message}`);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
-    <div className="min-h-screen relative overflow-hidden flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-      {/* Dynamic Background */}
-      <div className="absolute inset-0 bg-slate-950 z-0">
-        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-blue-900/30 blur-[120px] animate-float"></div>
-        <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-indigo-900/20 blur-[150px] animate-float" style={{ animationDelay: '2s' }}></div>
-        <div className="absolute top-[40%] left-[60%] w-[30%] h-[30%] rounded-full bg-emerald-900/10 blur-[100px] animate-float" style={{ animationDelay: '4s' }}></div>
-        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5 mix-blend-overlay"></div>
+    <div className="min-h-screen bg-[#0b0f19] flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8 relative select-none">
+      {/* Background Subtle Atmospheric Pattern */}
+      <div className="absolute inset-0 bg-slate-950 pointer-events-none">
+        <div className="absolute top-[-15%] left-[-10%] w-[50%] h-[50%] rounded-full bg-teal-950/20 blur-[150px]"></div>
+        <div className="absolute bottom-[-15%] right-[-10%] w-[50%] h-[50%] rounded-full bg-blue-950/20 blur-[150px]"></div>
       </div>
 
-      <div className="sm:mx-auto sm:w-full sm:max-w-md relative z-10 animate-fade-in-up stagger-1">
-        <div className="flex justify-center">
-          <div className="relative">
-            <div className="absolute inset-0 bg-blue-500 rounded-full blur-xl opacity-40 animate-glow"></div>
-            <div className="w-16 h-16 bg-slate-900 rounded-2xl border border-blue-500/30 flex items-center justify-center relative shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]">
-              <CloudRain className="w-8 h-8 text-blue-400 drop-shadow-[0_0_8px_rgba(96,165,250,0.5)]" />
-            </div>
+      <div className="sm:mx-auto sm:w-full sm:max-w-md relative z-10 space-y-4">
+        {/* Brand Header */}
+        <div className="flex flex-col items-center">
+          <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-teal-700 to-blue-700 flex items-center justify-center border border-teal-400/30 shadow-[0_4px_20px_rgba(13,148,136,0.25)]">
+            <CloudRain className="w-7 h-7 text-white" />
           </div>
+          <h1 className="mt-4 text-2xl font-bold text-white tracking-wider flex items-center gap-2">
+            MEGHANVAYA
+            <span className="text-[10px] px-2 py-0.5 rounded bg-teal-500/20 text-teal-300 font-mono border border-teal-500/30">
+              SIH 2026
+            </span>
+          </h1>
+          <p className="mt-1 text-xs text-slate-400 font-medium text-center">
+            Regime-Aware AI Post-Processing of Monsoon Rainfall Forecasts
+          </p>
         </div>
-        <h2 className="mt-6 text-center text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-300 to-white tracking-tight">
-          MEGHANVAYA
-        </h2>
-        <p className="mt-3 text-center text-sm text-blue-200/70 max-w-sm mx-auto font-medium">
-          Regime-Aware AI Post-Processing of Monsoon Rainfall Forecasts
-        </p>
-      </div>
 
-      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md relative z-10 animate-fade-in-up stagger-2">
-        <div className="glass-panel py-8 px-4 sm:rounded-2xl sm:px-10">
-          <form className="space-y-6" onSubmit={handleSubmit}>
-            {error && (
-              <div className="bg-red-500/10 border border-red-500/50 text-red-200 px-4 py-3 rounded-xl relative text-sm backdrop-blur-md flex items-center gap-2 shadow-[0_0_15px_rgba(239,68,68,0.2)]">
-                <ShieldCheck className="w-4 h-4 text-red-400" />
-                {error}
-              </div>
-            )}
-            
-            <div className="animate-fade-in-up stagger-3">
-              <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Email address</label>
+        {/* Auth Card */}
+        <div className="glass-panel p-6 sm:p-8 rounded-2xl border border-white/10 space-y-6">
+          {error && (
+            <div className="p-3 rounded-lg bg-red-500/10 border border-red-500/30 text-red-300 text-xs flex items-center gap-2">
+              <AlertCircle className="w-4 h-4 shrink-0 text-red-400" />
+              <span>{error}</span>
+            </div>
+          )}
+
+          {/* Standard Login Form */}
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-300 mb-1.5 font-mono">
+                Institutional Email
+              </label>
               <input
                 type="email"
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="glass-input block w-full px-4 py-3 rounded-xl shadow-sm sm:text-sm"
-                placeholder="Enter your email"
+                placeholder="forecaster@meghanvaya.in"
+                className="w-full glass-input px-3.5 py-2.5 rounded-lg text-xs"
               />
             </div>
 
-            <div className="animate-fade-in-up stagger-3">
-              <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Password</label>
+            <div>
+              <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-300 mb-1.5 font-mono">
+                Password
+              </label>
               <input
                 type="password"
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="glass-input block w-full px-4 py-3 rounded-xl shadow-sm sm:text-sm"
-                placeholder="••••••••"
+                placeholder="••••••••••••"
+                className="w-full glass-input px-3.5 py-2.5 rounded-lg text-xs"
               />
             </div>
 
-            <div className="animate-fade-in-up stagger-4 pt-2">
-              <button
-                type="submit"
-                disabled={isLoading}
-                className="glass-button w-full flex justify-center py-3 px-4 rounded-xl text-sm font-bold text-white relative overflow-hidden"
-              >
-                {isLoading ? (
-                  <span className="flex items-center gap-2">
-                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
-                    Authenticating...
-                  </span>
-                ) : (
-                  "Access Terminal"
-                )}
-              </button>
-            </div>
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="w-full glass-button py-2.5 px-4 rounded-lg text-xs font-bold text-white flex items-center justify-center gap-2 disabled:opacity-50"
+            >
+              <KeyRound className="w-3.5 h-3.5" />
+              <span>{isLoading ? 'Authenticating...' : 'Sign In to Terminal'}</span>
+            </button>
           </form>
 
-          <div className="mt-8 animate-fade-in-up stagger-4">
-            <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-slate-700/50" />
-              </div>
-              <div className="relative flex justify-center text-xs">
-                <span className="px-3 bg-[#0f172a] text-slate-400 uppercase tracking-widest font-semibold rounded-full border border-slate-700/50">Evaluation Profiles</span>
-              </div>
+          {/* 1-Click Evaluation Profiles (Requirement 6) */}
+          <div className="pt-2 border-t border-white/5 space-y-3">
+            <div className="flex items-center justify-between">
+              <span className="text-[10px] font-mono font-bold uppercase text-teal-400 tracking-wider">
+                EVALUATION ACCESS PROFILES
+              </span>
+              <span className="text-[10px] text-slate-500 font-mono">1-CLICK LOGIN</span>
             </div>
 
-            <div className="mt-6 grid grid-cols-2 gap-3">
-              <button onClick={() => loginDemo('admin')} className="glass-button-secondary flex items-center justify-center gap-2 py-2 px-4 rounded-lg text-xs font-semibold text-slate-300">
-                <ShieldCheck className="w-4 h-4 text-indigo-400" /> Admin
+            <div className="grid grid-cols-2 gap-2 text-xs">
+              <button
+                type="button"
+                onClick={() => loginWithProfile('admin@meghanvaya.in', 'ADMIN')}
+                disabled={isLoading}
+                className="p-2.5 rounded-lg bg-black/40 hover:bg-white/10 border border-white/10 flex items-center gap-2 text-left transition-all group"
+              >
+                <ShieldCheck className="w-4 h-4 text-indigo-400 shrink-0" />
+                <div className="min-w-0">
+                  <div className="font-bold text-white group-hover:text-teal-300 truncate text-[11px]">Administrator</div>
+                  <div className="text-[9px] text-slate-400 font-mono">Governance</div>
+                </div>
               </button>
-              <button onClick={() => loginDemo('analyst')} className="glass-button-secondary flex items-center justify-center gap-2 py-2 px-4 rounded-lg text-xs font-semibold text-slate-300">
-                <Activity className="w-4 h-4 text-emerald-400" /> Meteorologist
+
+              <button
+                type="button"
+                onClick={() => loginWithProfile('analyst@meghanvaya.in', 'METEOROLOGIST')}
+                disabled={isLoading}
+                className="p-2.5 rounded-lg bg-black/40 hover:bg-white/10 border border-white/10 flex items-center gap-2 text-left transition-all group"
+              >
+                <Activity className="w-4 h-4 text-cyan-400 shrink-0" />
+                <div className="min-w-0">
+                  <div className="font-bold text-white group-hover:text-teal-300 truncate text-[11px]">Meteorologist</div>
+                  <div className="text-[9px] text-slate-400 font-mono">Operations</div>
+                </div>
               </button>
-              <button onClick={() => loginDemo('officer')} className="glass-button-secondary flex items-center justify-center gap-2 py-2 px-4 rounded-lg text-xs font-semibold text-slate-300">
-                <Map className="w-4 h-4 text-amber-400" /> Govt Officer
+
+              <button
+                type="button"
+                onClick={() => loginWithProfile('officer@meghanvaya.in', 'GOVT_OFFICER')}
+                disabled={isLoading}
+                className="p-2.5 rounded-lg bg-black/40 hover:bg-white/10 border border-white/10 flex items-center gap-2 text-left transition-all group"
+              >
+                <Landmark className="w-4 h-4 text-emerald-400 shrink-0" />
+                <div className="min-w-0">
+                  <div className="font-bold text-white group-hover:text-teal-300 truncate text-[11px]">Govt Officer</div>
+                  <div className="text-[9px] text-slate-400 font-mono">Decision Support</div>
+                </div>
               </button>
-              <button onClick={() => loginDemo('user')} className="glass-button-secondary flex items-center justify-center gap-2 py-2 px-4 rounded-lg text-xs font-semibold text-slate-300">
-                <Users className="w-4 h-4 text-blue-400" /> Public
+
+              <button
+                type="button"
+                onClick={() => loginWithProfile('user@meghanvaya.in', 'GENERAL_USER')}
+                disabled={isLoading}
+                className="p-2.5 rounded-lg bg-black/40 hover:bg-white/10 border border-white/10 flex items-center gap-2 text-left transition-all group"
+              >
+                <Users className="w-4 h-4 text-blue-400 shrink-0" />
+                <div className="min-w-0">
+                  <div className="font-bold text-white group-hover:text-teal-300 truncate text-[11px]">General User</div>
+                  <div className="text-[9px] text-slate-400 font-mono">Public Advisory</div>
+                </div>
               </button>
             </div>
-            <p className="text-center text-[10px] text-slate-500 mt-4 uppercase tracking-wider">Demo password: demo123</p>
           </div>
+        </div>
+
+        {/* Footer Notice */}
+        <div className="text-center text-[11px] text-slate-500 font-mono">
+          MEGHANVAYA • 7-Cycle June 2004 Chronological Pilot Prototype
         </div>
       </div>
     </div>

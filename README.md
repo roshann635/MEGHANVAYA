@@ -1,64 +1,95 @@
 # MEGHANVAYA
-**Regime-Aware AI Post-Processing of Monsoon Rainfall Forecasts**
+**Regime-Aware AI Post-Processing of Monsoon Rainfall Forecasts**  
+*Probabilistic NWP Post-Processing & District Rainfall Intelligence*  
 
 [![SIH 2026](https://img.shields.io/badge/SIH_2026-PS_26080-blue.svg)](https://sih.gov.in)
-[![Status](https://img.shields.io/badge/Status-Evaluation_Prototype-emerald.svg)]()
-[![Validation](https://img.shields.io/badge/Validation-7--Cycle_Pilot-amber.svg)]()
+[![Status](https://img.shields.io/badge/Status-Evaluation_Ready-emerald.svg)]()
+[![Validation](https://img.shields.io/badge/Validation-7--Cycle_Chronological_Pilot-amber.svg)]()
+[![Routes](https://img.shields.io/badge/Routes-29_Verified-cyan.svg)]()
 
-MEGHANVAYA is a probabilistic decision-support platform that applies statistical Machine Learning to correct systematic biases in Numerical Weather Prediction (NWP) ensembles. Built specifically for the Indian Summer Monsoon, it generates mathematically robust risk quantifications for extreme rainfall events conditioned on large-scale weather regimes.
+MEGHANVAYA is a national-scale meteorological decision-support platform designed to correct systematic biases in Numerical Weather Prediction (NWP) ensemble precipitation forecasts over the Indian Summer Monsoon. It integrates soft weather regime gating, Censored Shifted Gamma (CSGD-EMOS) parametric predictive distributions, and Schefzik (2013) Ensemble Copula Coupling (ECC-Q) multivariate rank preservation into a four-role operational dashboard.
 
 ---
 
-## The Problem
-Physics-based NWP models (like GEFS and NCMRWF) are excellent at predicting large-scale atmospheric dynamics, but they frequently struggle with sub-grid convective processes. Over the complex Indian terrain, this results in systematic biases—often underpredicting extreme rainfall while overpredicting light drizzle. Deterministic corrections fail to communicate the confidence required for life-saving government interventions.
+## 1. Core Architecture & Scientific Innovations
 
-## The MEGHANVAYA Solution
-Instead of attempting to replace NWP with pure deep learning, MEGHANVAYA adds an intelligent statistical post-processing layer. It utilizes **CSGD-EMOS (Censored Shifted Gamma Distribution Ensemble Model Output Statistics)** to fit continuous probability density functions to raw ensemble variance.
+1. **Soft Monsoon Weather Regime Gating:** Evaluates continuous logistic mixture weights ($w_{active}, w_{break}$) based on large-scale synoptic conditions, eliminating artificial hard boundary artifacts.
+2. **Censored Shifted Gamma (CSGD-EMOS):** Assigns explicit probability mass to zero rainfall ($P(Y=0) = F(\delta; k, \theta)$) via a left-censoring barrier at shift parameter $\delta$, preventing unphysical negative rainfall without arbitrary clipping.
+3. **Continuous Probability of Precipitation (PoP):** Direct CDF tail evaluation across standard IMD categories ($P \ge 2.5\text{ mm}$, $P \ge 15.6\text{ mm}$, $P \ge 64.5\text{ mm}$, $P \ge 115.6\text{ mm}$).
+4. **90% Predictive Intervals:** Generates mathematically rigorous $[P_{10}, P_{90}]$ interval bounds combining physical ensemble spread with parametric residual dispersion.
+5. **Ensemble Copula Coupling (ECC-Q):** Restores raw NWP multivariate spatial rank correlations (Schefzik et al., 2013), preserving physical storm geometry and squall lines without unphysical smoothing.
+6. **74 Monitored Districts:** Area-weighted spatial intersection delivering operational tabular guidance across 19 states (with support for 700+ nationwide district geometries in the operational schema).
 
-By doing so, the system provides:
-1. **Calibrated Medians (P50):** Bias-corrected deterministic forecasts.
-2. **Uncertainty Bounds (P90):** True risk quantification for worst-case scenarios.
-3. **Heavy Rain Probability:** Mathematically robust probabilities ($P(Y \ge 64.5mm)$) integrated directly from the predictive distribution.
-4. **Spatial Coherence:** Uses **ECC (Ensemble Copula Coupling)** to restore storm shape and spatial correlations destroyed during local grid-cell processing.
+---
 
-## Architecture & Technology Stack
-* **Scientific Computing Pipeline:** Python, NumPy, SciPy (Optimization), Xarray (NetCDF handling), XGBoost (Regime inference).
-* **Backend API & Processing:** FastAPI, SQLAlchemy, PostGIS.
-* **Frontend Visualization:** React (Vite), MapLibre GL JS, Recharts, Tailwind CSS (Glassmorphism).
-* **Deployment:** Fully Dockerized (Nginx, Uvicorn, PostgreSQL 15 + PostGIS).
+## 2. Four Distinct User Experiences (Role-Based Access)
 
-## Running Locally
+| Role | Target Persona | Default Entry | Primary Functionality |
+| :--- | :--- | :--- | :--- |
+| **Administrator** | System Admin / Lead DevOps | `/admin` | System Command telemetry (API, DB, Model, Data, Storage), 14-stage pipeline execution, model registry, audit logs, and RBAC enforcement. |
+| **Meteorologist / Analyst** | Forecaster / Research Scientist | `/forecast` | High-density forecast operations, 5-member raw diagnostics, CSGD parameter link inspection, ECC copula fields, locked verification, and reliability diagrams. |
+| **Government Officer** | Relief Commissioner / DDMA / CWC | `/outlook` | National Rainfall Outlook, ranked priority district action queues, 90% worst-case bounds ($P_{90}$), regional vulnerability summaries, and CSV/JSON briefings. |
+| **General User** | Public Citizen / Farmer | `/general` | Intuitive district rainfall finder, clear verbal probability advisories, expected rainfall ranges, and public methodology summaries. |
 
-MEGHANVAYA provides a fully contained Docker deployment for SIH Evaluation.
+---
 
+## 3. Audited Scientific Validation & Data Accounting
+
+All evaluations reflect the mathematically audited **7-Cycle June 2004 Chronological Pilot** (`data/processed/final_ecc_multicycle.parquet`):
+
+- **Forecast Horizon:** June 2, 2004 – June 8, 2004 (7 consecutive daily cycles)
+- **Spatial Grid:** 4,964 cells @ 0.25° resolution per cycle = **34,748 total co-registered records**
+- **Training Partition:** June 2–4, 2004 (3 cycles = 14,892 records)
+- **Validation Separation Buffer:** June 5, 2004 (1 cycle = 4,964 records)
+- **Primary Locked Test Partition:** June 6–7, 2004 (2 independent temporal days = **9,928 correlated spatial records**)
+- **Extended Test Partition:** June 6–8, 2004 (3 temporal days = 14,892 records)
+
+### Out-of-Sample Scorecard (Primary Locked Test: June 6–7, 2004)
+- **Raw NWP Native 5-Member Brier Score:** **0.2351** (Native ensemble probability: $P_{raw} = \sum_{m=1}^5 \mathbb{I}(R_m \ge 2.5) / 5$)
+- **CSGD-EMOS Calibrated Brier Score:** **0.1880**
+- **Relative Brier Improvement vs Native Ensemble:** **20.04%** ($1 - 0.1880 / 0.2351 = 0.2004$)
+- **Standard Climatological BSS:** Not estimated in current pilot.
+- **Root Mean Squared Error (RMSE):**
+  - Raw GEFSv12: **10.43 mm**
+  - CSGD-EMOS P50: **10.35 mm**
+  - ECC Ensemble: **10.06 mm (-3.5% error reduction)**
+- **Mean Bias:**
+  - Raw GEFSv12: **-3.25 mm**
+  - ECC Ensemble: **-2.40 mm (+26.2% bias reduction)**
+
+---
+
+## 4. Quick Start (Development & Evaluation)
+
+### Backend API
 ```bash
-# Clone the repository
-git clone https://github.com/roshann635/MEGHANVAYA.git
-cd MEGHANVAYA
-
-# Launch the entire stack (Database, Backend API, Frontend Dashboard)
-docker compose up --build
+# Set PYTHONPATH and launch FastAPI with Uvicorn
+python -m uvicorn backend.main:app --host 0.0.0.0 --port 8000
 ```
-* **Frontend Dashboard:** `http://localhost:80` (or `http://localhost:5173` if running `npm run dev`)
-* **Backend API Swagger:** `http://localhost:8000/docs`
 
-## Evaluation / Demo Mode
-The repository is bundled with the **"7-Cycle June 2004 Chronological Pilot"**. This is a mathematically audited, locked dataset to demonstrate the pipeline end-to-end without requiring live downloads from meteorological servers.
+### Frontend Client
+```bash
+cd frontend
+npm run dev -- --host 0.0.0.0 --port 5173
+```
+Access the client at `http://localhost:5173`. Use the **1-Click Evaluation Access Profiles** on `/login` to explore all four role experiences.
 
-**Accessing the Dashboard:**
-1. Navigate to the Frontend URL.
-2. Click the fast-access Demo roles (e.g., `Admin` or `Meteorologist`).
-3. Enter the demo password: `demo123`.
+### Automated Test Verification
+```bash
+# Run backend pytest suite (17 passed)
+pytest
 
-## Scientific Validation Scope & Limitations
-**Important Disclosure:** MEGHANVAYA is currently a *research and decision-support prototype*. It is **not** an official warning system.
+# Verify all 29 frontend routes (100% 200 OK)
+python scripts/verify_routes.py
 
-The current repository reflects the mathematical foundation validated against a highly restricted temporal window:
-1. **Pilot Dataset:** Evaluated strictly on exactly 2 independent temporal forecast cycles (June 6–7, 2004).
-2. **Regime Classifier:** The current pilot utilizes rainfall-derived conditioning, which carries circularity risk. Production deployment requires fully independent synoptic labels (e.g., OLR, U850 winds).
-3. **Parameter Pooling:** Due to the 7-day pilot length, CSGD parameters are globally pooled. Operational deployment will utilize regionalized parameters trained over a multi-year NCMRWF archive.
-
-Please see the [Judge Defense Document](docs/JUDGE_DEFENSE.md) for full context regarding architectural decisions and limitations.
+# Build frontend production bundle
+cd frontend && npm run build
+```
 
 ---
-*Created for the Smart India Hackathon 2026. Data structures inspired by best practices in statistical post-processing (e.g., Baran et al. on CSGD-EMOS).*
+
+## 5. Explicit Pilot Limitations
+1. **Pilot Scope:** Validated on the 7-cycle June 2004 onset period across 2 independent temporal test cycles. Multi-year nationwide operational skill is not claimed.
+2. **Regime Gating Circularity:** Current pilot utilizes a rainfall-conditioned transition between active and break states. Production deployment will ingest independent synoptic circulation variables (MSLP, 850 hPa wind shear, PWAT).
+3. **Global Parameter Pooling:** CSGD-EMOS parameters are currently pooled across the subcontinent. Regional and agro-climatic zone pooling is planned for Phase 2.
+4. **Statutory Responsibility:** MEGHANVAYA is a research and decision-support prototype. Official statutory weather forecasts and severe weather warnings are issued exclusively by the India Meteorological Department (IMD).

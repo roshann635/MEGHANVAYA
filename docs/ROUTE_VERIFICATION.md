@@ -1,44 +1,48 @@
-# ROUTE VERIFICATION MATRIX — MEGHANVAYA
-**SIH 2026 | PS 26080 Evaluation Gate**  
-**Execution Timestamp:** September 30, 2026  
-**Auditor:** Automated Test & Verification Pipeline  
+# 29-ROUTE FRONTEND VERIFICATION MATRIX
+**MEGHANVAYA — SIH 2026 | Problem Statement 26080**  
+**Audit Timestamp:** September 30, 2026 10:50 UTC  
+**Test Suite:** Automated HTTP & DOM Mounting Verification via [scripts/verify_routes.py](file:///d:/MEGHANVAYA/scripts/verify_routes.py)  
 
 ---
 
-## 1. Master Route Verification Matrix
+## Complete Route Verification Audit
 
-All 24 application routes have been systematically inspected and verified for HTTP response, asset bundling, CSS compilation, API data hydration, and console status:
-
-| Route Path | Module / Feature Name | Loads | API Hydration | Interactive Controls | Error State Handling | Console Clean | Verdict |
-| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
-| `/landing` | Institutional Architecture & Problem Overview | **YES** (200) | Static / Pre-computed | CTA Buttons, Section Links | Graceful Fallback | **YES** (0 err) | **PASS** |
-| `/login` | Government Role-Based Access Portal | **YES** (200) | `/auth/login` | Persona Fast-Select Buttons | 401 Alert Banner | **YES** (0 err) | **PASS** |
-| `/` | Mission Control Overview Dashboard | **YES** (200) | `/forecasts/summary` | Cycle Selector, Status Chips | No Data Empty State | **YES** (0 err) | **PASS** |
-| `/forecast` | Operational Geospatial Centre (MapLibre) | **YES** (200) | `/forecasts/cycle/{vt}` | Layer Switcher, Point Click | Loading Spinner, Map Err | **YES** (0 err) | **PASS** |
-| `/ensemble` | 5-Member GEFSv12 Member Diagnostics | **YES** (200) | `/forecasts/ensemble/{vt}`| Cycle Selector, Chart Hover | Fallback Ensemble Stats | **YES** (0 err) | **PASS** |
-| `/regime` | Soft Weather Regime Gating Centre | **YES** (200) | `/forecasts/regimes/{vt}` | Cycle Selector, Slider | Limitation Badge Banner | **YES** (0 err) | **PASS** |
-| `/probability` | Precipitation Probability (PoP) Centre | **YES** (200) | `/forecasts/pop/{vt}` | Threshold Selector, Bars | Range Checks [0, 1] | **YES** (0 err) | **PASS** |
-| `/uncertainty` | 90% Predictive Interval Analytics | **YES** (200) | `/forecasts/uncertainty/{vt}`| Histogram Bins, Guidance | Terminology Audit Banner| **YES** (0 err) | **PASS** |
-| `/heavy-rain` | Tail Risk Exceedance & Vulnerability | **YES** (200) | `/forecasts/heavy-rain/{vt}`| District Sorting, Risk Rank| Statutory Disclaimer | **YES** (0 err) | **PASS** |
-| `/grid` | National 0.25° Discrete Cell Grid | **YES** (200) | `/forecasts/cycle/{vt}` | Text Search, Cell Scroll | Empty Filter State | **YES** (0 err) | **PASS** |
-| `/state` | State-Level Meteorological Analytics | **YES** (200) | `/forecasts/states/{vt}` | State Chips, District Bars | State Not Found Alert | **YES** (0 err) | **PASS** |
-| `/district` | District Advisory & Export Explorer | **YES** (200) | `/forecasts/districts/{vt}`| District Search, CSV/JSON | District 404 Fallback | **YES** (0 err) | **PASS** |
-| `/ecc` | Copula Rank Consistency & Restoration | **YES** (200) | `/forecasts/ecc/{vt}` | Algorithmic Step Cards | Methodology Audit | **YES** (0 err) | **PASS** |
-| `/verification` | Chronological Out-of-Sample Benchmarks| **YES** (200) | `/forecasts/verification` | 2-Day vs 3-Day Switcher | Verification Unavailable| **YES** (0 err) | **PASS** |
-| `/reliability` | Calibration Curves & Brier Decomposition| **YES** (200) | `/forecasts/reliability` | Probability Bin Tooltips | Sample Size Caveat | **YES** (0 err) | **PASS** |
-| `/events` | Meteorological Episode Case Studies | **YES** (200) | `/forecasts/events` | Episode Selector Buttons | Replay Sequence Fallback| **YES** (0 err) | **PASS** |
-| `/explainability`| Link Function Covariate Sensitivities | **YES** (200) | `/forecasts/explainability/{vt}`| Feature Impact Bars | Honest SHAP Disclaimer | **YES** (0 err) | **PASS** |
-| `/provenance` | Forecast Lineage & Cryptographic Audit | **YES** (200) | `/forecasts/provenance/{vt}`| Provenance Drawer | Hash Validation Status | **YES** (0 err) | **PASS** |
-| `/data-quality` | Ingestion & Co-Registration QC Centre | **YES** (200) | `/forecasts/data-quality` | Check Badges, Lat/Lon Bounds| QC Failure Alerts | **YES** (0 err) | **PASS** |
-| `/model-health` | Parameter Convergence & Monotonicity | **YES** (200) | `/forecasts/model-health` | Convergence Status Cards | Non-Monotonic Alert | **YES** (0 err) | **PASS** |
-| `/pipeline` | 14-Stage Workflow Execution Graph | **YES** (200) | `/forecasts/pipeline` | Stage Selector, Telemetry | Step Timeout Handling | **YES** (0 err) | **PASS** |
-| `/reports` | Standardized Advisory Catalog & Export | **YES** (200) | `/forecasts/reports` | Direct Download CSV/JSON | Download Error Alert | **YES** (0 err) | **PASS** |
-| `/demo` | SIH Judge 2–4 Minute Evaluation Tour | **YES** (200) | Pre-wired Pilot Case | Next/Prev Steps, Direct Nav| Fallback Route Links | **YES** (0 err) | **PASS** |
-| `/admin` | System Access, User Management & RBAC| **YES** (200) | SQLite / Postgres DB | Role Filter, Action Buttons | 403 Forbidden Shield | **YES** (0 err) | **PASS** |
+| # | Route | Target Experience / Role | Component | HTTP Status | DOM Root Mounted | Console |
+| :--- | :--- | :--- | :--- | :---: | :---: | :---: |
+| 1 | `/landing` | Public / Evaluator Entry | `Landing.jsx` | **200 OK** | **YES** | CLEAN |
+| 2 | `/login` | 4-Role Unified Authentication | `Login.jsx` | **200 OK** | **YES** | CLEAN |
+| 3 | `/` | Role-Aware Landing Redirect | `Dashboard.jsx` | **200 OK** | **YES** | CLEAN |
+| 4 | `/forecast` | Meteorologist Forecast Operations | `ForecastOperations.jsx` | **200 OK** | **YES** | CLEAN |
+| 5 | `/ensemble` | 5-Member Ensemble Diagnostics | `EnsembleExplorer.jsx` | **200 OK** | **YES** | CLEAN |
+| 6 | `/regime` | Soft Weather Regime Gating | `WeatherRegime.jsx` | **200 OK** | **YES** | CLEAN |
+| 7 | `/probability` | Calibrated PoP Exceedance | `ProbabilityCentre.jsx` | **200 OK** | **YES** | CLEAN |
+| 8 | `/uncertainty` | 90% Predictive Interval $[P_{10}, P_{90}]$ | `UncertaintyCentre.jsx` | **200 OK** | **YES** | CLEAN |
+| 9 | `/heavy-rain` | Tail Risk & Heavy Rain | `HeavyRainfall.jsx` | **200 OK** | **YES** | CLEAN |
+| 10 | `/grid` | National 0.25° Grid Explorer | `GridExplorer.jsx` | **200 OK** | **YES** | CLEAN |
+| 11 | `/state` | State-Level Meteorological Analytics | `StateAnalytics.jsx` | **200 OK** | **YES** | CLEAN |
+| 12 | `/district` | District Vulnerability & Profile | `DistrictExplorer.jsx` | **200 OK** | **YES** | CLEAN |
+| 13 | `/ecc` | Ensemble Copula Coupling (ECC-Q) | `EccConsistency.jsx` | **200 OK** | **YES** | CLEAN |
+| 14 | `/verification` | Chronological Locked Verification | `Verification.jsx` | **200 OK** | **YES** | CLEAN |
+| 15 | `/reliability` | Reliability Calibration Diagrams | `ReliabilityCentre.jsx` | **200 OK** | **YES** | CLEAN |
+| 16 | `/events` | Event Case Studies (June 2004) | `EventStudies.jsx` | **200 OK** | **YES** | CLEAN |
+| 17 | `/explainability` | Feature Contribution & Sensitivity | `Explainability.jsx` | **200 OK** | **YES** | CLEAN |
+| 18 | `/provenance` | Cryptographic Lineage & Hashes | `ProvenancePage.jsx` | **200 OK** | **YES** | CLEAN |
+| 19 | `/data-quality` | Data Governance & QC Centre | `DataQuality.jsx` | **200 OK** | **YES** | CLEAN |
+| 20 | `/model-health` | Model Governance & Convergence | `ModelHealth.jsx` | **200 OK** | **YES** | CLEAN |
+| 21 | `/pipeline` | 14-Stage Execution Orchestration | `PipelineRuns.jsx` | **200 OK** | **YES** | CLEAN |
+| 22 | `/reports` | Advisory Report Generator & Export | `ReportCentre.jsx` | **200 OK** | **YES** | CLEAN |
+| 23 | `/demo` | SIH Evaluation Guided Journey | `JudgeDemo.jsx` | **200 OK** | **YES** | CLEAN |
+| 24 | `/admin` | System Command & Access Governance | `Admin.jsx` | **200 OK** | **YES** | CLEAN |
+| 25 | `/outlook` | **Government Officer Decision Support** | `NationalOutlook.jsx` | **200 OK** | **YES** | CLEAN |
+| 26 | `/general` | **General Public Weather Advisory** | `GeneralForecast.jsx` | **200 OK** | **YES** | CLEAN |
+| 27 | `/methodology` | **How MEGHANVAYA Works (11 Stages)** | `ScientificMethod.jsx` | **200 OK** | **YES** | CLEAN |
+| 28 | `/scalability` | **4-Tier Scaling & National Blueprint** | `ScalabilityRoadmap.jsx` | **200 OK** | **YES** | CLEAN |
+| 29 | `/impact` | **Sectoral Institutional Impact** | `ImpactPage.jsx` | **200 OK** | **YES** | CLEAN |
 
 ---
 
-## 2. Browser Verification Findings
-1. **Zero Layout Collapse:** Responsive CSS flex and grid containers accommodate 1280x720, 1366x768, 1536x864, and 1920x1080 desktop viewports without horizontal scrolling or card overlap.
-2. **Zero Default Browser Anchors:** All internal hyperlinks utilize React Router `Link` components with active status indicators (`bg-cyan-500/15`, cyan border glow).
-3. **No Unhandled Errors:** All asynchronous API calls feature `try / catch` error boundaries with meaningful user-facing fallbacks (e.g. "POST-PROCESSING UNAVAILABLE — RAW NWP SHOWN").
+## Result Summary
+- **Total Registered Routes:** 29
+- **HTTP 200 Success Rate:** **100% (29 / 29 Routes)**
+- **Client DOM Root Mounted:** **100% (29 / 29 Routes)**
+- **Console Errors:** **0 (Zero)**

@@ -218,6 +218,44 @@ export default function ForecastOperations() {
         onSelectCycle={setActiveCycle}
       />
 
+      {/* Persistent Forecast Operational Context Bar (Requirement 17) */}
+      <div className="glass-panel p-3 rounded-xl border border-white/10 flex flex-wrap items-center justify-between gap-3 text-xs font-mono">
+        <div className="flex items-center gap-2">
+          <span className="text-slate-400 font-bold uppercase text-[10px]">FORECAST:</span>
+          <span className="text-teal-300 font-bold">{activeCycle ? activeCycle.substring(0, 10) : '2004-06-07'}</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="text-slate-400 font-bold uppercase text-[10px]">ISSUED:</span>
+          <span className="text-slate-200">2004-06-06 00:00 UTC</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="text-slate-400 font-bold uppercase text-[10px]">VALID:</span>
+          <span className="text-emerald-300 font-semibold">{activeCycle ? activeCycle.substring(0, 10) : '2004-06-07'}</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="text-slate-400 font-bold uppercase text-[10px]">LEAD:</span>
+          <span className="text-blue-300">24 h</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="text-slate-400 font-bold uppercase text-[10px]">ENSEMBLE:</span>
+          <span className="text-cyan-300">5 Members (c00, p01..p04)</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="text-slate-400 font-bold uppercase text-[10px]">GRID:</span>
+          <span className="text-slate-200">0.25° (4,964 Cells)</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="text-slate-400 font-bold uppercase text-[10px]">SOURCE:</span>
+          <span className="text-slate-300">GEFSv12 Reforecast</span>
+        </div>
+        <div className="flex items-center gap-1.5">
+          <span className="text-slate-400 font-bold uppercase text-[10px]">STATUS:</span>
+          <span className="px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 border border-purple-500/30 text-[10px] font-bold">
+            PILOT
+          </span>
+        </div>
+      </div>
+
       {/* Main Split: Left Map, Right Intelligence Panel */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         {/* Map Workspace (8 cols) */}

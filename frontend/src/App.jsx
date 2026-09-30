@@ -29,12 +29,19 @@ import ReportCentre from './pages/ReportCentre';
 import JudgeDemo from './pages/JudgeDemo';
 import Admin from './pages/Admin';
 
+// Role-Specific & Educational Views
+import NationalOutlook from './pages/NationalOutlook';
+import GeneralForecast from './pages/GeneralForecast';
+import ScientificMethod from './pages/ScientificMethod';
+import ScalabilityRoadmap from './pages/ScalabilityRoadmap';
+import ImpactPage from './pages/ImpactPage';
+
 export default function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
         <Routes>
-          {/* Public Routes */}
+          {/* Public Landing & Authentication */}
           <Route path="/landing" element={<Landing />} />
           <Route path="/login" element={<Login />} />
 
@@ -42,26 +49,49 @@ export default function App() {
           <Route element={<MainLayout />}>
             <Route path="/" element={<Dashboard />} />
             <Route path="/forecast" element={<ForecastOperations />} />
+            
+            {/* Government Officer Experience */}
+            <Route path="/outlook" element={<NationalOutlook />} />
+            
+            {/* General User Experience */}
+            <Route path="/general" element={<GeneralForecast />} />
+            
+            {/* Meteorological Scientific Intelligence */}
             <Route path="/ensemble" element={<EnsembleExplorer />} />
             <Route path="/regime" element={<WeatherRegime />} />
             <Route path="/probability" element={<ProbabilityCentre />} />
             <Route path="/uncertainty" element={<UncertaintyCentre />} />
             <Route path="/heavy-rain" element={<HeavyRainfall />} />
             <Route path="/ecc" element={<EccConsistency />} />
+            
+            {/* Geospatial Products */}
             <Route path="/grid" element={<GridExplorer />} />
             <Route path="/state" element={<StateAnalytics />} />
             <Route path="/district" element={<DistrictExplorer />} />
+            
+            {/* Verification Command Centre */}
             <Route path="/verification" element={<Verification />} />
             <Route path="/reliability" element={<ReliabilityCentre />} />
             <Route path="/events" element={<EventStudies />} />
+            
+            {/* Traceability & System Governance */}
             <Route path="/explainability" element={<Explainability />} />
             <Route path="/provenance" element={<ProvenancePage />} />
             <Route path="/data-quality" element={<DataQuality />} />
             <Route path="/model-health" element={<ModelHealth />} />
             <Route path="/pipeline" element={<PipelineRuns />} />
             <Route path="/reports" element={<ReportCentre />} />
-            <Route path="/demo" element={<JudgeDemo />} />
+            
+            {/* Administration & System Command */}
             <Route path="/admin" element={<Admin />} />
+            
+            {/* Educational & Architectural Deep Dives */}
+            <Route path="/methodology" element={<ScientificMethod />} />
+            <Route path="/scalability" element={<ScalabilityRoadmap />} />
+            <Route path="/impact" element={<ImpactPage />} />
+            
+            {/* Guided Tour for SIH Evaluation */}
+            <Route path="/demo" element={<JudgeDemo />} />
           </Route>
 
           {/* Catch-all */}

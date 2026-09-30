@@ -1,9 +1,10 @@
+from typing import List
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 from datetime import timedelta
 from backend.db.session import get_db
-from backend.core.security import verify_password, create_access_token, get_password_hash, get_current_user
+from backend.core.security import verify_password, create_access_token, get_password_hash, get_current_user, get_current_active_admin
 from backend.core.config import settings
 from backend.models.domain import User
 from backend.schemas.api import Token, UserResponse, UserCreate
@@ -47,3 +48,7 @@ def register_user(user_in: UserCreate, db: Session = Depends(get_db)):
     db.commit()
     db.refresh(user)
     return user
+
+@router.get("/admin/users", response_model=List[UserResponse])
+def get_admin_users(db: Session = Depends(get_db), current_user: User = Depends(get_current_active_admin)):
+    return db.query(User).all()

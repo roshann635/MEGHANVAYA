@@ -6,7 +6,7 @@ import {
   Layers, Wind, Percent, HelpCircle, AlertOctagon, Grid, 
   Building2, Landmark, CheckCircle2, FileText, Database, 
   GitBranch, PlayCircle, BarChart3, Sliders, ChevronRight,
-  ExternalLink, Sparkles
+  ExternalLink, Sparkles, BookOpen, HeartPulse, User
 } from 'lucide-react';
 import ProvenanceDrawer from '../components/ProvenanceDrawer';
 
@@ -17,16 +17,18 @@ export default function MainLayout() {
 
   if (loading) {
     return (
-      <div className="h-screen w-full flex items-center justify-center bg-slate-950 text-cyan-400 font-mono text-sm">
+      <div className="h-screen w-full flex items-center justify-center bg-[#0b0f19] text-teal-400 font-mono text-sm">
         <div className="flex flex-col items-center gap-3">
-          <div className="w-10 h-10 border-2 border-cyan-500/20 border-t-cyan-500 rounded-full animate-spin"></div>
-          <span>INITIALIZING METEOROLOGICAL TERMINAL...</span>
+          <div className="w-8 h-8 border-2 border-teal-500/20 border-t-teal-500 rounded-full animate-spin"></div>
+          <span className="tracking-widest text-xs">INITIALIZING METEOROLOGICAL TERMINAL...</span>
         </div>
       </div>
     );
   }
 
   if (!user) return <Navigate to="/login" replace />;
+
+  const userRole = user.role || 'METEOROLOGIST';
 
   const isActive = (path) => {
     if (path === '/' && location.pathname === '/') return true;
@@ -40,18 +42,18 @@ export default function MainLayout() {
     return (
       <Link 
         to={to} 
-        className={`flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium transition-all duration-200 group ${
+        className={`flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium transition-all group ${
           active 
-            ? 'bg-cyan-500/15 text-cyan-300 border border-cyan-500/30 shadow-[inset_0_0_10px_rgba(6,182,212,0.15)] font-semibold' 
+            ? 'bg-teal-500/15 text-teal-300 border border-teal-500/30 shadow-sm font-semibold' 
             : 'text-slate-400 hover:text-slate-200 hover:bg-white/5 border border-transparent'
         }`}
       >
         <div className="flex items-center gap-2.5 min-w-0">
-          <Icon className={`w-3.5 h-3.5 shrink-0 ${active ? 'text-cyan-400 drop-shadow-[0_0_6px_rgba(6,182,212,0.8)]' : 'text-slate-500 group-hover:text-slate-400'}`} />
+          <Icon className={`w-3.5 h-3.5 shrink-0 ${active ? 'text-teal-400' : 'text-slate-500 group-hover:text-slate-300'}`} />
           <span className="truncate">{label}</span>
         </div>
         {badge && (
-          <span className={`text-[9px] font-mono px-1.5 py-0.2 rounded ${active ? 'bg-cyan-400/20 text-cyan-200' : 'bg-white/5 text-slate-400'}`}>
+          <span className={`text-[9px] font-mono px-1.5 py-0.2 rounded ${active ? 'bg-teal-400/20 text-teal-200' : 'bg-white/5 text-slate-400'}`}>
             {badge}
           </span>
         )}
@@ -62,134 +64,218 @@ export default function MainLayout() {
   // Human-readable title for header
   const getPageTitle = () => {
     const p = location.pathname;
-    if (p === '/') return 'Mission Control Overview';
-    if (p === '/forecast') return 'Forecast Operations Centre';
-    if (p === '/ensemble') return 'Ensemble Member Diagnostics';
-    if (p === '/regime') return 'Weather Regime Intelligence';
-    if (p === '/probability') return 'Precipitation Probability (PoP)';
-    if (p === '/uncertainty') return 'Forecast Uncertainty & Predictive Intervals';
+    if (p === '/' || p === '/forecast') return 'Forecast Operations Centre';
+    if (p === '/outlook') return 'National Rainfall Outlook (Decision Support)';
+    if (p === '/general') return 'Public Weather Advisory';
+    if (p === '/ensemble') return 'Ensemble Member Diagnostics (5 Members)';
+    if (p === '/regime') return 'Weather Regime Intelligence & Soft Gating';
+    if (p === '/probability') return 'Precipitation Probability (PoP Hurdle)';
+    if (p === '/uncertainty') return 'Forecast Uncertainty & 90% Predictive Intervals';
     if (p === '/heavy-rain') return 'Heavy Rainfall Intelligence';
-    if (p === '/ecc') return 'Ensemble Copula Coupling (ECC)';
-    if (p === '/grid') return 'National Geospatial Grid';
+    if (p === '/ecc') return 'Ensemble Copula Coupling (ECC Spatial)';
+    if (p === '/grid') return 'National 0.25° Geospatial Grid';
     if (p === '/state') return 'State-Level Meteorological Analytics';
-    if (p === '/district') return 'District Vulnerability & Forecast Explorer';
-    if (p === '/verification') return 'Chronological Model Verification';
-    if (p === '/reliability') return 'Reliability & Calibration Diagrams';
+    if (p === '/district') return 'District Vulnerability & Guidance Explorer';
+    if (p === '/verification') return 'Chronological Model Verification (Locked)';
+    if (p === '/reliability') return 'Reliability & Probability Calibration Diagrams';
     if (p === '/events') return 'Pilot Event Case Studies';
-    if (p === '/explainability') return 'Model Explainability & Sensitivity';
-    if (p === '/provenance') return 'Forecast Provenance & Lineage';
-    if (p === '/data-quality') return 'Data Governance & QC Centre';
+    if (p === '/explainability') return 'Model Explainability & Feature Contribution';
+    if (p === '/provenance') return 'Forecast Provenance & Lineage Tracking';
+    if (p === '/data-quality') return 'Data Quality & QC Centre';
     if (p === '/model-health') return 'Model Governance & Parameter Health';
-    if (p === '/pipeline') return 'End-to-End Pipeline Execution Centre';
-    if (p === '/reports') return 'Report Generation & Data Export';
-    if (p === '/demo') return 'SIH Judge Demo Walkthrough';
-    if (p === '/admin') return 'System Access & Administration';
+    if (p === '/pipeline') return 'End-to-End Pipeline Execution (14 Stages)';
+    if (p === '/reports') return 'Report Centre & Data Exports';
+    if (p === '/demo') return 'SIH Judge Demonstration Journey';
+    if (p === '/admin') return 'System Command & Access Governance';
+    if (p === '/methodology') return 'How MEGHANVAYA Works (11-Stage Method)';
+    if (p === '/scalability') return 'Scalability & Deployment Blueprint';
+    if (p === '/impact') return 'Intended Institutional Impact';
     return 'Decision Support System';
   };
 
-  return (
-    <div className="flex h-screen bg-slate-950 overflow-hidden text-slate-200 antialiased font-sans select-none">
-      {/* Background Institutional Glows */}
-      <div className="absolute top-[-10%] left-[-5%] w-[40%] h-[40%] rounded-full bg-cyan-900/10 blur-[140px] pointer-events-none"></div>
-      <div className="absolute bottom-[-10%] right-[-5%] w-[40%] h-[40%] rounded-full bg-blue-900/10 blur-[140px] pointer-events-none"></div>
+  const getRoleDisplayName = (r) => {
+    if (r === 'ADMIN') return 'ADMINISTRATOR';
+    if (r === 'METEOROLOGIST') return 'METEOROLOGIST / ANALYST';
+    if (r === 'GOVT_OFFICER') return 'GOVERNMENT OFFICER';
+    if (r === 'GENERAL_USER') return 'GENERAL USER';
+    return r;
+  };
 
-      {/* Global Sidebar */}
-      <aside className="w-64 glass-panel border-r border-white/5 flex flex-col shrink-0 z-20 shadow-[4px_0_24px_rgba(0,0,0,0.6)]">
+  return (
+    <div className="flex h-screen bg-[#0b0f19] overflow-hidden text-slate-200 antialiased font-sans select-none">
+      {/* Background Subtle Atmospheric Lighting */}
+      <div className="absolute top-[-10%] left-[-5%] w-[40%] h-[40%] rounded-full bg-teal-950/15 blur-[140px] pointer-events-none"></div>
+      <div className="absolute bottom-[-10%] right-[-5%] w-[40%] h-[40%] rounded-full bg-blue-950/15 blur-[140px] pointer-events-none"></div>
+
+      {/* Global Role-Adaptive Sidebar (Requirement 11) */}
+      <aside className="w-64 glass-panel border-r border-white/5 flex flex-col shrink-0 z-20 shadow-xl">
         {/* Brand Header */}
-        <div className="h-14 flex items-center px-4 border-b border-white/5 gap-3 bg-slate-950/40">
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-cyan-600 to-blue-600 flex items-center justify-center border border-cyan-400/30 shadow-[0_0_12px_rgba(6,182,212,0.4)]">
+        <div className="h-14 flex items-center px-4 border-b border-white/5 gap-3 bg-black/30">
+          <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-teal-700 to-blue-700 flex items-center justify-center border border-teal-400/30 shadow-md">
             <CloudRain className="w-4 h-4 text-white" />
           </div>
           <div>
-            <div className="font-bold text-white text-xs tracking-widest flex items-center gap-1.5">
+            <div className="font-bold text-white text-xs tracking-wider flex items-center gap-1.5 font-mono">
               MEGHANVAYA
-              <span className="text-[9px] px-1 py-0.2 rounded bg-cyan-500/20 text-cyan-300 font-mono border border-cyan-500/30">SIH 2026</span>
+              <span className="text-[9px] px-1 py-0.2 rounded bg-teal-500/20 text-teal-300 font-mono border border-teal-500/30">SIH 2026</span>
             </div>
             <div className="text-[10px] text-slate-400 font-medium tracking-tight truncate">Regime-Aware Rainfall AI</div>
           </div>
         </div>
 
-        {/* User Card */}
-        <div className="p-3 border-b border-white/5 bg-slate-950/20">
+        {/* User Identity & Active Role Display (Requirement 12) */}
+        <div className="p-3 border-b border-white/5 bg-black/20">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2 min-w-0">
-              <div className="w-7 h-7 rounded-full bg-cyan-950 border border-cyan-500/30 flex items-center justify-center text-cyan-400 font-mono text-xs font-bold shrink-0">
+              <div className="w-7 h-7 rounded-full bg-slate-800 border border-white/10 flex items-center justify-center text-teal-400 font-mono text-xs font-bold shrink-0">
                 {user.role ? user.role.charAt(0) : 'U'}
               </div>
               <div className="min-w-0">
-                <div className="text-white text-xs font-semibold truncate leading-tight">{user.full_name || 'Operator'}</div>
-                <div className="text-[10px] text-cyan-400 font-mono uppercase tracking-wider">{user.role || 'USER'}</div>
+                <div className="text-white text-xs font-semibold truncate leading-tight">{user.full_name || 'Roshan'}</div>
+                <div className="text-[9px] text-teal-400 font-mono font-bold uppercase tracking-wider truncate">
+                  {getRoleDisplayName(userRole)}
+                </div>
               </div>
             </div>
             <Link 
               to="/demo" 
-              className="px-2 py-1 rounded bg-gradient-to-r from-cyan-600 to-blue-600 text-white text-[10px] font-bold tracking-wider hover:opacity-90 flex items-center gap-1 shadow-[0_0_10px_rgba(6,182,212,0.3)] shrink-0"
-              title="2-4 minute recommended demo walkthrough"
+              className="px-2 py-1 rounded bg-teal-600/30 border border-teal-500/40 text-teal-300 text-[10px] font-bold tracking-wider hover:bg-teal-600/50 flex items-center gap-1 shrink-0"
+              title="2-4 minute evaluation demo walkthrough"
             >
-              <PlayCircle className="w-3 h-3" />
+              <PlayCircle className="w-3 h-3 text-teal-400" />
               DEMO
             </Link>
           </div>
         </div>
 
-        {/* Navigation Categories */}
+        {/* Dynamic Navigation by Role (Requirement 11) */}
         <nav className="flex-1 overflow-y-auto px-2 py-3 space-y-4 custom-scrollbar text-xs">
-          {/* Mission Control */}
-          <div className="space-y-1">
-            <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest px-3 mb-1">Mission Control</div>
-            {navItem('/', Compass, 'System Overview')}
-            {navItem('/forecast', CloudRain, 'Forecast Operations', 'CORE')}
-          </div>
+          
+          {/* ====================================================== */}
+          {/* ROLE 1: ADMINISTRATOR */}
+          {/* ====================================================== */}
+          {userRole === 'ADMIN' && (
+            <>
+              <div className="space-y-1">
+                <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest px-3 mb-1 font-mono">System Command</div>
+                {navItem('/admin', ShieldCheck, 'Command Dashboard', 'ACTIVE')}
+                {navItem('/pipeline', GitBranch, 'Pipeline Execution', '14 STAGES')}
+                {navItem('/model-health', Activity, 'Model Governance')}
+                {navItem('/data-quality', Database, 'Data Governance')}
+              </div>
 
-          {/* Forecast Intelligence */}
-          <div className="space-y-1">
-            <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest px-3 mb-1">Forecast Intelligence</div>
-            {navItem('/ensemble', Layers, 'Ensemble Explorer', '5-M')}
-            {navItem('/regime', Wind, 'Weather Regime')}
-            {navItem('/probability', Percent, 'Precipitation (PoP)')}
-            {navItem('/uncertainty', HelpCircle, 'Uncertainty (P10-P90)')}
-            {navItem('/heavy-rain', AlertOctagon, 'Heavy Rain (>=64.5mm)')}
-          </div>
+              <div className="space-y-1">
+                <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest px-3 mb-1 font-mono">Audit & Telemetry</div>
+                {navItem('/provenance', ShieldCheck, 'Audit Logs & Lineage')}
+                {navItem('/reports', FileText, 'Export Centre')}
+                {navItem('/forecast', CloudRain, 'Forecast Observer')}
+              </div>
 
-          {/* Spatial Products */}
-          <div className="space-y-1">
-            <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest px-3 mb-1">Spatial Products</div>
-            {navItem('/grid', Grid, 'National Grid (0.25°)')}
-            {navItem('/state', Building2, 'State Analytics')}
-            {navItem('/district', Landmark, 'District Explorer')}
-            {navItem('/ecc', Layers, 'ECC Spatial Consistency')}
-          </div>
+              <div className="space-y-1">
+                <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest px-3 mb-1 font-mono">Architecture</div>
+                {navItem('/methodology', BookOpen, 'How It Works')}
+                {navItem('/scalability', GitBranch, 'Scalability Blueprint')}
+              </div>
+            </>
+          )}
 
-          {/* Verification & Science */}
-          <div className="space-y-1">
-            <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest px-3 mb-1">Verification Centre</div>
-            {navItem('/verification', Activity, 'Model Verification', 'LOCKED')}
-            {navItem('/reliability', BarChart3, 'Reliability Curves')}
-            {navItem('/events', CheckCircle2, 'Event Case Studies')}
-          </div>
+          {/* ====================================================== */}
+          {/* ROLE 2: METEOROLOGIST / ANALYST */}
+          {/* ====================================================== */}
+          {userRole === 'METEOROLOGIST' && (
+            <>
+              <div className="space-y-1">
+                <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest px-3 mb-1 font-mono">Forecast Operations</div>
+                {navItem('/forecast', CloudRain, 'Forecast Operations', 'CORE')}
+                {navItem('/ensemble', Layers, 'Ensemble Explorer', '5-M')}
+                {navItem('/regime', Wind, 'Weather Regime')}
+                {navItem('/probability', Percent, 'Precipitation (PoP)')}
+                {navItem('/uncertainty', HelpCircle, 'Uncertainty (P10-P90)')}
+                {navItem('/heavy-rain', AlertOctagon, 'Heavy Rain (>=64.5mm)')}
+              </div>
 
-          {/* Traceability & System */}
-          <div className="space-y-1">
-            <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest px-3 mb-1">Traceability & Governance</div>
-            {navItem('/explainability', Sliders, 'Explainability')}
-            {navItem('/provenance', ShieldCheck, 'Forecast Provenance')}
-            {navItem('/data-quality', Database, 'Data Quality')}
-            {navItem('/model-health', Activity, 'Model Governance')}
-            {navItem('/pipeline', GitBranch, 'Pipeline Execution')}
-            {navItem('/reports', FileText, 'Reports & Exports')}
-          </div>
+              <div className="space-y-1">
+                <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest px-3 mb-1 font-mono">Spatial Products</div>
+                {navItem('/grid', Grid, 'National Grid (0.25°)')}
+                {navItem('/district', Landmark, 'District Explorer')}
+                {navItem('/state', Building2, 'State Analytics')}
+                {navItem('/ecc', Layers, 'ECC Spatial Consistency')}
+              </div>
 
-          {/* Administration */}
-          {(user.role === 'ADMIN' || user.role === 'METEOROLOGIST') && (
-            <div className="space-y-1">
-              <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest px-3 mb-1">Administration</div>
-              {navItem('/admin', ShieldCheck, 'Admin Command Centre')}
-            </div>
+              <div className="space-y-1">
+                <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest px-3 mb-1 font-mono">Verification Centre</div>
+                {navItem('/verification', Activity, 'Model Verification', 'LOCKED')}
+                {navItem('/reliability', BarChart3, 'Reliability Curves')}
+                {navItem('/events', CheckCircle2, 'Event Case Studies')}
+              </div>
+
+              <div className="space-y-1">
+                <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest px-3 mb-1 font-mono">Governance & Traceability</div>
+                {navItem('/explainability', Sliders, 'Explainability')}
+                {navItem('/provenance', ShieldCheck, 'Forecast Provenance')}
+                {navItem('/data-quality', Database, 'Data Quality')}
+                {navItem('/model-health', Activity, 'Model Health')}
+                {navItem('/pipeline', GitBranch, 'Pipeline Runs')}
+                {navItem('/reports', FileText, 'Reports & Exports')}
+              </div>
+
+              <div className="space-y-1">
+                <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest px-3 mb-1 font-mono">System Knowledge</div>
+                {navItem('/methodology', BookOpen, 'Scientific Method')}
+                {navItem('/scalability', GitBranch, 'Scalability Roadmap')}
+              </div>
+            </>
+          )}
+
+          {/* ====================================================== */}
+          {/* ROLE 3: GOVERNMENT OFFICER */}
+          {/* ====================================================== */}
+          {userRole === 'GOVT_OFFICER' && (
+            <>
+              <div className="space-y-1">
+                <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest px-3 mb-1 font-mono">Decision Support</div>
+                {navItem('/outlook', Landmark, 'National Outlook', 'PRIORITY')}
+                {navItem('/district', Landmark, 'District Risk Guidance')}
+                {navItem('/state', Building2, 'State Outlook')}
+                {navItem('/heavy-rain', AlertOctagon, 'Heavy Rain Threats')}
+                {navItem('/uncertainty', HelpCircle, 'Uncertainty Bounds')}
+              </div>
+
+              <div className="space-y-1">
+                <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest px-3 mb-1 font-mono">Historical & Deliverables</div>
+                {navItem('/events', CheckCircle2, 'Historical Case Studies')}
+                {navItem('/reports', FileText, 'Briefings & CSV Exports')}
+                {navItem('/provenance', ShieldCheck, 'Forecast Provenance')}
+                {navItem('/impact', HeartPulse, 'Intended Impact')}
+              </div>
+            </>
+          )}
+
+          {/* ====================================================== */}
+          {/* ROLE 4: GENERAL USER */}
+          {/* ====================================================== */}
+          {userRole === 'GENERAL_USER' && (
+            <>
+              <div className="space-y-1">
+                <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest px-3 mb-1 font-mono">Public Forecast</div>
+                {navItem('/general', CloudRain, 'Rainfall Forecast', 'PUBLIC')}
+                {navItem('/district', Landmark, 'District Forecast')}
+                {navItem('/probability', Percent, 'Rain Probability')}
+                {navItem('/heavy-rain', AlertOctagon, 'Heavy Rain Risk')}
+              </div>
+
+              <div className="space-y-1">
+                <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest px-3 mb-1 font-mono">About MEGHANVAYA</div>
+                {navItem('/methodology', BookOpen, 'How It Works')}
+                {navItem('/impact', HeartPulse, 'Intended Impact')}
+                {navItem('/scalability', GitBranch, 'National Roadmap')}
+              </div>
+            </>
           )}
         </nav>
 
         {/* Sidebar Footer */}
-        <div className="p-3 border-t border-white/5 bg-slate-950/40 flex items-center justify-between text-xs">
+        <div className="p-3 border-t border-white/5 bg-black/40 flex items-center justify-between text-xs">
           <div className="text-[10px] text-slate-500 font-mono">
             BUILD <span className="text-slate-400">v1.0.0-pilot</span>
           </div>
@@ -205,22 +291,22 @@ export default function MainLayout() {
 
       {/* Main Execution Workspace */}
       <main className="flex-1 flex flex-col min-w-0 overflow-hidden relative z-10">
-        {/* Top Header Command Bar */}
-        <header className="h-14 glass-panel border-b border-white/5 flex items-center justify-between px-6 shrink-0 z-20 bg-slate-950/60">
+        {/* Top Header Command Bar (Requirement 16 & 86) */}
+        <header className="h-14 glass-panel border-b border-white/5 flex items-center justify-between px-6 shrink-0 z-20 bg-slate-950/80">
           {/* Breadcrumb / Page Title */}
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-1.5 text-xs text-slate-400 font-medium">
-              <span className="text-slate-300 font-bold tracking-wider uppercase">MEGHANVAYA</span>
+              <span className="text-slate-300 font-bold tracking-wider uppercase font-mono">MEGHANVAYA</span>
               <ChevronRight className="w-3 h-3 text-slate-600" />
-              <span className="text-cyan-400 font-semibold">{getPageTitle()}</span>
+              <span className="text-teal-400 font-semibold">{getPageTitle()}</span>
             </div>
           </div>
 
-          {/* Live Operational Status Indicators (Section 8) */}
-          <div className="flex items-center gap-3 text-xs">
+          {/* Persistent System Status Chips (Requirement 86) */}
+          <div className="flex items-center gap-2.5 text-xs">
             {/* Forecast Status */}
             <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-white/5 border border-white/5">
-              <span className="text-[10px] uppercase font-bold text-slate-500">FORECAST:</span>
+              <span className="text-[10px] uppercase font-bold text-slate-500 font-mono">FORECAST:</span>
               <div className="flex items-center gap-1">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
                 <span className="text-emerald-300 font-mono font-medium text-[11px]">READY</span>
@@ -229,14 +315,20 @@ export default function MainLayout() {
 
             {/* Data Scope */}
             <div className="hidden md:flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-white/5 border border-white/5">
-              <span className="text-[10px] uppercase font-bold text-slate-500">DATA:</span>
-              <span className="text-amber-300 font-mono text-[11px]">7-CYCLE PILOT (JUN 2004)</span>
+              <span className="text-[10px] uppercase font-bold text-slate-500 font-mono">DATA:</span>
+              <span className="text-amber-300 font-mono text-[11px]">JUNE 2004 PILOT</span>
             </div>
 
             {/* Model Engine */}
-            <div className="hidden lg:flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-cyan-500/10 border border-cyan-500/20">
-              <span className="text-[10px] uppercase font-bold text-cyan-400">ENGINE:</span>
-              <span className="text-cyan-200 font-mono text-[11px] font-semibold">CSGD-EMOS + ECC</span>
+            <div className="hidden lg:flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-teal-500/10 border border-teal-500/20">
+              <span className="text-[10px] uppercase font-bold text-teal-400 font-mono">ENGINE:</span>
+              <span className="text-teal-200 font-mono text-[11px] font-semibold">CSGD-EMOS + ECC</span>
+            </div>
+
+            {/* Scientific Status */}
+            <div className="hidden xl:flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-purple-500/10 border border-purple-500/20">
+              <span className="text-[10px] uppercase font-bold text-purple-400 font-mono">STATUS:</span>
+              <span className="text-purple-200 font-mono text-[11px] font-semibold">PILOT</span>
             </div>
 
             {/* Provenance Quick Trigger */}
@@ -245,26 +337,26 @@ export default function MainLayout() {
               className="px-2.5 py-1 rounded-md bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white border border-white/10 text-xs font-medium flex items-center gap-1.5 transition-all"
               title="Open Forecast Lineage & Metadata"
             >
-              <ShieldCheck className="w-3.5 h-3.5 text-blue-400" />
+              <ShieldCheck className="w-3.5 h-3.5 text-teal-400" />
               <span>Lineage</span>
             </button>
           </div>
         </header>
 
         {/* Page Content Viewport */}
-        <div className="flex-1 overflow-auto p-6 relative flex flex-col justify-between">
+        <div className="flex-1 overflow-auto p-6 relative flex flex-col justify-between custom-scrollbar">
           <div className="max-w-7xl w-full mx-auto pb-6">
             <Outlet />
           </div>
 
-          {/* Scientific Disclaimer Footer (Section 78) */}
+          {/* Scientific Disclaimer Footer (Requirement 97) */}
           <footer className="pt-6 pb-2 border-t border-white/5 text-[11px] text-slate-500 flex flex-wrap items-center justify-between gap-3 shrink-0">
             <div className="flex items-center gap-2">
               <span className="font-semibold text-slate-400">MEGHANVAYA</span>
               <span>•</span>
               <span>Research / Meteorological Decision-Support Platform</span>
               <span>•</span>
-              <span className="text-amber-400/80">Current Validation: 7-Cycle June 2004 Chronological Pilot (2 Independent Days)</span>
+              <span className="text-amber-400/90">Current Validation: 7-Cycle June 2004 Chronological Pilot (2 Independent Days)</span>
             </div>
             <div className="text-slate-500 text-[10px]">
               Official meteorological warnings remain the statutory responsibility of authorized national agencies.

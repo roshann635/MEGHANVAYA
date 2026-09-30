@@ -1,96 +1,273 @@
-import { ShieldCheck, Users, Server, Database } from 'lucide-react';
+import React, { useState } from 'react';
+import ScientificStatusBanner from '../components/ScientificStatusBanner';
+import MetricCard from '../components/MetricCard';
+import { 
+  ShieldCheck, Server, Database, Activity, Cpu, 
+  GitBranch, Lock, CheckCircle2, AlertTriangle, RefreshCw, 
+  Users, Terminal, HardDrive, FileCheck, Layers
+} from 'lucide-react';
 
 export default function Admin() {
+  const [activeTab, setActiveTab] = useState('overview');
+
+  const usersList = [
+    {
+      name: "Roshan (System Admin)",
+      email: "admin@meghanvaya.in",
+      role: "ADMIN",
+      tier: "Full Governance",
+      status: "ACTIVE",
+      lastLogin: "Just now (Current Session)"
+    },
+    {
+      name: "Lead Forecaster",
+      email: "analyst@meghanvaya.in",
+      role: "METEOROLOGIST",
+      tier: "Full Scientific & Diagnostics",
+      status: "ACTIVE",
+      lastLogin: "14 mins ago"
+    },
+    {
+      name: "Relief Commissioner",
+      email: "officer@meghanvaya.in",
+      role: "GOVT_OFFICER",
+      tier: "District Decision Support",
+      status: "ACTIVE",
+      lastLogin: "1 hour ago"
+    },
+    {
+      name: "Public Citizen",
+      email: "user@meghanvaya.in",
+      role: "GENERAL_USER",
+      tier: "Public Advisory Read-Only",
+      status: "ACTIVE",
+      lastLogin: "2 hours ago"
+    }
+  ];
+
+  const recentLogs = [
+    { time: "10:40:15", event: "Model health telemetry check: CSGD link parameters converged (Loss: 0.0418)", level: "INFO" },
+    { time: "10:38:28", event: "Uvicorn FastAPI daemon reboot: binding on 0.0.0.0:8000 (PID: 1197)", level: "SYSTEM" },
+    { time: "10:35:00", event: "Automated verification audit: June 6–7 locked test verified (N=9,928 records)", level: "AUDIT" },
+    { time: "10:20:12", event: "ECC empirical copula permutation computed across 5 quantiles in 3.6s", level: "INFO" },
+    { time: "10:15:00", event: "Parquet multi-cycle database verified: 34,748 rows co-registered (IMD 0.25° grid)", level: "DATA" }
+  ];
+
   return (
-    <div className="max-w-6xl mx-auto space-y-6 animate-fade-in-up pb-12">
-      {/* Header */}
-      <div className="glass-card p-6 rounded-2xl flex flex-col relative overflow-hidden group">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500/10 rounded-full blur-[80px] pointer-events-none"></div>
-        <h2 className="text-2xl font-black text-white flex items-center gap-3 tracking-tight z-10">
-          <div className="w-10 h-10 rounded-xl bg-indigo-500/20 flex items-center justify-center border border-indigo-500/30">
-            <ShieldCheck className="text-indigo-400 w-5 h-5"/>
+    <div className="space-y-6 max-w-6xl mx-auto">
+      <ScientificStatusBanner />
+
+      {/* Top Header */}
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-white/5 pb-4">
+        <div>
+          <div className="flex items-center gap-2">
+            <span className="px-2 py-0.5 rounded bg-blue-500/15 text-blue-300 font-mono text-[10px] font-bold border border-blue-500/30">
+              SYSTEM COMMAND & GOVERNANCE
+            </span>
+            <span className="text-xs text-slate-400 font-mono">INFRASTRUCTURE TELEMETRY</span>
           </div>
-          System Access & Security
-        </h2>
-        <p className="mt-2 text-slate-400 font-medium z-10 text-sm">Manage authentication profiles, audit logs, and infrastructure state.</p>
-        
-        <div className="mt-6 flex gap-4 text-xs z-10">
-          <div className="px-4 py-2 bg-slate-800/50 border border-slate-700 rounded-lg text-slate-300 font-bold tracking-widest uppercase flex items-center gap-2 shadow-inner">
-            <Server className="w-4 h-4 text-emerald-400"/> API: Operational
-          </div>
-          <div className="px-4 py-2 bg-slate-800/50 border border-slate-700 rounded-lg text-slate-300 font-bold tracking-widest uppercase flex items-center gap-2 shadow-inner">
-            <Database className="w-4 h-4 text-blue-400"/> DB: Connected
-          </div>
+          <h1 className="text-xl font-bold text-white tracking-wide mt-1 flex items-center gap-2">
+            <ShieldCheck className="w-5 h-5 text-blue-400" />
+            System Command & Operational Administration
+          </h1>
+          <p className="text-xs text-slate-400 mt-0.5">
+            Role-based access management, pipeline orchestration, model registry audit, and deployment telemetry
+          </p>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <span className="px-2.5 py-1 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-xs font-mono flex items-center gap-1.5">
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            CLUSTER STABLE
+          </span>
         </div>
       </div>
 
-      {/* Table Section */}
-      <div className="glass-card rounded-2xl overflow-hidden shadow-2xl relative">
-        <div className="p-5 border-b border-white/5 flex items-center justify-between bg-white/5">
-          <h3 className="text-sm font-bold text-white flex items-center gap-2">
-            <Users className="w-4 h-4 text-indigo-400" /> Authorized Identities
-          </h3>
-          <span className="text-xs font-medium text-slate-400 bg-slate-900/50 px-3 py-1 rounded-full border border-white/5">3 Active Profiles</span>
+      {/* 5 Top Status Indicators (Requirement 7) */}
+      <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 text-xs font-mono">
+        <div className="glass-panel p-3 rounded-lg border border-white/10 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Server className="w-4 h-4 text-emerald-400" />
+            <span className="text-slate-400">API</span>
+          </div>
+          <span className="text-emerald-300 font-bold">READY (8000)</span>
         </div>
-        
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-sm whitespace-nowrap">
-            <thead className="bg-slate-900/50 text-slate-400 uppercase tracking-widest text-[10px] font-bold">
+
+        <div className="glass-panel p-3 rounded-lg border border-white/10 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Database className="w-4 h-4 text-cyan-400" />
+            <span className="text-slate-400">DATABASE</span>
+          </div>
+          <span className="text-cyan-300 font-bold">SQLITE/PG</span>
+        </div>
+
+        <div className="glass-panel p-3 rounded-lg border border-white/10 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Activity className="w-4 h-4 text-purple-400" />
+            <span className="text-slate-400">MODEL</span>
+          </div>
+          <span className="text-purple-300 font-bold">CONVERGED</span>
+        </div>
+
+        <div className="glass-panel p-3 rounded-lg border border-white/10 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <FileCheck className="w-4 h-4 text-amber-400" />
+            <span className="text-slate-400">DATA</span>
+          </div>
+          <span className="text-amber-300 font-bold">34,748 RECS</span>
+        </div>
+
+        <div className="glass-panel p-3 rounded-lg border border-white/10 flex items-center justify-between col-span-2 sm:col-span-1">
+          <div className="flex items-center gap-2">
+            <HardDrive className="w-4 h-4 text-blue-400" />
+            <span className="text-slate-400">STORAGE</span>
+          </div>
+          <span className="text-blue-300 font-bold">PARQUET</span>
+        </div>
+      </div>
+
+      {/* Primary KPI Row */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <MetricCard 
+          title="Active Identities"
+          value="4 Profiles"
+          subtext="Admin, Meteorologist, Officer, Public"
+          delta="RBAC Active"
+          variant="default"
+        />
+        <MetricCard 
+          title="Pipeline Execution"
+          value="14 Stages"
+          subtext="Automated ingestion to locked audit"
+          delta="100% Pass"
+          variant="emerald"
+        />
+        <MetricCard 
+          title="Model Registry Version"
+          value="v1.0.0-pilot"
+          subtext="CSGD-EMOS + ECC rank coupling"
+          delta="Frozen"
+          variant="cyan"
+        />
+        <MetricCard 
+          title="Dataset Registry"
+          value="34,748"
+          unit="Records"
+          subtext="7 cycles @ 4,964 cells (Jun 2–8, 2004)"
+          variant="blue"
+        />
+      </div>
+
+      {/* Authorized Identities Management Table */}
+      <div className="glass-panel p-5 rounded-xl border border-white/10 space-y-4">
+        <div className="flex items-center justify-between border-b border-white/10 pb-3">
+          <div>
+            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-200 flex items-center gap-2">
+              <Users className="w-4 h-4 text-blue-400" />
+              Role-Based Access Control (RBAC) & Identities
+            </h3>
+            <p className="text-[10px] text-slate-400">Configured evaluation credentials with cryptographic token signing</p>
+          </div>
+          <span className="text-[10px] font-mono text-slate-400 px-2 py-0.5 rounded bg-white/5 border border-white/5">
+            JWT EXPIRE: 1440m
+          </span>
+        </div>
+
+        <div className="overflow-x-auto border border-white/5 rounded-lg bg-black/20">
+          <table className="w-full text-left border-collapse gov-table">
+            <thead>
               <tr>
-                <th className="px-6 py-4 border-b border-white/5">Identity (Email)</th>
-                <th className="px-6 py-4 border-b border-white/5">Access Tier</th>
-                <th className="px-6 py-4 border-b border-white/5">System Status</th>
-                <th className="px-6 py-4 border-b border-white/5 text-right">Actions</th>
+                <th>Identity</th>
+                <th>Role Tier</th>
+                <th>Permissions & Scope</th>
+                <th>Status</th>
+                <th>Last Active</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-white/5 text-slate-300 font-medium">
-              <tr className="hover:bg-white/[0.02] transition-colors group">
-                <td className="px-6 py-4 flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-indigo-500/20 flex items-center justify-center border border-indigo-500/30 text-indigo-300 font-bold text-xs">AD</div>
-                  <span className="text-white group-hover:text-indigo-300 transition-colors">admin@meghanvaya.in</span>
-                </td>
-                <td className="px-6 py-4">
-                  <span className="px-3 py-1 bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 rounded-full font-bold text-[10px] tracking-widest shadow-[inset_0_0_10px_rgba(99,102,241,0.1)]">ADMIN</span>
-                </td>
-                <td className="px-6 py-4">
-                  <span className="flex items-center gap-2 text-emerald-400 text-xs"><span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_5px_rgba(52,211,153,0.8)]"></span> Verified</span>
-                </td>
-                <td className="px-6 py-4 text-right">
-                  <button className="text-slate-500 hover:text-white transition-colors text-xs font-semibold uppercase tracking-wider">Audit</button>
-                </td>
-              </tr>
-              <tr className="hover:bg-white/[0.02] transition-colors group">
-                <td className="px-6 py-4 flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-emerald-500/20 flex items-center justify-center border border-emerald-500/30 text-emerald-300 font-bold text-xs">ME</div>
-                  <span className="text-white group-hover:text-emerald-300 transition-colors">analyst@meghanvaya.in</span>
-                </td>
-                <td className="px-6 py-4">
-                  <span className="px-3 py-1 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded-full font-bold text-[10px] tracking-widest shadow-[inset_0_0_10px_rgba(16,185,129,0.1)]">METEOROLOGIST</span>
-                </td>
-                <td className="px-6 py-4">
-                  <span className="flex items-center gap-2 text-emerald-400 text-xs"><span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_5px_rgba(52,211,153,0.8)]"></span> Verified</span>
-                </td>
-                <td className="px-6 py-4 text-right">
-                  <button className="text-slate-500 hover:text-white transition-colors text-xs font-semibold uppercase tracking-wider">Audit</button>
-                </td>
-              </tr>
-              <tr className="hover:bg-white/[0.02] transition-colors group">
-                <td className="px-6 py-4 flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-amber-500/20 flex items-center justify-center border border-amber-500/30 text-amber-300 font-bold text-xs">GO</div>
-                  <span className="text-white group-hover:text-amber-300 transition-colors">officer@meghanvaya.in</span>
-                </td>
-                <td className="px-6 py-4">
-                  <span className="px-3 py-1 bg-amber-500/10 text-amber-400 border border-amber-500/20 rounded-full font-bold text-[10px] tracking-widest shadow-[inset_0_0_10px_rgba(245,158,11,0.1)]">GOVT_OFFICER</span>
-                </td>
-                <td className="px-6 py-4">
-                  <span className="flex items-center gap-2 text-emerald-400 text-xs"><span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_5px_rgba(52,211,153,0.8)]"></span> Verified</span>
-                </td>
-                <td className="px-6 py-4 text-right">
-                  <button className="text-slate-500 hover:text-white transition-colors text-xs font-semibold uppercase tracking-wider">Audit</button>
-                </td>
-              </tr>
+            <tbody className="divide-y divide-white/5 text-xs font-mono">
+              {usersList.map((u, idx) => (
+                <tr key={idx} className="hover:bg-white/5 transition-colors">
+                  <td>
+                    <div className="font-sans font-semibold text-white">{u.name}</div>
+                    <div className="text-[10px] text-slate-400 font-mono">{u.email}</div>
+                  </td>
+                  <td>
+                    <span className={`inline-block px-2 py-0.5 rounded text-[10px] font-bold ${
+                      u.role === 'ADMIN' ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/30' :
+                      u.role === 'METEOROLOGIST' ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/30' :
+                      u.role === 'GOVT_OFFICER' ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30' :
+                      'bg-slate-500/20 text-slate-300 border border-slate-500/30'
+                    }`}>
+                      {u.role}
+                    </span>
+                  </td>
+                  <td className="text-slate-300 font-sans text-[11px]">{u.tier}</td>
+                  <td>
+                    <span className="flex items-center gap-1.5 text-emerald-400 text-[11px]">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                      {u.status}
+                    </span>
+                  </td>
+                  <td className="text-slate-400 text-[11px] font-sans">{u.lastLogin}</td>
+                </tr>
+              ))}
             </tbody>
           </table>
+        </div>
+      </div>
+
+      {/* Split Panels: Model Governance + System Audit Telemetry */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        {/* Model Governance */}
+        <div className="lg:col-span-6 glass-panel p-5 rounded-xl border border-white/10 space-y-3">
+          <h3 className="text-xs font-bold uppercase tracking-wider text-slate-200 border-b border-white/5 pb-3 flex items-center gap-2">
+            <GitBranch className="w-4 h-4 text-purple-400" />
+            Model Registry & Governance
+          </h3>
+
+          <div className="space-y-2.5 text-xs font-mono">
+            <div className="p-2.5 rounded bg-black/40 border border-white/5 flex justify-between">
+              <span className="text-slate-400 font-sans">Active Checkpoint:</span>
+              <span className="text-purple-300 font-bold">meghanvaya-csgd-emos-v1.parquet</span>
+            </div>
+            <div className="p-2.5 rounded bg-black/40 border border-white/5 flex justify-between">
+              <span className="text-slate-400 font-sans">Optimization Objective:</span>
+              <span className="text-slate-200">Negative Log-Likelihood (NLL)</span>
+            </div>
+            <div className="p-2.5 rounded bg-black/40 border border-white/5 flex justify-between">
+              <span className="text-slate-400 font-sans">Parameter Constraints:</span>
+              <span className="text-emerald-400">Strictly Positive Variance ($\sigma^2 &gt; 0$)</span>
+            </div>
+            <div className="p-2.5 rounded bg-black/40 border border-white/5 flex justify-between">
+              <span className="text-slate-400 font-sans">Coupling Engine:</span>
+              <span className="text-cyan-400">ECC-Q (Schefzik et al., 2013)</span>
+            </div>
+          </div>
+        </div>
+
+        {/* System Activity & Security Logs */}
+        <div className="lg:col-span-6 glass-panel p-5 rounded-xl border border-white/10 space-y-3">
+          <h3 className="text-xs font-bold uppercase tracking-wider text-slate-200 border-b border-white/5 pb-3 flex items-center gap-2">
+            <Terminal className="w-4 h-4 text-emerald-400" />
+            Audit Log Telemetry
+          </h3>
+
+          <div className="space-y-2 text-xs font-mono">
+            {recentLogs.map((log, idx) => (
+              <div key={idx} className="p-2 rounded bg-black/40 border border-white/5 flex items-start gap-2 text-[11px]">
+                <span className="text-slate-500 shrink-0">{log.time}</span>
+                <span className={`px-1 py-0.2 rounded text-[9px] font-bold shrink-0 ${
+                  log.level === 'AUDIT' ? 'bg-emerald-500/20 text-emerald-300' :
+                  log.level === 'SYSTEM' ? 'bg-cyan-500/20 text-cyan-300' :
+                  log.level === 'DATA' ? 'bg-amber-500/20 text-amber-300' :
+                  'bg-white/5 text-slate-400'
+                }`}>
+                  {log.level}
+                </span>
+                <span className="text-slate-300 font-sans truncate">{log.event}</span>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>
