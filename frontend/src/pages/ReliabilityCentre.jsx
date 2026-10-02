@@ -8,11 +8,13 @@ import {
   ResponsiveContainer, ReferenceLine 
 } from 'recharts';
 import { BarChart3, Activity, ShieldCheck, HelpCircle } from 'lucide-react';
+import ApiErrorState from '../components/ApiErrorState';
 
 export default function ReliabilityCentre() {
   const { token } = useAuth();
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     fetchReliabilityData(token)
@@ -22,6 +24,7 @@ export default function ReliabilityCentre() {
       })
       .catch(err => {
         console.error("Reliability error:", err);
+        setError(err);
         setLoading(false);
       });
   }, [token]);
@@ -33,6 +36,21 @@ export default function ReliabilityCentre() {
     "CSGD-EMOS Observed": b.observed_freq_calibrated,
     sampleCount: b.sample_count
   })) || [];
+
+  if (error && !data) {
+    return (
+      <div className="space-y-6">
+        <ScientificStatusBanner />
+        <div>
+          <h1 className="text-xl font-bold text-[#0B1F3A] tracking-wide flex items-center gap-2">
+            <BarChart3 className="w-5 h-5 text-blue-600" />
+            Reliability & Calibration Diagrams
+          </h1>
+        </div>
+        <ApiErrorState error={error} onRetry={() => window.location.reload()} context="reliability" />
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">

@@ -9,6 +9,7 @@ import {
   AlertTriangle, ShieldAlert, Landmark, Building2, 
   ArrowUpDown, Download, Filter, HelpCircle, CheckCircle, FileText
 } from 'lucide-react';
+import ApiErrorState from '../components/ApiErrorState';
 
 export default function NationalOutlook() {
   const { token } = useAuth();
@@ -19,16 +20,22 @@ export default function NationalOutlook() {
   const [loading, setLoading] = useState(true);
   const [sortBy, setSortBy] = useState('heavy_prob');
   const [stateFilter, setStateFilter] = useState('ALL');
+  const [error, setError] = useState(null);
 
   useEffect(() => {
+    setError(null);
     fetchForecastSummary(token)
       .then(d => {
         setSummary(d);
-        if (d.latest_cycle) {
-          setActiveCycle(d.latest_cycle.substring(0, 10));
+        if (d.cycles && d.cycles.length > 0) {
+          const testDay = d.cycles.find(c => c.includes('2004-06-06')) || d.cycles[d.cycles.length - 1];
+          setActiveCycle(testDay.substring(0, 10));
         }
       })
-      .catch(console.error);
+      .catch(err => {
+        console.error('Summary error:', err);
+        setError(err);
+      });
   }, [token]);
 
   useEffect(() => {
@@ -42,23 +49,26 @@ export default function NationalOutlook() {
         setDistricts(distData.districts || []);
         setStates(statesData.states || []);
       })
-      .catch(console.error)
+      .catch(err => {
+        console.error('Data error:', err);
+        setError(err);
+      })
       .finally(() => setLoading(false));
   }, [token, activeCycle, stateFilter]);
 
-  // Priority sorting
+  // Priority sorting - use correct field names from backend API
   const sortedDistricts = [...districts].sort((a, b) => {
-    if (sortBy === 'heavy_prob') return b.heavy_rain_prob - a.heavy_rain_prob;
-    if (sortBy === 'p90') return b.p90_rainfall - a.p90_rainfall;
-    if (sortBy === 'p50') return b.p50_rainfall - a.p50_rainfall;
-    if (sortBy === 'uncertainty') return (b.p90_rainfall - b.p10_rainfall) - (a.p90_rainfall - a.p10_rainfall);
+    if (sortBy === 'heavy_prob') return (b.heavy_probability || 0) - (a.heavy_probability || 0);
+    if (sortBy === 'p90') return (b.p90 || 0) - (a.p90 || 0);
+    if (sortBy === 'p50') return (b.p50 || 0) - (a.p50 || 0);
+    if (sortBy === 'uncertainty') return ((b.p90 || 0) - (b.p10 || 0)) - ((a.p90 || 0) - (a.p10 || 0));
     return 0;
   });
 
-  // Calculate summary metrics
-  const highRiskCount = districts.filter(d => (d.heavy_rain_prob || 0) >= 0.35 || d.risk_guidance === 'WARNING' || d.risk_guidance === 'ALERT').length;
-  const avgHeavyProb = districts.length > 0 ? (districts.reduce((acc, d) => acc + (d.heavy_rain_prob || 0), 0) / districts.length * 100).toFixed(1) : '18.4';
-  const maxP90 = districts.length > 0 ? Math.max(...districts.map(d => d.p90_rainfall || 0)).toFixed(1) : '84.2';
+  // Calculate summary metrics - use correct field names from backend API
+  const highRiskCount = districts.filter(d => (d.heavy_probability || 0) >= 0.35).length;
+  const avgHeavyProb = districts.length > 0 ? (districts.reduce((acc, d) => acc + (d.heavy_probability || 0), 0) / districts.length * 100).toFixed(1) : '—';
+  const maxP90 = districts.length > 0 ? Math.max(...districts.map(d => d.p90 || 0)).toFixed(1) : '—';
 
   const exportCSV = () => {
     if (!districts.length) return;
@@ -67,11 +77,11 @@ export default function NationalOutlook() {
       i + 1,
       `"${d.district}"`,
       `"${d.state}"`,
-      d.p50_rainfall,
-      d.p90_rainfall,
-      (d.heavy_rain_prob * 100).toFixed(1) + "%",
-      (d.very_heavy_prob * 100).toFixed(1) + "%",
-      `"${d.risk_guidance || 'WATCH'}"`
+      d.p50 || 0,
+      d.p90 || 0,
+      ((d.heavy_probability || 0) * 100).toFixed(1) + "%",
+      ((d.very_heavy_probability || 0) * 100).toFixed(1) + "%",
+      `"${d.regime || 'WATCH'}"`
     ]);
     const csvContent = "data:text/csv;charset=utf-8," + [headers.join(","), ...rows.map(e => e.join(","))].join("\n");
     const encodedUri = encodeURI(csvContent);

@@ -8,6 +8,7 @@ import {
   Landmark, MapPin, Download, FileText, CheckCircle2, 
   HelpCircle, Activity, Wind, AlertTriangle, ShieldCheck 
 } from 'lucide-react';
+import ApiErrorState from '../components/ApiErrorState';
 
 export default function DistrictExplorer() {
   const { token } = useAuth();
@@ -18,14 +19,22 @@ export default function DistrictExplorer() {
   const [profile, setProfile] = useState(null);
   const [search, setSearch] = useState('');
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
+    setError(null);
     fetchForecastSummary(token).then(res => {
       setSummary(res);
       if (res.cycles && res.cycles.length > 0) {
         const testDay = res.cycles.find(c => c.includes('2004-06-06')) || res.cycles[res.cycles.length - 1];
         setActiveCycle(testDay);
+      } else {
+        setLoading(false);
       }
+    }).catch(err => {
+      console.error('Summary error:', err);
+      setError(err);
+      setLoading(false);
     });
   }, [token]);
 

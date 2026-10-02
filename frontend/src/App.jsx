@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
 import MainLayout from './layouts/MainLayout';
+import ErrorBoundary from './components/ErrorBoundary';
 
 // Pages
 import Login from './pages/Login';
@@ -48,51 +49,52 @@ export default function App() {
 
           {/* Authenticated Workspace */}
           <Route element={<MainLayout />}>
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/forecast" element={<ForecastOperations />} />
+            <Route path="/dashboard" element={<ErrorBoundary><Dashboard /></ErrorBoundary>} />
+
+            <Route path="/forecast" element={<ErrorBoundary><ForecastOperations /></ErrorBoundary>} />
             
             {/* Government Officer Experience */}
-            <Route path="/outlook" element={<NationalOutlook />} />
+            <Route path="/outlook" element={<ErrorBoundary><NationalOutlook /></ErrorBoundary>} />
             
             {/* General User Experience */}
-            <Route path="/general" element={<GeneralForecast />} />
+            <Route path="/general" element={<ErrorBoundary><GeneralForecast /></ErrorBoundary>} />
             
             {/* Meteorological Scientific Intelligence */}
-            <Route path="/ensemble" element={<EnsembleExplorer />} />
-            <Route path="/regime" element={<WeatherRegime />} />
-            <Route path="/probability" element={<ProbabilityCentre />} />
-            <Route path="/uncertainty" element={<UncertaintyCentre />} />
-            <Route path="/heavy-rain" element={<HeavyRainfall />} />
-            <Route path="/ecc" element={<EccConsistency />} />
+            <Route path="/ensemble" element={<ErrorBoundary><EnsembleExplorer /></ErrorBoundary>} />
+            <Route path="/regime" element={<ErrorBoundary><WeatherRegime /></ErrorBoundary>} />
+            <Route path="/probability" element={<ErrorBoundary><ProbabilityCentre /></ErrorBoundary>} />
+            <Route path="/uncertainty" element={<ErrorBoundary><UncertaintyCentre /></ErrorBoundary>} />
+            <Route path="/heavy-rain" element={<ErrorBoundary><HeavyRainfall /></ErrorBoundary>} />
+            <Route path="/ecc" element={<ErrorBoundary><EccConsistency /></ErrorBoundary>} />
             
             {/* Geospatial Products */}
-            <Route path="/grid" element={<GridExplorer />} />
-            <Route path="/state" element={<StateAnalytics />} />
-            <Route path="/district" element={<DistrictExplorer />} />
+            <Route path="/grid" element={<ErrorBoundary><GridExplorer /></ErrorBoundary>} />
+            <Route path="/state" element={<ErrorBoundary><StateAnalytics /></ErrorBoundary>} />
+            <Route path="/district" element={<ErrorBoundary><DistrictExplorer /></ErrorBoundary>} />
             
             {/* Verification Command Centre */}
-            <Route path="/verification" element={<Verification />} />
-            <Route path="/reliability" element={<ReliabilityCentre />} />
-            <Route path="/events" element={<EventStudies />} />
+            <Route path="/verification" element={<ErrorBoundary><Verification /></ErrorBoundary>} />
+            <Route path="/reliability" element={<ErrorBoundary><ReliabilityCentre /></ErrorBoundary>} />
+            <Route path="/events" element={<ErrorBoundary><EventStudies /></ErrorBoundary>} />
             
             {/* Traceability & System Governance */}
-            <Route path="/explainability" element={<Explainability />} />
-            <Route path="/provenance" element={<ProvenancePage />} />
-            <Route path="/data-quality" element={<DataQuality />} />
-            <Route path="/model-health" element={<ModelHealth />} />
-            <Route path="/pipeline" element={<PipelineRuns />} />
-            <Route path="/reports" element={<ReportCentre />} />
+            <Route path="/explainability" element={<ErrorBoundary><Explainability /></ErrorBoundary>} />
+            <Route path="/provenance" element={<ErrorBoundary><ProvenancePage /></ErrorBoundary>} />
+            <Route path="/data-quality" element={<ErrorBoundary><DataQuality /></ErrorBoundary>} />
+            <Route path="/model-health" element={<ErrorBoundary><ModelHealth /></ErrorBoundary>} />
+            <Route path="/pipeline" element={<ErrorBoundary><PipelineRuns /></ErrorBoundary>} />
+            <Route path="/reports" element={<ErrorBoundary><ReportCentre /></ErrorBoundary>} />
             
             {/* Administration & System Command */}
-            <Route path="/admin" element={<Admin />} />
+            <Route path="/admin" element={<ErrorBoundary><Admin /></ErrorBoundary>} />
             
             {/* Educational & Architectural Deep Dives */}
-            <Route path="/methodology" element={<ScientificMethod />} />
-            <Route path="/scalability" element={<ScalabilityRoadmap />} />
-            <Route path="/impact" element={<ImpactPage />} />
+            <Route path="/methodology" element={<ErrorBoundary><ScientificMethod /></ErrorBoundary>} />
+            <Route path="/scalability" element={<ErrorBoundary><ScalabilityRoadmap /></ErrorBoundary>} />
+            <Route path="/impact" element={<ErrorBoundary><ImpactPage /></ErrorBoundary>} />
             
             {/* Guided Tour for Evaluation Walkthrough */}
-            <Route path="/demo" element={<JudgeDemo />} />
+            <Route path="/demo" element={<ErrorBoundary><JudgeDemo /></ErrorBoundary>} />
           </Route>
 
           {/* Catch-all */}

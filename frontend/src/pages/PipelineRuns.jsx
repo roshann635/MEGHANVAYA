@@ -4,12 +4,14 @@ import { fetchPipelineData } from '../lib/api';
 import ScientificStatusBanner from '../components/ScientificStatusBanner';
 import MetricCard from '../components/MetricCard';
 import { GitBranch, CheckCircle2, Clock, Activity, ChevronRight, Layers } from 'lucide-react';
+import ApiErrorState from '../components/ApiErrorState';
 
 export default function PipelineRuns() {
   const { token } = useAuth();
   const [data, setData] = useState(null);
   const [selectedStage, setSelectedStage] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     fetchPipelineData(token)
@@ -22,9 +24,25 @@ export default function PipelineRuns() {
       })
       .catch(err => {
         console.error("Pipeline error:", err);
+        setError(err);
         setLoading(false);
       });
   }, [token]);
+
+  if (error && !data) {
+    return (
+      <div className="space-y-6">
+        <ScientificStatusBanner compact />
+        <div>
+          <h1 className="text-xl font-bold text-[#0B1F3A] tracking-wide flex items-center gap-2">
+            <GitBranch className="w-5 h-5 text-blue-600" />
+            End-to-End Pipeline Execution Centre
+          </h1>
+        </div>
+        <ApiErrorState error={error} onRetry={() => window.location.reload()} context="pipeline" />
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">

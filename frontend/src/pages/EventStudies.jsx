@@ -4,12 +4,14 @@ import { fetchEventsData } from '../lib/api';
 import ScientificStatusBanner from '../components/ScientificStatusBanner';
 import MetricCard from '../components/MetricCard';
 import { CheckCircle2, Calendar, MapPin, Activity, ShieldCheck, ArrowRight } from 'lucide-react';
+import ApiErrorState from '../components/ApiErrorState';
 
 export default function EventStudies() {
   const { token } = useAuth();
   const [events, setEvents] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     fetchEventsData(token)
@@ -22,9 +24,25 @@ export default function EventStudies() {
       })
       .catch(err => {
         console.error("Events error:", err);
+        setError(err);
         setLoading(false);
       });
   }, [token]);
+
+  if (error && events.length === 0) {
+    return (
+      <div className="space-y-6">
+        <ScientificStatusBanner compact />
+        <div>
+          <h1 className="text-xl font-bold text-[#0B1F3A] tracking-wide flex items-center gap-2">
+            <CheckCircle2 className="w-5 h-5 text-blue-600" />
+            Pilot Event Case Studies
+          </h1>
+        </div>
+        <ApiErrorState error={error} onRetry={() => window.location.reload()} context="events" />
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">

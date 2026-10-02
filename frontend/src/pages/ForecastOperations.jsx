@@ -10,6 +10,7 @@ import {
   Layers, CloudRain, Droplets, ShieldAlert, Compass, 
   MapPin, Wind, HelpCircle, Activity, ChevronRight, Download
 } from 'lucide-react';
+import ApiErrorState from '../components/ApiErrorState';
 
 export default function ForecastOperations() {
   const { token } = useAuth();
@@ -23,9 +24,10 @@ export default function ForecastOperations() {
   const [activeLayer, setActiveLayer] = useState('calibrated');
   const [selectedPoint, setSelectedPoint] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // 1. Fetch metadata summary
   useEffect(() => {
+    setError(null);
     fetchForecastSummary(token)
       .then(res => {
         setSummary(res);
@@ -39,6 +41,7 @@ export default function ForecastOperations() {
       })
       .catch(err => {
         console.error("Summary error:", err);
+        setError(err);
         setLoading(false);
       });
   }, [token]);
