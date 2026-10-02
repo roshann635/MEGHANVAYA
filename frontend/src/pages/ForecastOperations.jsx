@@ -18,7 +18,7 @@ export default function ForecastOperations() {
   const map = useRef(null);
   
   const [summary, setSummary] = useState(null);
-  const [activeCycle, setActiveCycle] = useState(null);
+  const [activeCycle, setActiveCycle] = useState('2004-06-07 00:00:00');
   const [cycleData, setCycleData] = useState([]);
   const [intelligence, setIntelligence] = useState(null);
   const [activeLayer, setActiveLayer] = useState('calibrated');

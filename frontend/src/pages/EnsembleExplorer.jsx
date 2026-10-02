@@ -14,7 +14,7 @@ import { Layers, Activity, HelpCircle, ArrowRight, ShieldCheck } from 'lucide-re
 export default function EnsembleExplorer() {
   const { token } = useAuth();
   const [summary, setSummary] = useState(null);
-  const [activeCycle, setActiveCycle] = useState(null);
+  const [activeCycle, setActiveCycle] = useState('2004-06-07 00:00:00');
   const [ensembleData, setEnsembleData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);

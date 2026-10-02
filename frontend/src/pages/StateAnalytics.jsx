@@ -14,7 +14,7 @@ import ApiErrorState from '../components/ApiErrorState';
 export default function StateAnalytics() {
   const { token } = useAuth();
   const [summary, setSummary] = useState(null);
-  const [activeCycle, setActiveCycle] = useState(null);
+  const [activeCycle, setActiveCycle] = useState('2004-06-07 00:00:00');
   const [states, setStates] = useState([]);
   const [selectedState, setSelectedState] = useState('Maharashtra');
   const [districts, setDistricts] = useState([]);

@@ -10,7 +10,7 @@ import ApiErrorState from '../components/ApiErrorState';
 export default function WeatherRegime() {
   const { token } = useAuth();
   const [summary, setSummary] = useState(null);
-  const [activeCycle, setActiveCycle] = useState(null);
+  const [activeCycle, setActiveCycle] = useState('2004-06-07 00:00:00');
   const [regimeData, setRegimeData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);

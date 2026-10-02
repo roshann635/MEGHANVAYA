@@ -13,7 +13,7 @@ import ApiErrorState from '../components/ApiErrorState';
 export default function DistrictExplorer() {
   const { token } = useAuth();
   const [summary, setSummary] = useState(null);
-  const [activeCycle, setActiveCycle] = useState(null);
+  const [activeCycle, setActiveCycle] = useState('2004-06-07 00:00:00');
   const [districts, setDistricts] = useState([]);
   const [selectedDistrict, setSelectedDistrict] = useState('Ratnagiri');
   const [profile, setProfile] = useState(null);
