@@ -119,7 +119,7 @@ export default function MapView({ validTime, activeLayer = 'heavy_prob', legendT
         115.5, '#ef4444'
       ]);
     }
-  }, [data, activeLayer]);
+  }, [data, activeLayer, mapLoaded]);
 
   return (
     <div className="w-full h-full min-h-[400px] relative">

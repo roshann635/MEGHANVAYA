@@ -173,7 +173,7 @@ export default function Dashboard() {
     if (map.current.getSource('forecast-grid')) {
       map.current.getSource('forecast-grid').setData(geojson);
     }
-  }, [cycleData, activeLayer]);
+  }, [cycleData, activeLayer, mapLoaded]);
 
   const layerOptions = [
     { id: 'raw', name: 'Raw NWP Ensemble', desc: 'Deterministic Baseline', icon: CloudRain },

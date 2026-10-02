@@ -169,7 +169,7 @@ export default function HeavyRainfall() {
                     </td>
                     <td className="p-3 text-center">
                       <span className={`px-2 py-0.5 rounded text-[10px] font-bold border ${riskBadge}`}>
-                        {d.risk_level}
+                        {d.risk_guidance || d.risk_level || 'ELEVATED RISK'}
                       </span>
                     </td>
                   </tr>
