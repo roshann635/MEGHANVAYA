@@ -75,11 +75,11 @@ export default function MapView({ validTime, activeLayer = 'heavy_prob', legendT
     map.current.resize();
 
     const features = data.map(d => {
-      let val = d.calibrated_p50;
-      if (activeLayer === 'heavy_prob') val = (d.heavy_prob || 0) * 100;
-      else if (activeLayer === 'pop') val = (d.pop || 0) * 100;
-      else if (activeLayer === 'p90') val = d.p90 || 0;
-      else if (activeLayer === 'raw') val = d.raw_nwp || 0;
+      let val = d.calibrated ?? d.calibrated_p50 ?? 0;
+      if (activeLayer === 'heavy_prob') val = (d.heavy_prob ?? 0) * 100;
+      else if (activeLayer === 'pop') val = (d.pop ?? 0) * 100;
+      else if (activeLayer === 'p90') val = d.p90 ?? 0;
+      else if (activeLayer === 'raw') val = d.raw ?? d.raw_nwp ?? 0;
 
       return {
         type: 'Feature',

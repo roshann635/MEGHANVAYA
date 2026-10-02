@@ -106,8 +106,8 @@ export default function GeneralForecast() {
                     <span className="text-[10px] text-slate-500">{d.state}</span>
                   </div>
                   <div className="text-right">
-                    <span className="font-mono font-bold text-blue-700 block">{d.p50_rainfall} mm</span>
-                    <span className="text-[10px] text-slate-500">{(d.heavy_rain_prob * 100).toFixed(0)}% heavy rain</span>
+                    <span className="font-mono font-bold text-blue-700 block">{(d.p50 ?? d.p50_rainfall ?? 0).toFixed(1)} mm</span>
+                    <span className="text-[10px] text-slate-500">{((d.heavy_probability ?? d.heavy_rain_prob ?? 0) * 100).toFixed(0)}% heavy rain</span>
                   </div>
                 </button>
               );
@@ -130,15 +130,20 @@ export default function GeneralForecast() {
                 </div>
 
                 <div className="text-right">
-                  <span className={`inline-block px-3 py-1 rounded-full text-xs font-bold ${
-                    selectedDistrict.heavy_rain_prob >= 0.35 
-                      ? 'bg-red-50 text-red-300 border border-red-200' 
-                      : selectedDistrict.heavy_rain_prob >= 0.15
-                      ? 'bg-amber-50 text-amber-700 border border-amber-200'
-                      : 'bg-emerald-50 text-emerald-700 border border-emerald-200'
-                  }`}>
-                    {selectedDistrict.heavy_rain_prob >= 0.35 ? 'Heavy Rain Alert' : selectedDistrict.heavy_rain_prob >= 0.15 ? 'Moderate Rain Expected' : 'Normal Conditions'}
-                  </span>
+                  {(() => {
+                    const heavyProb = selectedDistrict.heavy_probability ?? selectedDistrict.heavy_rain_prob ?? 0;
+                    return (
+                      <span className={`inline-block px-3 py-1 rounded-full text-xs font-bold ${
+                        heavyProb >= 0.35 
+                          ? 'bg-red-50 text-red-700 border border-red-200' 
+                          : heavyProb >= 0.15
+                          ? 'bg-amber-50 text-amber-700 border border-amber-200'
+                          : 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+                      }`}>
+                        {heavyProb >= 0.35 ? 'Heavy Rain Alert' : heavyProb >= 0.15 ? 'Moderate Rain Expected' : 'Normal Conditions'}
+                      </span>
+                    );
+                  })()}
                 </div>
               </div>
 
@@ -147,7 +152,7 @@ export default function GeneralForecast() {
                 <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-1">
                   <span className="text-xs text-slate-500 uppercase font-semibold">Expected Rainfall</span>
                   <div className="text-3xl font-extrabold text-blue-700 font-mono">
-                    {selectedDistrict.p50_rainfall} <span className="text-sm font-normal text-slate-500">mm</span>
+                    {(selectedDistrict.p50 ?? selectedDistrict.p50_rainfall ?? 0).toFixed(1)} <span className="text-sm font-normal text-slate-500">mm</span>
                   </div>
                   <span className="text-[11px] text-slate-500 block">50th percentile (median forecast)</span>
                 </div>
@@ -155,7 +160,7 @@ export default function GeneralForecast() {
                 <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-1">
                   <span className="text-xs text-slate-500 uppercase font-semibold">Likely Range (90% Interval)</span>
                   <div className="text-xl font-bold text-blue-700 font-mono pt-1">
-                    {selectedDistrict.p10_rainfall} – {selectedDistrict.p90_rainfall} <span className="text-xs font-normal text-slate-500">mm</span>
+                    {(selectedDistrict.p10 ?? selectedDistrict.p10_rainfall ?? 0).toFixed(1)} – {(selectedDistrict.p90 ?? selectedDistrict.p90_rainfall ?? 0).toFixed(1)} <span className="text-xs font-normal text-slate-500">mm</span>
                   </div>
                   <span className="text-[11px] text-slate-500 block">Reasonable minimum to worst-case</span>
                 </div>
@@ -165,9 +170,9 @@ export default function GeneralForecast() {
               <div className="grid grid-cols-2 gap-4">
                 <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between">
                   <div>
-                    <span className="text-xs text-slate-500 block font-medium">Chance of Any Rain</span>
+                    <span className="text-xs text-slate-500 block font-medium">Chance of Any Rain (PoP)</span>
                     <span className="text-lg font-bold text-[#0B1F3A] font-mono">
-                      {Math.round(selectedDistrict.p50_rainfall > 1 ? 85 : 40)}%
+                      {Math.round(((selectedDistrict.pop ?? (selectedDistrict.p50 > 1 ? 0.85 : 0.4))) * 100)}%
                     </span>
                   </div>
                   <Droplets className="w-6 h-6 text-blue-700 opacity-60" />
@@ -177,7 +182,7 @@ export default function GeneralForecast() {
                   <div>
                     <span className="text-xs text-slate-500 block font-medium">Risk of Heavy Rain (≥64.5mm)</span>
                     <span className="text-lg font-bold text-amber-700 font-mono">
-                      {(selectedDistrict.heavy_rain_prob * 100).toFixed(0)}%
+                      {(((selectedDistrict.heavy_probability ?? selectedDistrict.heavy_rain_prob ?? 0)) * 100).toFixed(0)}%
                     </span>
                   </div>
                   <AlertCircle className="w-6 h-6 text-amber-700 opacity-60" />

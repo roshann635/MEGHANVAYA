@@ -5,15 +5,40 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsive
 import { ShieldCheck, AlertCircle, TrendingUp, Target, Activity, Database, CheckCircle2, Layers } from 'lucide-react';
 import ScientificStatusBanner from '../components/ScientificStatusBanner';
 import MetricCard from '../components/MetricCard';
+import ApiErrorState from '../components/ApiErrorState';
 
 export default function Verification() {
   const { token } = useAuth();
   const [data, setData] = useState(null);
+  const [error, setError] = useState(null);
   const [selectedPartition, setSelectedPartition] = useState('2day'); // '2day' or '3day'
   
+  const loadData = () => {
+    setError(null);
+    fetchVerification(token)
+      .then(setData)
+      .catch(err => {
+        console.error("Verification error:", err);
+        setError(err);
+      });
+  };
+
   useEffect(() => {
-    fetchVerification(token).then(setData).catch(console.error);
+    loadData();
   }, [token]);
+
+  if (error && !data) return (
+    <div className="space-y-6">
+      <ScientificStatusBanner />
+      <div>
+        <h1 className="text-xl font-bold text-[#0B1F3A] tracking-wide flex items-center gap-2">
+          <Activity className="w-5 h-5 text-blue-600" />
+          Chronological Model Verification Command Centre
+        </h1>
+      </div>
+      <ApiErrorState error={error} onRetry={loadData} context="verification" />
+    </div>
+  );
 
   if (!data) return (
     <div className="flex h-96 items-center justify-center text-blue-600 font-mono text-xs">
@@ -23,6 +48,7 @@ export default function Verification() {
       </div>
     </div>
   );
+
 
   const metricsObj = selectedPartition === '2day'
     ? (data.metrics_locked_2day || data.metrics)

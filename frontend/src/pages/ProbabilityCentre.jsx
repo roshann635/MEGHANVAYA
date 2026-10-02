@@ -9,6 +9,7 @@ import {
   ResponsiveContainer 
 } from 'recharts';
 import { Percent, Activity, ShieldCheck, HelpCircle } from 'lucide-react';
+import ApiErrorState from '../components/ApiErrorState';
 
 export default function ProbabilityCentre() {
   const { token } = useAuth();
@@ -16,14 +17,22 @@ export default function ProbabilityCentre() {
   const [activeCycle, setActiveCycle] = useState(null);
   const [popData, setPopData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
+    setError(null);
     fetchForecastSummary(token).then(res => {
       setSummary(res);
       if (res.cycles && res.cycles.length > 0) {
         const testDay = res.cycles.find(c => c.includes('2004-06-06')) || res.cycles[res.cycles.length - 1];
         setActiveCycle(testDay);
+      } else {
+        setLoading(false);
       }
+    }).catch(err => {
+      console.error('Summary error:', err);
+      setError(err);
+      setLoading(false);
     });
   }, [token]);
 
@@ -46,6 +55,21 @@ export default function ProbabilityCentre() {
     "Raw Ensemble PoP (%)": Math.round(t.raw_pop * 100),
     "CSGD Calibrated PoP (%)": Math.round(t.calibrated_pop * 100)
   })) || [];
+
+  if (error && !popData) {
+    return (
+      <div className="space-y-6">
+        <ScientificStatusBanner compact />
+        <div>
+          <h1 className="text-xl font-bold text-[#0B1F3A] tracking-wide flex items-center gap-2">
+            <Percent className="w-5 h-5 text-blue-600" />
+            Precipitation Probability (PoP) Centre
+          </h1>
+        </div>
+        <ApiErrorState error={error} onRetry={() => window.location.reload()} context="probability" />
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
