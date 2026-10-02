@@ -14,7 +14,7 @@ import ApiErrorState from '../components/ApiErrorState';
 export default function ProbabilityCentre() {
   const { token } = useAuth();
   const [summary, setSummary] = useState(null);
-  const [activeCycle, setActiveCycle] = useState(null);
+  const [activeCycle, setActiveCycle] = useState('2004-06-07 00:00:00');
   const [popData, setPopData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -50,11 +50,11 @@ export default function ProbabilityCentre() {
       });
   }, [activeCycle, token]);
 
-  const chartData = popData?.thresholds?.map(t => ({
-    threshold: t.threshold.split(' ')[1] || t.threshold,
-    "Raw Ensemble PoP (%)": Math.round(t.raw_pop * 100),
-    "CSGD Calibrated PoP (%)": Math.round(t.calibrated_pop * 100)
-  })) || [];
+  const chartData = (popData?.thresholds || []).map(t => ({
+    threshold: typeof t?.threshold === 'string' ? (t.threshold.split(' ')[1] || t.threshold) : String(t?.threshold || ''),
+    "Raw Ensemble PoP (%)": Math.round((t?.raw_pop ?? 0) * 100),
+    "CSGD Calibrated PoP (%)": Math.round((t?.calibrated_pop ?? 0) * 100)
+  }));
 
   if (error && !popData) {
     return (

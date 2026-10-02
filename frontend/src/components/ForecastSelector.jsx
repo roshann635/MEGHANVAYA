@@ -1,12 +1,25 @@
 import React from 'react';
 import { Calendar, Clock, Layers, Cpu, ShieldCheck } from 'lucide-react';
 
+const DEFAULT_PILOT_CYCLES = [
+  "2004-06-07 00:00:00",
+  "2004-06-06 00:00:00",
+  "2004-06-05 00:00:00",
+  "2004-06-04 00:00:00",
+  "2004-06-03 00:00:00",
+  "2004-06-02 00:00:00",
+  "2004-06-01 00:00:00"
+];
+
 export default function ForecastSelector({ 
   cycles = [], 
   activeCycle, 
-  onSelectCycle,
+  onSelectCycle, 
   disabled = false 
 }) {
+  const displayCycles = (cycles && cycles.length > 0) ? cycles : DEFAULT_PILOT_CYCLES;
+  const currentActive = activeCycle || displayCycles[0];
+
   return (
     <div className="glass-panel p-3 rounded-xl border border-slate-200 flex flex-wrap items-center justify-between gap-4 mb-6 shadow-lg">
       <div className="flex items-center gap-3">
@@ -15,12 +28,12 @@ export default function ForecastSelector({
           <span>Valid Cycle:</span>
         </div>
         <select
-          value={activeCycle || ''}
+          value={currentActive}
           onChange={(e) => onSelectCycle(e.target.value)}
-          disabled={disabled || cycles.length === 0}
+          disabled={disabled}
           className="bg-white border border-slate-300 rounded-lg px-3 py-1.5 text-[#0B1F3A] text-xs font-mono focus:outline-none focus:border-blue-400 cursor-pointer hover:bg-slate-50 transition-colors"
         >
-          {cycles.map((c) => {
+          {displayCycles.map((c) => {
             const dateStr = c.slice(0, 10);
             const isTest = dateStr >= '2004-06-06';
             return (
