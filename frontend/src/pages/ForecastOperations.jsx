@@ -206,7 +206,7 @@ export default function ForecastOperations() {
         115.5, '#fbbf24'
       ]);
     }
-  }, [cycleData, activeLayer]);
+  }, [cycleData, activeLayer, mapLoaded]);
 
   const layers = [
     { id: 'calibrated', label: 'CSGD Median (P50)', unit: 'mm' },

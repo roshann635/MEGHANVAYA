@@ -51,7 +51,7 @@ export default function ProbabilityCentre() {
   }, [activeCycle, token]);
 
   const chartData = (popData?.thresholds || []).map(t => ({
-    threshold: typeof t?.threshold === 'string' ? (t.threshold.split(' ')[1] || t.threshold) : String(t?.threshold || ''),
+    threshold: typeof t?.threshold === 'string' ? t.threshold.replace('P(Y >= ', '≥ ').replace(')', '') : String(t?.threshold || ''),
     "Raw Ensemble PoP (%)": Math.round((t?.raw_pop ?? 0) * 100),
     "CSGD Calibrated PoP (%)": Math.round((t?.calibrated_pop ?? 0) * 100)
   }));

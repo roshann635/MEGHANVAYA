@@ -77,9 +77,9 @@ export default function EventStudies() {
                 {ev.date}
               </span>
               <span className={`text-[10px] font-mono px-2 py-0.5 rounded ${
-                ev.phase.includes('LOCKED') ? 'bg-amber-50 text-amber-700 border border-amber-200' : 'bg-slate-50 text-slate-500'
+                ev.phase?.includes('LOCKED') ? 'bg-amber-50 text-amber-700 border border-amber-200' : 'bg-slate-50 text-slate-500'
               }`}>
-                {ev.phase}
+                {ev.phase || 'PILOT'}
               </span>
             </div>
             <h3 className="text-sm font-bold text-[#0B1F3A] mb-1 line-clamp-1">{ev.title}</h3>

@@ -5,7 +5,7 @@
  * reforecast evaluation across 74 monitored Indian districts, 4,964 spatial grid cells,
  * and 5-member NOAA GEFSv12 ensemble comparisons.
  * 
- * Ensures 100% functionality when deployed on static CDNs (Vercel) or during backend cold-starts.
+ * All structures EXACTLY match the backend FastAPI endpoints in `backend/api/v1/endpoints/forecast.py`.
  */
 
 export const PILOT_CYCLES = [
@@ -18,6 +18,7 @@ export const PILOT_CYCLES = [
   "2004-06-01 00:00:00"
 ];
 
+// 1. Summary (/summary)
 export const MOCK_SUMMARY = {
   status: "VALIDATED_PILOT",
   dataset_scope: "7-Cycle June 2004 Chronological Pilot",
@@ -42,6 +43,7 @@ export const MOCK_SUMMARY = {
   verification_status: "LOCKED_TEST_VERIFIED"
 };
 
+// 2. Districts List (/districts/{valid_time_str})
 export const MOCK_DISTRICTS_LIST = [
   // Western Ghats & Konkan (High Heavy Rain Risk)
   { district: "Ratnagiri", state: "Maharashtra", lat: 16.99, lon: 73.31, raw_mean: 42.4, p10: 18.2, p50: 38.6, p90: 74.2, p95: 96.5, pop: 0.94, heavy_probability: 0.48, very_heavy_probability: 0.18, predictive_interval_width: 56.0, regime: "Active Monsoon", observed: 41.2 },
@@ -92,6 +94,7 @@ export const MOCK_DISTRICTS_LIST = [
   { district: "Visakhapatnam", state: "Andhra Pradesh", lat: 17.68, lon: 83.21, raw_mean: 14.5, p10: 3.4, p50: 12.2, p90: 29.4, p95: 39.2, pop: 0.66, heavy_probability: 0.07, very_heavy_probability: 0.02, predictive_interval_width: 26.0, regime: "Active Monsoon", observed: 13.1 }
 ];
 
+// 3. States List (/states/{valid_time_str})
 export const MOCK_STATES_LIST = [
   { state: "Kerala", district_count: 4, avg_p50: 46.5, avg_p90: 90.2, avg_heavy_prob: 0.655, high_risk_districts: 4 },
   { state: "Maharashtra", district_count: 12, avg_p50: 25.8, avg_p90: 55.4, avg_heavy_prob: 0.285, high_risk_districts: 6 },
@@ -105,163 +108,98 @@ export const MOCK_STATES_LIST = [
   { state: "Andhra Pradesh", district_count: 1, avg_p50: 12.2, avg_p90: 29.4, avg_heavy_prob: 0.070, high_risk_districts: 0 }
 ];
 
-export const MOCK_POP_DATA = {
-  valid_time: "2004-06-07 00:00:00",
-  thresholds: [
-    { threshold: ">= 2.5 mm (Light Rain)", raw_pop: 0.485, calibrated_pop: 0.421, category: "Light Rain" },
-    { threshold: ">= 15.6 mm (Moderate Rain)", raw_pop: 0.242, calibrated_pop: 0.208, category: "Moderate Rain" },
-    { threshold: ">= 35.5 mm (Rather Heavy)", raw_pop: 0.145, calibrated_pop: 0.124, category: "Rather Heavy" },
-    { threshold: ">= 64.5 mm (Heavy Rain)", raw_pop: 0.068, calibrated_pop: 0.052, category: "Heavy Rain" },
-    { threshold: ">= 115.6 mm (Very Heavy)", raw_pop: 0.024, calibrated_pop: 0.018, category: "Very Heavy" },
-    { threshold: ">= 204.4 mm (Extremely Heavy)", raw_pop: 0.006, calibrated_pop: 0.004, category: "Extremely Heavy" }
-  ],
-  metrics: {
-    raw_brier: 0.2369,
-    calibrated_brier: 0.1872,
-    relative_gain_pct: 20.04,
-    test_points: 9928
-  }
-};
-
-export const MOCK_VERIFICATION_DATA = {
-  status: "LOCKED_CHRONOLOGICAL_TEST",
-  evaluation_scope: "June 6-7, 2004 (2 Independent Days, 9,928 co-registered spatial points)",
-  metrics: {
-    brier_score_raw: 0.2351,
-    brier_score_csgd: 0.1880,
-    brier_improvement_pct: 20.04,
-    rmse_raw_nwp: 10.43,
-    rmse_csgd_p50: 10.35,
-    rmse_ecc: 10.06,
-    rmse_improvement_pct: 3.55,
-    bias_raw: -3.25,
-    bias_ecc: -2.40,
-    bias_reduction_pct: 26.15,
-    crps_raw: 5.82,
-    crps_ecc: 4.96,
-    crps_gain_pct: 14.78
-  },
-  by_cycle: [
-    { cycle: "2004-06-06", raw_rmse: 10.12, csgd_rmse: 9.98, ecc_rmse: 9.74, brier_raw: 0.231, brier_csgd: 0.184 },
-    { cycle: "2004-06-07", raw_rmse: 10.74, csgd_rmse: 10.72, ecc_rmse: 10.38, brier_raw: 0.239, brier_csgd: 0.192 }
-  ]
-};
-
-export const MOCK_RELIABILITY_DATA = {
-  forecast_bins: [0.05, 0.15, 0.25, 0.35, 0.45, 0.55, 0.65, 0.75, 0.85, 0.95],
-  raw_observed_freq: [0.02, 0.08, 0.16, 0.24, 0.34, 0.46, 0.57, 0.68, 0.79, 0.88],
-  csgd_observed_freq: [0.05, 0.14, 0.25, 0.36, 0.45, 0.56, 0.64, 0.75, 0.85, 0.94],
-  sample_counts: [3200, 1850, 1200, 950, 780, 620, 510, 420, 260, 138]
-};
-
-export const MOCK_EVENTS_DATA = {
-  events: [
-    {
-      id: "EVT-20040607-01",
-      title: "Konkan Coast Extreme Squall Line",
-      date: "2004-06-07",
-      region: "Maharashtra & Goa Coast (15.5N - 19.5N)",
-      lead_time: "24h",
-      regime: "Active Monsoon (w_active = 0.94)",
-      max_observed_rain: 142.5,
-      raw_nwp_forecast: 68.2,
-      csgd_p90: 138.4,
-      ecc_max: 136.0,
-      description: "Severe mesoscale convective band over Ratnagiri, Sindhudurg, and South Goa. Raw NWP severely under-forecasted peak intensity by 52%, while CSGD P90 and ECC preserved the spatial squall structure.",
-      verification_status: "PASSED (P90 Enveloped Peak)"
-    },
-    {
-      id: "EVT-20040606-02",
-      title: "Western Ghats Orographic Torrent",
-      date: "2004-06-06",
-      region: "Coastal Karnataka & Kerala (8.5N - 14.5N)",
-      lead_time: "24h",
-      regime: "Active Monsoon (w_active = 0.98)",
-      max_observed_rain: 165.0,
-      raw_nwp_forecast: 74.0,
-      csgd_p90: 158.2,
-      ecc_max: 161.4,
-      description: "Strong low-level westerly jet impingement triggering intense orographic precipitation over Wayanad and Kozhikode.",
-      verification_status: "PASSED (ECC Preserved Sharp Gradients)"
-    },
-    {
-      id: "EVT-20040603-03",
-      title: "Central India Break-Monsoon Dry spell",
-      date: "2004-06-03",
-      region: "Madhya Pradesh & Vidarbha (21.0N - 24.5N)",
-      lead_time: "24h",
-      regime: "Break Monsoon (w_active = 0.12)",
-      max_observed_rain: 4.2,
-      raw_nwp_forecast: 18.5,
-      csgd_p90: 6.8,
-      ecc_max: 5.1,
-      description: "Dry slot suppression correctly identified by soft regime gating, eliminating the persistent raw NWP drizzle bias.",
-      verification_status: "PASSED (Zero-Mass Extracted)"
-    }
-  ]
-};
-
+// 4. Ensemble (/ensemble/{valid_time_str})
 export const MOCK_ENSEMBLE_DATA = {
   valid_time: "2004-06-07 00:00:00",
   members: [
-    { id: "c00", name: "GEFS Control (c00)", mean_rain: 14.8, max_rain: 84.2, pop: 0.49 },
-    { id: "p01", name: "GEFS Perturbed 1 (p01)", mean_rain: 13.9, max_rain: 78.5, pop: 0.47 },
-    { id: "p02", name: "GEFS Perturbed 2 (p02)", mean_rain: 15.2, max_rain: 88.0, pop: 0.51 },
-    { id: "p03", name: "GEFS Perturbed 3 (p03)", mean_rain: 12.8, max_rain: 72.1, pop: 0.44 },
-    { id: "p04", name: "GEFS Perturbed 4 (p04)", mean_rain: 14.1, max_rain: 81.4, pop: 0.48 }
+    { member: "c00", type: "Control", mean: 14.8, median: 11.2, min: 0.0, max: 84.2, variance: 42.1, heavy_count: 12 },
+    { member: "p01", type: "Perturbation", mean: 13.9, median: 10.5, min: 0.0, max: 78.5, variance: 38.6, heavy_count: 9 },
+    { member: "p02", type: "Perturbation", mean: 15.2, median: 12.0, min: 0.0, max: 88.0, variance: 46.4, heavy_count: 15 },
+    { member: "p03", type: "Perturbation", mean: 12.8, median: 9.8, min: 0.0, max: 72.1, variance: 35.2, heavy_count: 7 },
+    { member: "p04", type: "Perturbation", mean: 14.1, median: 10.9, min: 0.0, max: 81.4, variance: 40.8, heavy_count: 11 }
   ],
-  ensemble_mean: 14.16,
-  ensemble_spread: 4.82,
-  csgd_p50: 12.42,
-  csgd_p90: 28.64,
-  csgd_p95: 42.10
+  ensemble_aggregate: {
+    mean: 14.16,
+    variance: 40.62,
+    spread_std: 6.37,
+    calibrated_p50_mean: 12.42,
+    ecc_mean: 12.05
+  },
+  description: "5-member GEFSv12 ensemble (c00 control + p01..p04 perturbations). CSGD-EMOS corrects conditional bias and ECC re-aligns quantiles to raw member ranks."
 };
 
+// 5. Weather Regimes (/regimes/{valid_time_str})
 export const MOCK_REGIMES_DATA = {
   valid_time: "2004-06-07 00:00:00",
-  active_weight: 0.68,
-  break_weight: 0.32,
-  active_mean_rain: 28.4,
-  break_mean_rain: 4.2,
-  classification: "Active Monsoon Dominant",
-  synoptic_indicators: {
-    monsoon_trough_pos: "Normal (Along Indo-Gangetic Plain)",
-    westerly_jet_speed: "32 knots @ 850 hPa",
-    offshore_trough: "Active along West Coast",
-    pwat_anomaly: "+8.4 mm over Central Arabian Sea"
-  }
+  pilot_badge: "PILOT RAINFALL-CONDITIONED REGIME GATING",
+  pilot_warning: "Current pilot uses rainfall-derived transition between Active and Break states with potential circularity risk. Future production requirement: Independent synoptic regime classification using forecast-time MSLP, u850, v850, PWAT, geopotential-height, and related atmospheric fields.",
+  regime_probabilities: [
+    { name: "Active Monsoon State (Pilot Proxy)", probability: 0.680, description: "Rainfall-derived threshold indicator (ens_mean > 5mm). Strong cross-equatorial flow." },
+    { name: "Break Monsoon State (Pilot Proxy)", probability: 0.320, description: "Rainfall-derived suppression indicator (ens_mean <= 5mm). Suppressed convection over Central India." }
+  ],
+  predictors: [
+    { feature: "Ensemble Mean Rainfall", value: "14.16 mm", source: "GEFSv12" },
+    { feature: "Ensemble Variance", value: "40.62 mm²", source: "GEFSv12" }
+  ],
+  csgd_active_params: [10.0616, 0.8310, 180.5578, 0.0001, 2.2288],
+  csgd_break_params: [2.5229, 1.9922, 69.2460, 12.9599, 0.5594]
 };
 
+// 6. Precipitation Probability (/pop/{valid_time_str})
+export const MOCK_POP_DATA = {
+  valid_time: "2004-06-07 00:00:00",
+  relative_brier_improvement: "20.04%",
+  relative_brier_improvement_subtitle: "Relative improvement in Brier score over the native 5-member ensemble baseline.",
+  climatological_bss_status: "Standard climatological BSS: not estimated in current pilot.",
+  thresholds: [
+    { threshold: "P(Y >= 0.1 mm/day)", raw_pop: 0.682, calibrated_pop: 0.612 },
+    { threshold: "P(Y >= 2.5 mm/day)", raw_pop: 0.485, calibrated_pop: 0.421 },
+    { threshold: "P(Y >= 15.6 mm/day)", raw_pop: 0.242, calibrated_pop: 0.208 },
+    { threshold: "P(Y >= 35.5 mm/day)", raw_pop: 0.145, calibrated_pop: 0.124 },
+    { threshold: "P(Y >= 64.5 mm/day)", raw_pop: 0.068, calibrated_pop: 0.052 },
+    { threshold: "P(Y >= 115.6 mm/day)", raw_pop: 0.024, calibrated_pop: 0.018 }
+  ],
+  baseline_note: "Evaluated against native 5-member ensemble exceedance (c00, p01..p04 >= threshold / 5). CSGD-EMOS CDF evaluates at threshold + delta."
+};
+
+// 7. Uncertainty (/uncertainty/{valid_time_str})
 export const MOCK_UNCERTAINTY_DATA = {
   valid_time: "2004-06-07 00:00:00",
-  mean_interval_width_p10_p90: 24.8,
-  sharpness_score: 0.74,
-  resolution_gain: "+18.2%",
-  spatial_uncertainty_hotspots: [
-    { region: "Konkan / Goa", spread: 48.2, reason: "High convective tail dispersion" },
-    { region: "Coastal Karnataka", spread: 52.4, reason: "Orographic enhancement uncertainty" },
-    { region: "Central India", spread: 8.5, reason: "Low spread / high confidence suppression" }
+  terminology: "90% PREDICTIVE INTERVAL (P10 to P90)",
+  explanation: "A predictive interval quantifies uncertainty in a future observable rainfall realization, combining ensemble spread and parametric CSGD dispersion. Strictly not a confidence interval.",
+  mean_predictive_interval_width: 16.24,
+  mean_calibrated_variance: 48.52,
+  uncertainty_bins: [
+    { range: "0.0 - 5.0 mm", count: 1840 },
+    { range: "5.0 - 15.0 mm", count: 1420 },
+    { range: "15.0 - 30.0 mm", count: 980 },
+    { range: "30.0 - 50.0 mm", count: 512 },
+    { range: "50.0+ mm", count: 212 }
   ]
 };
 
+// 8. Heavy Rain (/heavy-rain/{valid_time_str})
 export const MOCK_HEAVY_RAIN_DATA = {
   valid_time: "2004-06-07 00:00:00",
-  threshold: "64.5 mm (IMD Heavy Rainfall)",
-  high_risk_cells_count: 142,
-  top_hotspots: [
-    { district: "Wayanad", state: "Kerala", prob: 0.74, p90: 110.5, p95: 139.2, status: "ALERT" },
-    { district: "Kozhikode", state: "Kerala", prob: 0.68, p90: 102.1, p95: 128.4, status: "ALERT" },
-    { district: "Udupi", state: "Karnataka", prob: 0.64, p90: 98.2, p95: 122.8, status: "ALERT" },
-    { district: "Ernakulam", state: "Kerala", prob: 0.62, p90: 94.2, p95: 118.5, status: "ALERT" },
-    { district: "Dakshina Kannada", state: "Karnataka", prob: 0.58, p90: 91.4, p95: 114.6, status: "ALERT" },
-    { district: "South Goa", state: "Goa", prob: 0.56, p90: 88.9, p95: 111.4, status: "WARNING" },
-    { district: "Uttara Kannada", state: "Karnataka", prob: 0.54, p90: 86.4, p95: 108.2, status: "WARNING" },
-    { district: "North Goa", state: "Goa", prob: 0.53, p90: 85.2, p95: 106.8, status: "WARNING" },
-    { district: "Sindhudurg", state: "Maharashtra", prob: 0.52, p90: 82.5, p95: 104.2, status: "WARNING" },
-    { district: "Ratnagiri", state: "Maharashtra", prob: 0.48, p90: 74.2, p95: 96.5, status: "WARNING" }
+  threshold_heavy: "P(Y >= 64.5 mm/day)",
+  threshold_very_heavy: "P(Y >= 115.6 mm/day)",
+  disclaimer: "MODEL-DERIVED DISTRICT RISK GUIDANCE. Research/decision-support prototype. Official meteorological warnings remain the statutory responsibility of authorized national agencies.",
+  national_heavy_risk_areas: 8,
+  high_risk_districts: [
+    { district: "Wayanad", state: "Kerala", heavy_probability: 0.74, very_heavy_probability: 0.39, p50_mm: 57.8, p90_mm: 110.5, risk_guidance: "ELEVATED RISK" },
+    { district: "Kozhikode", state: "Kerala", heavy_probability: 0.68, very_heavy_probability: 0.34, p50_mm: 53.4, p90_mm: 102.1, risk_guidance: "ELEVATED RISK" },
+    { district: "Udupi", state: "Karnataka", heavy_probability: 0.64, very_heavy_probability: 0.31, p50_mm: 51.0, p90_mm: 98.2, risk_guidance: "ELEVATED RISK" },
+    { district: "Ernakulam", state: "Kerala", heavy_probability: 0.62, very_heavy_probability: 0.28, p50_mm: 49.8, p90_mm: 94.2, risk_guidance: "ELEVATED RISK" },
+    { district: "Dakshina Kannada", state: "Karnataka", heavy_probability: 0.58, very_heavy_probability: 0.25, p50_mm: 47.9, p90_mm: 91.4, risk_guidance: "ELEVATED RISK" },
+    { district: "South Goa", state: "Goa", heavy_probability: 0.56, very_heavy_probability: 0.24, p50_mm: 46.2, p90_mm: 88.9, risk_guidance: "ELEVATED RISK" },
+    { district: "Uttara Kannada", state: "Karnataka", heavy_probability: 0.54, very_heavy_probability: 0.23, p50_mm: 44.7, p90_mm: 86.4, risk_guidance: "ELEVATED RISK" },
+    { district: "North Goa", state: "Goa", heavy_probability: 0.53, very_heavy_probability: 0.22, p50_mm: 44.1, p90_mm: 85.2, risk_guidance: "ELEVATED RISK" },
+    { district: "Sindhudurg", state: "Maharashtra", heavy_probability: 0.52, very_heavy_probability: 0.22, p50_mm: 42.8, p90_mm: 82.5, risk_guidance: "ELEVATED RISK" },
+    { district: "Ratnagiri", state: "Maharashtra", heavy_probability: 0.48, very_heavy_probability: 0.18, p50_mm: 38.6, p90_mm: 74.2, risk_guidance: "ELEVATED RISK" }
   ]
 };
 
+// 9. ECC (/ecc/{valid_time_str})
 export const MOCK_ECC_DATA = {
   valid_time: "2004-06-07 00:00:00",
   method: "ECC-Q (Schefzik et al., 2013 Quantile Coupling)",
@@ -276,39 +214,126 @@ export const MOCK_ECC_DATA = {
   ]
 };
 
-export const MOCK_EXPLAINABILITY_DATA = {
-  valid_time: "2004-06-07 00:00:00",
-  csgd_parameters: {
-    mean_link_formula: "mu(x) = beta_0 + beta_1 * ens_mean + beta_2 * w_active",
-    spread_link_formula: "sigma(x) = gamma_0 + gamma_1 * ens_std + gamma_2 * w_active",
-    fitted_coefficients: {
-      beta_0: 0.421,
-      beta_1: 0.842,
-      beta_2: 2.145,
-      gamma_0: 0.312,
-      gamma_1: 0.728,
-      delta_shift: 0.850
-    }
+// 10. Verification (/verification)
+export const MOCK_VERIFICATION_DATA = {
+  dataset_scope: "7-Cycle June 2004 Chronological Pilot",
+  independent_temporal_cycles: 2,
+  test_cycles: ["2004-06-06", "2004-06-07"],
+  spatial_records_test: 9928,
+  total_records: 34748,
+  cells_per_cycle: 4964,
+  geographic_coverage: {
+    districts_monitored: 74,
+    states_represented: 19,
+    nationwide_gis_districts_available: "700+ in operational schema"
   },
-  feature_importance: [
-    { feature: "Ensemble Mean (GEFSv12)", weight: 0.52, p_val: "< 0.001" },
-    { feature: "Ensemble Spread (Std Dev)", weight: 0.26, p_val: "< 0.001" },
-    { feature: "Monsoon Regime Weight (w_active)", weight: 0.16, p_val: "< 0.001" },
-    { feature: "Orographic Western Ghats Elevation", weight: 0.06, p_val: "0.012" }
+  metrics_locked_2day: {
+    raw_nwp_native_5member: { rmse: 10.43, mae: 3.85, bias: -3.25, brier_score: 0.2351 },
+    csgd_emos: { rmse: 10.35, mae: 3.85, bias: -3.22, brier_score: 0.1880, relative_brier_improvement: 0.2004 },
+    ecc: { rmse: 10.06, mae: 4.01, bias: -2.40 }
+  },
+  metrics_extended_3day: {
+    raw_nwp_native_5member: { rmse: 10.74, mae: 3.98, bias: -3.40, brier_score: 0.2392 },
+    csgd_emos: { rmse: 10.62, mae: 3.94, bias: -3.31, brier_score: 0.1890, relative_brier_improvement: 0.2098 },
+    ecc: { rmse: 10.38, mae: 4.12, bias: -2.52 }
+  },
+  scientific_limitations: [
+    "7-Cycle June 2004 Chronological Pilot with 2 independent temporal test cycles (June 6-7, N=9,928)",
+    "Spatial grid records (~9,928 test points) are spatially correlated across India and are not equivalent to independent test cases",
+    "CSGD parameters are globally pooled across all grid points in this pilot phase",
+    "Pilot uses rainfall-conditioned regime gating rather than independent synoptic classification",
+    "Outputs represent model-derived district risk guidance and do not constitute official warnings"
   ]
 };
 
-export const MOCK_PROVENANCE_DATA = {
-  valid_time: "2004-06-07 00:00:00",
-  git_commit_sha: "8f1aa2e0591b92014e3650d998246f9e8a09b231",
-  pipeline_version: "MEGHANVAYA-CSGD-EMOS-v1.0-PILOT",
-  dataset_id: "NOAA-GEFSv12-REFORECAST-JUNE2004",
-  grid_resolution: "0.25 x 0.25 degrees (IMD Gridded Grid)",
-  verification_checksum_sha256: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-  created_at: "2026-09-30T12:00:00Z",
-  statutory_disclaimer: "Government of India / MoES - Research Decision Support System"
+// 11. Reliability (/reliability)
+export const MOCK_RELIABILITY_DATA = {
+  dataset_scope: "7-Cycle June 2004 Chronological Pilot (Primary Locked Test June 6-7)",
+  sample_size: 9928,
+  event_threshold: "Precipitation >= 2.5 mm / day",
+  brier_score_raw_native: 0.2351,
+  brier_score_calibrated: 0.1880,
+  relative_brier_improvement: 0.2004,
+  interpretation: "+20.04% probabilistic skill improvement over native 5-member raw NWP ensemble. Raw members showed overconfidence in dry regions; CSGD-EMOS restored probability calibration.",
+  bins: [
+    { forecast_bin: "0.0 - 0.2", nominal_prob: 0.10, observed_freq_raw: 0.08, observed_freq_calibrated: 0.10, sample_count: 5200 },
+    { forecast_bin: "0.2 - 0.4", nominal_prob: 0.30, observed_freq_raw: 0.22, observed_freq_calibrated: 0.29, sample_count: 1850 },
+    { forecast_bin: "0.4 - 0.6", nominal_prob: 0.50, observed_freq_raw: 0.38, observed_freq_calibrated: 0.48, sample_count: 1420 },
+    { forecast_bin: "0.6 - 0.8", nominal_prob: 0.70, observed_freq_raw: 0.52, observed_freq_calibrated: 0.69, sample_count: 980 },
+    { forecast_bin: "0.8 - 1.0", nominal_prob: 0.90, observed_freq_raw: 0.76, observed_freq_calibrated: 0.88, sample_count: 478 }
+  ]
 };
 
+// 12. Historical Events (/events)
+export const MOCK_EVENTS_DATA = {
+  scope: "June 2004 Pilot Chronological Sequence",
+  events: [
+    {
+      id: "EV-2004-06-03",
+      date: "2004-06-03",
+      phase: "TRAINING",
+      title: "Monsoon Onset Surge over Kerala & Konkan",
+      description: "Strong low-level westerly flow triggering localized coastal and orographic rainfall along Western Ghats.",
+      max_nwp_rainfall: 84.5,
+      max_observed_rainfall: 112.4,
+      regime: "Active Monsoon (w_active = 0.92)",
+      csgd_correction: "Under-prediction corrected; extreme tail predictive interval widened."
+    },
+    {
+      id: "EV-2004-06-06",
+      date: "2004-06-06",
+      phase: "LOCKED TEST (Day 1)",
+      title: "Northward Surge towards Maharashtra Coast",
+      description: "Active monsoon extension northward into Ratnagiri and Raigad. Raw NWP showed over-forecasting over interior rain-shadow.",
+      max_nwp_rainfall: 78.2,
+      max_observed_rainfall: 92.0,
+      regime: "Active Monsoon (w_active = 0.88)",
+      csgd_correction: "Spurious dry-zone rainfall suppressed via CSGD point-mass at zero."
+    },
+    {
+      id: "EV-2004-06-07",
+      date: "2004-06-07",
+      phase: "LOCKED TEST (Day 2)",
+      title: "Coastal Convection over Gujarat & Western Ghats",
+      description: "Intense coastal precipitation band. ECC rank permutation preserved fine-scale topographic rain features without spatial smoothing.",
+      max_nwp_rainfall: 96.1,
+      max_observed_rainfall: 104.5,
+      regime: "Active Monsoon (w_active = 0.85)",
+      csgd_correction: "ECC restored spatial rank correlations, eliminating unphysical smoothing."
+    }
+  ]
+};
+
+// 13. Explainability (/explainability/{valid_time_str})
+export const MOCK_EXPLAINABILITY_DATA = {
+  valid_time: "2004-06-07 00:00:00",
+  method: "Parametric Link Function Sensitivity & Linear Weights",
+  disclaimer: "Game-theoretic tree SHAP is not applicable to closed-form parametric EMOS. Feature contributions correspond directly to the link function parameters and partial derivatives.",
+  features: [
+    { name: "Ensemble Mean (mu_ens)", weight: 0.831, impact: "Positive (scales Gamma mean mu)", importance: 0.42 },
+    { name: "Ensemble Variance (sigma2_ens)", weight: 0.0001, impact: "Stabilizing link for variance", importance: 0.18 },
+    { name: "Regime Weight (w_active)", weight: 1.0, impact: "Mixes Active vs Break Gamma distributions", importance: 0.25 },
+    { name: "Shift Parameter (delta)", value: 2.2288, impact: "Determines point-mass probability at zero", importance: 0.15 }
+  ]
+};
+
+// 14. Provenance (/provenance/{valid_time_str})
+export const MOCK_PROVENANCE_DATA = {
+  forecast_id: "MEGHANVAYA-FCST-20040607-L24H",
+  nwp_source: "NOAA GEFSv12 (Global Ensemble Forecast System v12)",
+  spatial_resolution: "0.25 degrees (~25 km)",
+  temporal_lead: "24 hours",
+  ensemble_members: ["c00", "p01", "p02", "p03", "p04"],
+  observation_source: "IMD 0.25 deg Gridded Daily Rainfall",
+  model_version: "CSGD-EMOS-v1.0-PILOT",
+  dataset_version: "PILOT-JUNE2004-7CYCLE",
+  algorithm: "Censored Shifted Gamma EMOS with Ensemble Copula Coupling (ECC)",
+  scientific_status: "RESEARCH / DECISION-SUPPORT PROTOTYPE",
+  audit_hash: "sha256:4a8f9c1b3e2d7890efba564312ab890123cd45ef",
+  verified_by: "Chronological Out-of-Sample Verification (Train: Jun 2-4, Test: Jun 6-7)"
+};
+
+// 15. Data Quality (/data-quality)
 export const MOCK_DATA_QUALITY_DATA = {
   audit_timestamp: "2026-10-02T08:00:00Z",
   gefs_file_completeness: "100.0% (35 of 35 files present)",
@@ -319,6 +344,7 @@ export const MOCK_DATA_QUALITY_DATA = {
   grid_alignment_verified: true
 };
 
+// 16. Model Health (/model-health)
 export const MOCK_MODEL_HEALTH_DATA = {
   optimizer_convergence_rate: "100.0%",
   numerical_stability_score: "99.98%",
@@ -328,23 +354,31 @@ export const MOCK_MODEL_HEALTH_DATA = {
   last_calibration_time: "2026-09-30T10:15:00Z"
 };
 
+// 17. Pipeline (/pipeline)
 export const MOCK_PIPELINE_DATA = {
-  active_run_id: "PL-20040607-CSGD",
+  pipeline_name: "MEGHANVAYA-PILOT-PIPELINE",
+  last_run_timestamp: "2026-09-30T09:45:00Z",
+  total_duration_sec: 28.4,
+  total_records_processed: 34748,
   stages: [
-    { name: "Raw NOAA GEFSv12 Ingestion (5 Members)", status: "COMPLETED", duration: "1.2s" },
-    { name: "IMD 0.25° Spatial Co-Registration", status: "COMPLETED", duration: "0.8s" },
-    { name: "Synoptic Regime Gating Weight Estimation", status: "COMPLETED", duration: "0.4s" },
-    { name: "CSGD Left-Censoring Zero-Mass Barrier Fit", status: "COMPLETED", duration: "2.1s" },
-    { name: "Parametric Link Function Optimization", status: "COMPLETED", duration: "1.9s" },
-    { name: "CDF Quantile Evaluation (P10, P50, P90, P95)", status: "COMPLETED", duration: "1.1s" },
-    { name: "Schefzik ECC-Q Spatial Rank Restoration", status: "COMPLETED", duration: "2.4s" },
-    { name: "74-District Spatial Aggregation", status: "COMPLETED", duration: "0.7s" },
-    { name: "Locked Test Verification Scoring", status: "COMPLETED", duration: "1.5s" },
-    { name: "Operational Export Generation (CSV/JSON)", status: "COMPLETED", duration: "0.3s" }
-  ],
-  overall_status: "SUCCESS"
+    { stage: "1. Data Ingestion", status: "COMPLETED", duration_sec: 4.2, records: 34748, details: "Ingested 35 GEFSv12 GRIB2 files and IMD NetCDF" },
+    { stage: "2. Quality Control (QC)", status: "COMPLETED", duration_sec: 1.1, records: 34748, details: "Range checks: no negative precipitation, zero NaN" },
+    { stage: "3. Temporal Alignment", status: "COMPLETED", duration_sec: 0.8, records: 34748, details: "Shifted 24-hr accumulated forecast to IMD daily valid time" },
+    { stage: "4. Spatial Alignment", status: "COMPLETED", duration_sec: 2.5, records: 34748, details: "Bilinear interpolation to 0.25 deg IMD coordinate grid" },
+    { stage: "5. Feature Engineering", status: "COMPLETED", duration_sec: 1.4, records: 34748, details: "Ensemble mean, variance, standard deviation calculated" },
+    { stage: "6. Regime Classification", status: "COMPLETED", duration_sec: 0.9, records: 34748, details: "Soft logistic transition weight (Pilot rainfall-conditioned)" },
+    { stage: "7. PoP Calculation", status: "COMPLETED", duration_sec: 1.2, records: 34748, details: "P(Rain >= 2.5 mm) evaluated via CSGD CDF" },
+    { stage: "8. CSGD Parameter Fit", status: "COMPLETED", duration_sec: 5.8, records: 14892, details: "L-BFGS-B NLL optimization on Train partition" },
+    { stage: "9. Uncertainty Estimation", status: "COMPLETED", duration_sec: 1.0, records: 34748, details: "P10, P50, P90 quantiles & 90% predictive intervals" },
+    { stage: "10. Heavy Rain Probabilities", status: "COMPLETED", duration_sec: 0.9, records: 34748, details: "Evaluated tail probabilities for P(Y >= 64.5mm) & P(Y >= 115.6mm)" },
+    { stage: "11. Ensemble Copula Coupling", status: "COMPLETED", duration_sec: 3.6, records: 34748, details: "Restored raw rank order across 5 calibrated quantiles" },
+    { stage: "12. District Aggregation", status: "COMPLETED", duration_sec: 1.8, records: 34748, details: "Spatial assignment to 74 monitored Indian districts" },
+    { stage: "13. Product Generation", status: "COMPLETED", duration_sec: 1.2, records: 34748, details: "Multi-layer GeoJSON and tabular deliverables created" },
+    { stage: "14. Verification & Audit", status: "COMPLETED", duration_sec: 2.0, records: 9928, details: "Calculated locked 2-day RMSE, MAE, Bias, and Relative Brier-Score Improvement vs Raw NWP" }
+  ]
 };
 
+// 18. Reports Catalog (/reports)
 export const MOCK_REPORTS_DATA = {
   available_reports: [
     {
@@ -374,13 +408,11 @@ export const MOCK_REPORTS_DATA = {
   ]
 };
 
-// Generate realistic spatial sample points across India for map views
+// 19. Spatial Sample Grid Generator
 export function generateMockSpatialGrid(validTime = "2004-06-07") {
   const points = [];
-  // Grid bounds for India: lat 8 to 36 (step 0.5 for fast render), lon 68 to 96
   for (let lat = 8.5; lat <= 35.5; lat += 0.75) {
     for (let lon = 69.0; lon <= 95.0; lon += 0.75) {
-      // Check if point roughly falls within India's polygon
       const inIndia = (
         (lat >= 8.0 && lat <= 20.0 && lon >= 73.0 && lon <= 85.0) ||
         (lat > 20.0 && lat <= 28.0 && lon >= 69.0 && lon <= 88.0) ||
@@ -389,8 +421,6 @@ export function generateMockSpatialGrid(validTime = "2004-06-07") {
       );
       if (!inIndia) continue;
 
-      // Generate realistic monsoon rainfall distribution:
-      // High on West Coast (lon 72-76, lat 8-20) and Northeast (lon 90-95, lat 24-28)
       let isWestCoast = (lon >= 72.5 && lon <= 76.0 && lat >= 8.5 && lat <= 20.0);
       let isNorthEast = (lon >= 90.0 && lon <= 95.0 && lat >= 23.0 && lat <= 28.0);
       
